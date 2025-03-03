@@ -6,6 +6,7 @@ import {MOUSE} from "@enum";
 import {InputMode} from "./InputMode";
 import {Entity, Spatial} from "@feature/entity/type";
 import {ENTITY_TYPE} from "@feature/entity/enum";
+import {MoveEntityAction} from "@feature/entity/action";
 
 export class EntitySelect extends InputMode {
     private entityId: number | undefined;
@@ -15,6 +16,10 @@ export class EntitySelect extends InputMode {
     editorCtx: EditorContexType;
 
     storeCtx: StoreContextType;
+
+    start: {x: number; y: number} = {x: 0, y:0};
+
+    end: {x: number; y: number} = {x: 0, y:0};
 
     offset: {x: number; y: number} = {x: 0, y:0};
 
@@ -39,9 +44,15 @@ export class EntitySelect extends InputMode {
 
         this.entityId = Number(element.getAttribute("data-entity-id"));
 
-        const entity = this.storeCtx.store.entity.getById(this.entityId);
+        const entity = this.storeCtx.store.entity
+            .getById<Entity & Spatial>(this.entityId);
 
         if (!entity) throw new Error();
+
+        this.start = {
+            x: entity.x,
+            y: entity.y,
+        };
 
         if ([
             ENTITY_TYPE.MARKER,
@@ -58,18 +69,35 @@ export class EntitySelect extends InputMode {
         });
     }
 
-    onMouseMove(event: PointerEvent): void {
+    onMouseMove(event: MouseEvent): void {
         if (!this.entityId) return;
-        const {store} = this.storeCtx;
         const {state} = this.viewerCtx;
 
-        const x = Math.floor((event.x - this.offset.x - state.x) / state.scale);
-        const y = Math.floor((event.y - this.offset.y - state.y) / state.scale);
+        this.end = {
+            x: Math.floor(
+                (event.x - this.offset.x - this.viewerCtx.state.x) / state.scale
+            ),
+            y: Math.floor(
+                (event.y - this.offset.y - this.viewerCtx.state.y) / state.scale
+            ),
+        };
 
-        store.entity.set<Entity & Spatial>(this.entityId, {x, y});
+        this.storeCtx.store.entity
+            .set<Entity & Spatial>(this.entityId, this.end);
     }
 
     onMouseUp(): void {
+        if (this.entityId) {
+            this.editorCtx.invoker.append(
+                new MoveEntityAction(
+                    this.storeCtx,
+                    this.entityId,
+                    this.end.x - this.start.x,
+                    this.end.y - this.start.y
+                )
+            );
+        }
+
         this.entityId = undefined;
     }
 }
