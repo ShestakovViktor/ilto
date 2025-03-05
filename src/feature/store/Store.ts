@@ -1,6 +1,6 @@
 import {Entity} from "@feature/entity/type";
 import {Data, Param} from "@type";
-import {Collection} from "./utility";
+import {Collection} from "./model";
 import {createStore, unwrap} from "solid-js/store";
 import {Asset} from "@feature/asset/type";
 

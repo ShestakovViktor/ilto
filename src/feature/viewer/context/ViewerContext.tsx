@@ -1,7 +1,7 @@
 import {createContext, useContext} from "solid-js";
 import {SetStoreFunction, Store} from "solid-js/store";
 import {ViewerState} from "@feature/viewer/type";
-import {Viewport} from "@feature/viewer/utility";
+import {Viewport} from "@feature/viewer/controller";
 
 export type ViewerContextType = {
     state: Store<ViewerState>;

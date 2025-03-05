@@ -1,7 +1,7 @@
 import {createSignal, JSX, Signal} from "solid-js";
 import {StartupContext} from ".";
 import {Data} from "@type";
-import {WebArchiveDriver} from "../driver";
+import {WebArchiveDriver} from "../controller/driver";
 
 type Props = {
     dataSignal: Signal<Data | undefined>;

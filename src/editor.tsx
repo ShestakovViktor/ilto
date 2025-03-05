@@ -3,7 +3,7 @@ import "@res/style/colors.scss";
 import "@res/style/global.scss";
 
 import {render} from "solid-js/web";
-import {StartupDialog, Editor, ModalLayer} from "@feature/editor/widget";
+import {StartupDialog, Editor, ModalLayer} from "@feature/editor/view";
 import {createSignal, Match, Switch} from "solid-js";
 import {Data} from "@type";
 import {StoreProvider} from "@feature/store/context";

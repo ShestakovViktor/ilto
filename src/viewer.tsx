@@ -3,7 +3,7 @@ import "@res/style/colors.scss";
 import "@res/style/global.scss";
 
 import {render} from "solid-js/web";
-import {Viewer} from "@feature/viewer/widget";
+import {Viewer} from "@feature/viewer/view";
 import {ViewerProvider} from "@feature/viewer/context";
 import {StoreProvider} from "@feature/store/context";
 

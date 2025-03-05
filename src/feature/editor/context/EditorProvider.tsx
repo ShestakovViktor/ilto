@@ -2,10 +2,10 @@ import {createEffect, createSignal, JSX, on} from "solid-js";
 import {createStore} from "solid-js/store";
 import {EditorContext} from "@feature/editor/context";
 import {INPUT_MODE} from "@feature/editor/enum";
-import {WebArchiveDriver, WebImageDriver} from "@feature/editor/driver";
+import {WebArchiveDriver, WebImageDriver} from "@feature/editor/controller/driver";
 import {EditorState} from "@feature/editor/type";
 import {Entity, Parent} from "@feature/entity/type";
-import {Invoker} from "@feature/editor/service/Invoker";
+import {Invoker} from "@feature/editor/controller/Invoker";
 
 type Props = {
     children: JSX.Element | JSX.Element[];

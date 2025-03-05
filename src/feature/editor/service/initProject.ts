@@ -1,4 +1,4 @@
-import {WebImageDriver} from "@feature/editor/driver";
+import {WebImageDriver} from "@feature/editor/controller/driver";
 import {initData} from "@feature/editor/service/data";
 import {Parent} from "@feature/entity/type";
 import {Layer} from "@feature/layer/type";
