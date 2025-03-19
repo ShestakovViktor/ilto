@@ -12,9 +12,9 @@ import {useStartupContext} from "@feature/editor/context";
 i18next.addResourceBundle("en", "editor", {StartupDialog: en}, true, true);
 
 export function StartupDialog(): JSX.Element {
-    const startupCtx = useStartupContext();
+    const startupContext = useStartupContext();
 
-    const [page] = startupCtx.pageSignal;
+    const [page] = startupContext.pageSignal;
 
     const pages = {
         start: () => <StartPage/>,

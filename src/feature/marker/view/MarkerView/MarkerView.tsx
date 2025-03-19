@@ -21,14 +21,14 @@ type Props = {
 };
 
 export function MarkerView(props: Props): JSX.Element {
-    const storeCtx = useStoreContext();
-    const viewerCtx = useViewerContext();
+    const storeContext = useStoreContext();
+    const viewerContext = useViewerContext();
 
     let element: HTMLDivElement | undefined;
 
     const transform = createMemo((): string => {
-        const x = props.entity().x * viewerCtx.state.scale;
-        const y = props.entity().y * viewerCtx.state.scale;
+        const x = props.entity().x * viewerContext.state.scale;
+        const y = props.entity().y * viewerContext.state.scale;
 
         return `translate3d(${x}px, ${y}px, 0px)`;
     });
@@ -46,11 +46,11 @@ export function MarkerView(props: Props): JSX.Element {
 
         if (!propId) return undefined;
 
-        const prop = storeCtx.store.asset.getById<Prop>(propId);
+        const prop = storeContext.store.asset.getById<Prop>(propId);
 
         if (!prop) return undefined;
 
-        const src = viewerCtx.path + prop.path;
+        const src = viewerContext.path + prop.path;
 
         return src;
     });
@@ -78,7 +78,7 @@ export function MarkerView(props: Props): JSX.Element {
     function handleClick(): void {
         setShow(true);
 
-        viewerCtx.viewport?.focus(props.entity().x, props.entity().y);
+        viewerContext.viewport?.focus(props.entity().x, props.entity().y);
     }
 
     return (

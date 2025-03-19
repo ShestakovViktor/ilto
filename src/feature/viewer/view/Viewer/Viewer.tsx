@@ -14,20 +14,20 @@ type Props = {
 };
 
 export function Viewer(props: Props = {ref: undefined}): JSX.Element {
-    const storeCtx = useStoreContext();
-    const viewerCtx = useViewerContext();
+    const storeContext = useStoreContext();
+    const viewerContext = useViewerContext();
 
     const root = createMemo(() => {
-        return storeCtx.store.entity.getById(1);
+        return storeContext.store.entity.getById(1);
     });
 
     const motions = createMemo(() => {
-        return storeCtx.store.asset
+        return storeContext.store.asset
             .getByParams({assetTypeId: ASSET_TYPE.MOTION});
     });
 
     function onViewerMount(viewer: HTMLDivElement): void {
-        viewerCtx.viewport = new Viewport(viewer);
+        viewerContext.viewport = new Viewport(viewer);
         if (typeof props.ref == "function") props.ref(viewer);
     }
 
@@ -40,7 +40,7 @@ export function Viewer(props: Props = {ref: undefined}): JSX.Element {
         >
             <For each={motions()}>
                 {(motion) => {
-                    const href = viewerCtx.path + motion.path;
+                    const href = viewerContext.path + motion.path;
 
                     return (
                         <Portal mount={document.querySelector("head")!}>

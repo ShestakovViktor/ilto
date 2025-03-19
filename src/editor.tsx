@@ -6,10 +6,10 @@ import {render} from "solid-js/web";
 import {StartupDialog, Editor, ModalLayer} from "@feature/editor/view";
 import {createSignal, Match, Switch} from "solid-js";
 import {Data} from "@type";
-import {StoreProvider} from "@feature/store/context";
-import {NamespaceProvider} from "@feature/app/context";
-import {EditorProvider, StartupProvider} from "@feature/editor/context";
-import {ViewerProvider} from "@feature/viewer/context";
+import {StoreContextProvider} from "@feature/store/context";
+import {NamespaceContextProvider} from "@feature/app/context";
+import {EditorContextProvider, StartupContextProvider} from "@feature/editor/context";
+import {ViewerContextProvider} from "@feature/viewer/context";
 
 const container = document.querySelector("#editor");
 if (!container) throw new Error("There is no container element");
@@ -20,22 +20,22 @@ const [data] = dataSignal;
 render(() =>
     <Switch>
         <Match when={!data()}>
-            <StartupProvider dataSignal={dataSignal}>
+            <StartupContextProvider dataSignal={dataSignal}>
                 <ModalLayer>
                     <StartupDialog/>
                 </ModalLayer>
-            </StartupProvider>
+            </StartupContextProvider>
         </Match>
         <Match when={data()}>
-            <StoreProvider data={data()!}>
-                <NamespaceProvider namespace={"Editor"}>
-                    <ViewerProvider>
-                        <EditorProvider>
+            <StoreContextProvider data={data()!}>
+                <NamespaceContextProvider namespace={"Editor"}>
+                    <ViewerContextProvider>
+                        <EditorContextProvider>
                             <Editor/>
-                        </EditorProvider>
-                    </ViewerProvider>
-                </NamespaceProvider>
-            </StoreProvider>
+                        </EditorContextProvider>
+                    </ViewerContextProvider>
+                </NamespaceContextProvider>
+            </StoreContextProvider>
         </Match>
     </Switch>
 , container);

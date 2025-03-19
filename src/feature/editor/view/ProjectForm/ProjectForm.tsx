@@ -11,7 +11,7 @@ i18next.addResourceBundle("en", "editor", {ProjectForm: en}, true, true);
 
 export function ProjectForm(): JSX.Element {
 
-    const startupCtx = useStartupContext();
+    const startupContext = useStartupContext();
 
     function projectCreate(event: SubmitEvent): void {
         event.preventDefault();
@@ -25,7 +25,7 @@ export function ProjectForm(): JSX.Element {
 
         initProject({name, background})
             .then((data) => {
-                const [, setData] = startupCtx.dataSignal;
+                const [, setData] = startupContext.dataSignal;
                 setData(data);
             })
             .catch(error => {

@@ -9,15 +9,15 @@ import {Param} from "@type";
 i18next.addResourceBundle("en", "project", {MinScaleField: en}, true, true);
 
 export function MinScaleField(): JSX.Element {
-    const storeCtx = useStoreContext();
+    const storeContext = useStoreContext();
 
     const minScale = createMemo(
-        () => storeCtx.store.config.getByParams({name: "minScale"})[0]
+        () => storeContext.store.config.getByParams({name: "minScale"})[0]
     );
 
     function handleChange (event: Event): void {
         const target = event.target as HTMLInputElement;
-        storeCtx.store.config.set<Param>(
+        storeContext.store.config.set<Param>(
             minScale().id,
             {value: Number(target.value)}
         );

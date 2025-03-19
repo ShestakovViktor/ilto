@@ -12,8 +12,8 @@ import {popAreaPoint} from "@feature/area/controller";
 i18next.addResourceBundle("en", "area", {AreaToolbar: en}, true, true);
 
 export function AreaToolKit(): JSX.Element {
-    // const editorCtx = useEditorContext();
-    // const viewerCtx = useViewerContext();
+    // const editorContext = useEditorContext();
+    // const viewerContext = useViewerContext();
 
     // const [getAreaId] = props.entityId
     //     ?? createSignal<Id | null>();
@@ -22,12 +22,12 @@ export function AreaToolKit(): JSX.Element {
     //     const areaId = getAreaId();
     //     if (!areaId) return;
 
-    //     const area = editorCtx.store.entity.getById<Area>(areaId);
+    //     const area = editorContext.store.entity.getById<Area>(areaId);
     //     if (!area) throw new Error();
 
     //     popAreaPoint(area);
-    //     editorCtx.store.entity.set(area);
-    //     viewerCtx.reRender();
+    //     editorContext.store.entity.set(area);
+    //     viewerContext.reRender();
     // }
 
     return (

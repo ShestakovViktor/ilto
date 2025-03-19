@@ -9,8 +9,8 @@ type Props = {
 };
 
 export function TileView({entity}: Props): JSX.Element {
-    const storeCtx = useStoreContext();
-    const viewerCtx = useViewerContext();
+    const storeContext = useStoreContext();
+    const viewerContext = useViewerContext();
 
     const style = createMemo((): JSX.CSSProperties => {
         return {transform: `translate3d(${entity().x}px, ${entity().y}px, 0)`};
@@ -23,11 +23,11 @@ export function TileView({entity}: Props): JSX.Element {
             return "";
         }
         else {
-            const tile = storeCtx.store.asset.getById(imageId);
+            const tile = storeContext.store.asset.getById(imageId);
 
             if (!tile) throw new Error();
 
-            const src = viewerCtx.path + tile.path;
+            const src = viewerContext.path + tile.path;
 
             return src;
         }

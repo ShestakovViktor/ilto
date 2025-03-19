@@ -4,8 +4,8 @@ import "@res/style/global.scss";
 
 import {render} from "solid-js/web";
 import {Viewer} from "@feature/viewer/view";
-import {ViewerProvider} from "@feature/viewer/context";
-import {StoreProvider} from "@feature/store/context";
+import {ViewerContextProvider} from "@feature/viewer/context";
+import {StoreContextProvider} from "@feature/store/context";
 
 (async(): Promise<void> => {
     const container = document.querySelector("#viewer[data-src]");
@@ -22,11 +22,11 @@ import {StoreProvider} from "@feature/store/context";
 
     render(() => {
         return (
-            <StoreProvider data={data}>
-                <ViewerProvider path={path}>
+            <StoreContextProvider data={data}>
+                <ViewerContextProvider path={path}>
                     <Viewer/>
-                </ViewerProvider>
-            </StoreProvider>
+                </ViewerContextProvider>
+            </StoreContextProvider>
         );
     }, container);
 })();

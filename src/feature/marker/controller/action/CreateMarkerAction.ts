@@ -3,8 +3,8 @@ import {Footnote} from "@feature/footnote/type";
 import {Layer} from "@feature/layer/type";
 import {Marker} from "@feature/marker/type";
 import {Action} from "@feature/editor/controller";
-import {StoreContextType} from "@feature/store/context";
-import {EditorContexType} from "@feature/editor/context";
+import {StoreContext} from "@feature/store/type";
+import {EditorContext} from "@feature/editor/type";
 import {Parent} from "@feature/entity/type";
 
 export class CreateMarkerAction extends Action<Marker> {
@@ -15,8 +15,8 @@ export class CreateMarkerAction extends Action<Marker> {
     private footnoteId?: number;
 
     constructor(
-        private storeCtx: StoreContextType,
-        private editorCtx: EditorContexType,
+        private storeContext: StoreContext,
+        private editorContext: EditorContext,
         private x: number,
         private y: number
     ) {
@@ -24,13 +24,13 @@ export class CreateMarkerAction extends Action<Marker> {
     }
 
     execute(): Marker {
-        const storeCtx = this.storeCtx;
+        const storeContext = this.storeContext;
 
-        const parent = this.editorCtx.layer();
+        const parent = this.editorContext.layer();
 
         if (!parent) throw new Error();
 
-        const marker = storeCtx.store.entity.add<Marker>({
+        const marker = storeContext.store.entity.add<Marker>({
             entityTypeId: ENTITY_TYPE.MARKER,
             x: this.x,
             y: this.y,
@@ -41,17 +41,17 @@ export class CreateMarkerAction extends Action<Marker> {
             footnoteId: null,
         });
 
-        storeCtx.store.entity
+        storeContext.store.entity
             .set<Layer>(parent.id, {childIds: [...parent.childIds, marker.id]});
 
-        const footnote = storeCtx.store.entity.add<Footnote>({
+        const footnote = storeContext.store.entity.add<Footnote>({
             entityTypeId: ENTITY_TYPE.FOOTNOTE,
             text: "",
             figureIds: [],
             parentId: marker.id,
         });
 
-        storeCtx.store.entity
+        storeContext.store.entity
             .set<Marker>(marker.id, {footnoteId: footnote.id});
 
         this.parentId = parent.id;
@@ -62,25 +62,25 @@ export class CreateMarkerAction extends Action<Marker> {
     }
 
     revert(): void {
-        this.editorCtx.setSelected(undefined);
+        this.editorContext.setSelected(undefined);
 
         if (this.parentId && this.markerId) {
-            const parent = this.storeCtx.store.entity
+            const parent = this.storeContext.store.entity
                 .getById<Parent>(this.parentId);
             if (!parent) throw new Error();
 
-            this.storeCtx.store.entity.set<Parent>(this.parentId, {
+            this.storeContext.store.entity.set<Parent>(this.parentId, {
                 childIds: parent.childIds
                     .filter(childId => childId != this.markerId),
             });
         }
 
         if (this.footnoteId) {
-            this.storeCtx.store.entity.del(this.footnoteId);
+            this.storeContext.store.entity.del(this.footnoteId);
         }
 
         if (this.markerId) {
-            this.storeCtx.store.entity.del(this.markerId);
+            this.storeContext.store.entity.del(this.markerId);
         }
     }
 }

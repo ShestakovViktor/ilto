@@ -1,10 +1,10 @@
 import {Action} from "@feature/editor/controller";
-import {StoreContextType} from "@feature/store/context";
+import {StoreContext} from "@feature/store/type";
 import {Entity, Spatial} from "@feature/entity/type";
 
 export class MoveEntityAction extends Action<void> {
     constructor(
-        private storeCtx: StoreContextType,
+        private storeContext: StoreContext,
         private entityId: number,
         private shiftX: number,
         private shiftY: number
@@ -13,24 +13,24 @@ export class MoveEntityAction extends Action<void> {
     }
 
     execute(): void {
-        const entity = this.storeCtx.store.entity
+        const entity = this.storeContext.store.entity
             .getById<Entity & Spatial>(this.entityId);
 
         if (!entity) throw new Error();
 
-        this.storeCtx.store.entity.set<Entity & Spatial>(
+        this.storeContext.store.entity.set<Entity & Spatial>(
             this.entityId,
             {x: entity.x + this.shiftX, y: entity.y + this.shiftY}
         );
     }
 
     revert(): void {
-        const entity = this.storeCtx.store.entity
+        const entity = this.storeContext.store.entity
             .getById<Entity & Spatial>(this.entityId);
 
         if (!entity) throw new Error();
 
-        this.storeCtx.store.entity.set<Entity & Spatial>(
+        this.storeContext.store.entity.set<Entity & Spatial>(
             this.entityId,
             {
                 x: entity.x - this.shiftX,

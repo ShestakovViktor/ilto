@@ -14,19 +14,19 @@ type Props = {
 };
 
 export function FootnoteFigure(props: Props): JSX.Element {
-    const storeCtx = useStoreContext();
-    const viewerCtx = useViewerContext();
+    const storeContext = useStoreContext();
+    const viewerContext = useViewerContext();
 
     const figureSrc = createMemo((): string | undefined => {
         const figureId = props.entityId;
 
         if (!figureId) return undefined;
 
-        const figure = storeCtx.store.asset.getById<Fig>(figureId);
+        const figure = storeContext.store.asset.getById<Fig>(figureId);
 
         if (!figure) return undefined;
 
-        const src = viewerCtx.path + figure.path;
+        const src = viewerContext.path + figure.path;
 
         return src;
     });

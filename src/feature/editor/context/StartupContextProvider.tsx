@@ -1,5 +1,5 @@
 import {createSignal, JSX, Signal} from "solid-js";
-import {StartupContext} from ".";
+import {StartupContextObject} from ".";
 import {Data} from "@type";
 import {WebArchiveDriver} from "../controller/driver";
 
@@ -8,7 +8,7 @@ type Props = {
     children: JSX.Element | JSX.Element[];
 };
 
-export function StartupProvider(props: Props): JSX.Element {
+export function StartupContextProvider(props: Props): JSX.Element {
     const archiveDriver = new WebArchiveDriver();
 
     const pageSignal = createSignal<"start" | "create">("start");
@@ -20,8 +20,8 @@ export function StartupProvider(props: Props): JSX.Element {
     };
 
     return (
-        <StartupContext.Provider value={value}>
+        <StartupContextObject.Provider value={value}>
             {props.children}
-        </StartupContext.Provider>
+        </StartupContextObject.Provider>
     );
 }

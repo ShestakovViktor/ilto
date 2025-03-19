@@ -25,19 +25,19 @@ type Props = {
 };
 
 export function AppearanceSection(props: Props): JSX.Element {
-    const storeCtx = useStoreContext();
-    const viewerCtx = useViewerContext();
+    const storeContext = useStoreContext();
+    const viewerContext = useViewerContext();
 
     const propSrc = createMemo((): string | undefined => {
         const propId = props.entity().propId;
 
         if (!propId) return undefined;
 
-        const prop = storeCtx.store.asset.getById<Prop>(propId);
+        const prop = storeContext.store.asset.getById<Prop>(propId);
 
         if (!prop) return undefined;
 
-        const src = viewerCtx.path + prop.path;
+        const src = viewerContext.path + prop.path;
 
         return src;
     });
@@ -56,7 +56,7 @@ export function AppearanceSection(props: Props): JSX.Element {
             <PropBrowser
                 selected={selectedProp()}
                 onSelect={(ids: number[]) => {
-                    storeCtx.store.entity.set<Entity & {propId: number}>(
+                    storeContext.store.entity.set<Entity & {propId: number}>(
                         props.entity().id,
                         {propId: ids[0]}
                     );
@@ -71,7 +71,7 @@ export function AppearanceSection(props: Props): JSX.Element {
 
         if (!motionId) return undefined;
 
-        const motion = storeCtx.store.asset.getById<Motion>(motionId);
+        const motion = storeContext.store.asset.getById<Motion>(motionId);
 
         if (!motion) return undefined;
 
@@ -96,7 +96,7 @@ export function AppearanceSection(props: Props): JSX.Element {
             <MotionBrowser
                 selected={selectedMotion()}
                 onSelect={(ids: number[]) => {
-                    storeCtx.store.entity.set<Entity & {motionId: number}>(
+                    storeContext.store.entity.set<Entity & {motionId: number}>(
                         props.entity().id,
                         {motionId: ids[0]}
                     );

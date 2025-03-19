@@ -15,7 +15,7 @@ type Props = {
 };
 
 export function PropForm(props: Props): JSX.Element {
-    const storeCtx = useStoreContext();
+    const storeContext = useStoreContext();
 
     function handleSubmit(event: SubmitEvent): void {
         event.preventDefault();
@@ -25,7 +25,7 @@ export function PropForm(props: Props): JSX.Element {
 
         const file = formData.get("file") as File;
 
-        const asset = storeCtx.store.asset.add<Prop>({
+        const asset = storeContext.store.asset.add<Prop>({
             assetTypeId: ASSET_TYPE.PROP,
             media: file.type,
             name: file.name,

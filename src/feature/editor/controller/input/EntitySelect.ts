@@ -1,21 +1,24 @@
-import {StoreContextType, useStoreContext} from "@feature/store/context";
-import {EditorContexType, useEditorContext} from "@feature/editor/context";
-import {ViewerContextType, useViewerContext} from "@feature/viewer/context";
+import {useStoreContext} from "@feature/store/context";
+import {useEditorContext} from "@feature/editor/context";
+import {useViewerContext} from "@feature/viewer/context";
 import {getEntity} from "@feature/editor/service";
 import {MOUSE} from "@enum";
 import {InputMode} from "@feature/editor/controller";
 import {Entity, Spatial} from "@feature/entity/type";
 import {ENTITY_TYPE} from "@feature/entity/enum";
 import {MoveEntityAction} from "@feature/entity/controller/action";
+import {EditorContext} from "@feature/editor/type";
+import {StoreContext} from "@feature/store/type";
+import {ViewerContext} from "@feature/viewer/type";
 
 export class EntitySelect extends InputMode {
     private entityId: number | undefined;
 
-    viewerCtx: ViewerContextType;
+    viewerContext: ViewerContext;
 
-    editorCtx: EditorContexType;
+    editorContext: EditorContext;
 
-    storeCtx: StoreContextType;
+    storeContext: StoreContext;
 
     start: {x: number; y: number} = {x: 0, y:0};
 
@@ -25,9 +28,9 @@ export class EntitySelect extends InputMode {
 
     constructor() {
         super();
-        this.viewerCtx = useViewerContext();
-        this.editorCtx = useEditorContext();
-        this.storeCtx = useStoreContext();
+        this.viewerContext = useViewerContext();
+        this.editorContext = useEditorContext();
+        this.storeContext = useStoreContext();
     }
 
     onMouseDown(event: MouseEvent): void {
@@ -44,7 +47,7 @@ export class EntitySelect extends InputMode {
 
         this.entityId = Number(element.getAttribute("data-entity-id"));
 
-        const entity = this.storeCtx.store.entity
+        const entity = this.storeContext.store.entity
             .getById<Entity & Spatial>(this.entityId);
 
         if (!entity) throw new Error();
@@ -62,35 +65,35 @@ export class EntitySelect extends InputMode {
             event.stopPropagation();
         }
 
-        this.editorCtx.setSelected(entity);
+        this.editorContext.setSelected(entity);
 
-        this.editorCtx.setState({
+        this.editorContext.setState({
             dockArea: {items: ["EntityForm"]},
         });
     }
 
     onMouseMove(event: MouseEvent): void {
         if (!this.entityId) return;
-        const {state} = this.viewerCtx;
+        const {state} = this.viewerContext;
 
         this.end = {
             x: Math.floor(
-                (event.x - this.offset.x - this.viewerCtx.state.x) / state.scale
+                (event.x - this.offset.x - this.viewerContext.state.x) / state.scale
             ),
             y: Math.floor(
-                (event.y - this.offset.y - this.viewerCtx.state.y) / state.scale
+                (event.y - this.offset.y - this.viewerContext.state.y) / state.scale
             ),
         };
 
-        this.storeCtx.store.entity
+        this.storeContext.store.entity
             .set<Entity & Spatial>(this.entityId, this.end);
     }
 
     onMouseUp(): void {
         if (this.entityId) {
-            this.editorCtx.invoker.append(
+            this.editorContext.invoker.append(
                 new MoveEntityAction(
-                    this.storeCtx,
+                    this.storeContext,
                     this.entityId,
                     this.end.x - this.start.x,
                     this.end.y - this.start.y

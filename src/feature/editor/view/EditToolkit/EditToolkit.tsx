@@ -8,22 +8,15 @@ import {Button, Toolbar} from "@shared/view";
 import {JSX} from "solid-js";
 import i18next from "i18next";
 
-import {archiveData} from "@feature/editor/service/data";
-import {putBlobToBrowser} from "@feature/editor/service/browser";
 import {useStoreContext} from "@feature/store/context";
 import {useEditorContext} from "@feature/editor/context";
+import {saveData} from "@feature/editor/service/data";
 
 i18next.addResourceBundle("en", "editor", {EditToolkit: en}, true, true);
 
 export function EditToolkit(): JSX.Element {
-    const storeCtx = useStoreContext();
-    const editorCtx = useEditorContext();
-
-    async function handleSave(): Promise<void> {
-        const data = storeCtx.store.extract();
-        const archive = await archiveData(editorCtx.archiveDriver, data);
-        await putBlobToBrowser("save.ilto", archive);
-    }
+    const storeContext = useStoreContext();
+    const editorContext = useEditorContext();
 
     return (
         <Toolbar class={styles.SystemToolkit}>
@@ -34,7 +27,9 @@ export function EditToolkit(): JSX.Element {
                     "editor:EditToolkit.save",
                     {postProcess: ["capitalize"]}
                 )}
-                onClick={() => {void handleSave();}}
+                onClick={
+                    () => void saveData(storeContext.store, editorContext.archiveDriver)
+                }
             />
             <Button
                 class={styles.Button}
@@ -43,7 +38,7 @@ export function EditToolkit(): JSX.Element {
                     "editor:EditToolkit.undo",
                     {postProcess: ["capitalize"]}
                 )}
-                onClick={() => editorCtx.invoker.undo()}
+                onClick={() => editorContext.invoker.undo()}
             />
             <Button
                 class={styles.Button}
@@ -52,7 +47,7 @@ export function EditToolkit(): JSX.Element {
                     "editor:EditToolkit.redo",
                     {postProcess: ["capitalize"]}
                 )}
-                onClick={() => editorCtx.invoker.redo()}
+                onClick={() => editorContext.invoker.redo()}
             />
         </Toolbar>
     );

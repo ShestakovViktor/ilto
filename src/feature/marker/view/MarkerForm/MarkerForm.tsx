@@ -13,7 +13,7 @@ import {
     FootnoteSection,
 } from "@feature/entity/view";
 
-import {NamespaceProvider} from "@feature/app/context";
+import {NamespaceContextProvider} from "@feature/app/context";
 import {useStoreContext} from "@feature/store/context";
 
 import {useEditorContext} from "@feature/editor/context";
@@ -26,7 +26,7 @@ type Props = {
 
 export function MarkerForm(props: Props): JSX.Element {
     const {store} = useStoreContext();
-    const editorCtx = useEditorContext();
+    const editorContext = useEditorContext();
 
     function handleDelete(): void {
         const {id, parentId, footnoteId} = props.entity();
@@ -46,7 +46,7 @@ export function MarkerForm(props: Props): JSX.Element {
 
         store.entity.del(id);
 
-        editorCtx.setSelected(undefined);
+        editorContext.setSelected(undefined);
     }
 
     function handleSubmit(event: SubmitEvent): void {
@@ -56,7 +56,7 @@ export function MarkerForm(props: Props): JSX.Element {
     }
 
     return (
-        <NamespaceProvider namespace={"MarkerForm"}>
+        <NamespaceContextProvider namespace={"MarkerForm"}>
             <Form onSubmit={handleSubmit}>
                 <Accordion>
                     <SystemSection entity={props.entity}/>
@@ -66,6 +66,6 @@ export function MarkerForm(props: Props): JSX.Element {
                     <FootnoteSection entity={props.entity}/>
                 </Accordion>
             </Form>
-        </NamespaceProvider>
+        </NamespaceContextProvider>
     );
 }

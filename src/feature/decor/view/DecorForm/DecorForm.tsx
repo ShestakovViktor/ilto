@@ -10,7 +10,7 @@ import {
     SystemSection,
     SizeSection,
 } from "@feature/entity/view";
-import {NamespaceProvider} from "@feature/app/context";
+import {NamespaceContextProvider} from "@feature/app/context";
 import {useStoreContext} from "@feature/store/context";
 
 import {useEditorContext} from "@feature/editor/context";
@@ -25,7 +25,7 @@ type Props = {
 
 export function DecorForm(props: Props): JSX.Element {
     const {store} = useStoreContext();
-    const editorCtx = useEditorContext();
+    const editorContext = useEditorContext();
 
     function handleDelete(): void {
         const {id, parentId} = props.entity();
@@ -41,7 +41,7 @@ export function DecorForm(props: Props): JSX.Element {
 
         store.entity.del(id);
 
-        editorCtx.setSelected(undefined);
+        editorContext.setSelected(undefined);
     }
 
     function handleSubmit(event: SubmitEvent): void {
@@ -51,7 +51,7 @@ export function DecorForm(props: Props): JSX.Element {
     }
 
     return (
-        <NamespaceProvider namespace={"DecorForm"}>
+        <NamespaceContextProvider namespace={"DecorForm"}>
             <Form onSubmit={handleSubmit}>
                 <Accordion>
                     <SystemSection entity={props.entity}/>
@@ -60,6 +60,6 @@ export function DecorForm(props: Props): JSX.Element {
                     <AppearanceSection entity={props.entity} motion/>
                 </Accordion>
             </Form>
-        </NamespaceProvider>
+        </NamespaceContextProvider>
     );
 }

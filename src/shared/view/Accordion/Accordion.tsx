@@ -10,7 +10,7 @@ type Props = {
 };
 
 export function Accordion(props: Props): JSX.Element {
-    const namespaceCtx = useNamespaceContext();
+    const namespaceContext = useNamespaceContext();
 
     const childs = children(() => props.children);
     const sections = childs.toArray() as unknown as SectionProps[];
@@ -19,7 +19,7 @@ export function Accordion(props: Props): JSX.Element {
         <div class={styles.Accordion}>
             <For each={sections}>
                 {(child) => {
-                    const name = namespaceCtx.namespace
+                    const name = namespaceContext.namespace
                         + "."
                         + child.title
                         + "Section"

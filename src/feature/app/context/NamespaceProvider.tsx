@@ -6,12 +6,12 @@ type Props = {
     children: JSX.Element | JSX.Element[];
 };
 
-export function NamespaceProvider(props: Props): JSX.Element {
-    const namespaceCtx = useNamespaceContext();
+export function NamespaceContextProvider(props: Props): JSX.Element {
+    const namespaceContext = useNamespaceContext();
     const delimeter = ".";
 
     const value = {
-        namespace: namespaceCtx.namespace + delimeter + props.namespace,
+        namespace: namespaceContext.namespace + delimeter + props.namespace,
     };
 
     return (

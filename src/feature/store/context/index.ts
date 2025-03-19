@@ -1,2 +1,2 @@
-export * from "./StoreContext";
-export * from "./StoreProvider";
+export * from "./StoreContextObject";
+export * from "./StoreContextProvider";

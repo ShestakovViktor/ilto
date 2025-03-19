@@ -1,38 +1,41 @@
 import {InputMode} from "@feature/editor/controller";
-import {ViewerContextType, useViewerContext} from "@feature/viewer/context";
-import {EditorContexType, useEditorContext} from "@feature/editor/context";
-import {StoreContextType, useStoreContext} from "@feature/store/context";
+import {useViewerContext} from "@feature/viewer/context";
+import {useEditorContext} from "@feature/editor/context";
+import {useStoreContext} from "@feature/store/context";
 import {UI_MODE} from "@feature/editor/enum";
 import {CreateMarkerAction} from "@feature/marker/controller/action";
+import {StoreContext} from "@feature/store/type";
+import {EditorContext} from "@feature/editor/type";
+import {ViewerContext} from "@feature/viewer/type";
 
 export class MarkerCreate extends InputMode {
-    private storeCtx: StoreContextType;
+    private storeContext: StoreContext;
 
-    private viewerCtx: ViewerContextType;
+    private viewerContext: ViewerContext;
 
-    private editorCtx: EditorContexType;
+    private editorContext: EditorContext;
 
     constructor() {
         super();
-        this.storeCtx = useStoreContext();
-        this.viewerCtx = useViewerContext();
-        this.editorCtx = useEditorContext();
+        this.storeContext = useStoreContext();
+        this.viewerContext = useViewerContext();
+        this.editorContext = useEditorContext();
     }
 
     onMouseDown(event: MouseEvent): void {
         const x = Math.floor(
-            (event.x - this.viewerCtx.state.x) / this.viewerCtx.state.scale
+            (event.x - this.viewerContext.state.x) / this.viewerContext.state.scale
         );
         const y = Math.floor(
-            (event.y - this.viewerCtx.state.y) / this.viewerCtx.state.scale
+            (event.y - this.viewerContext.state.y) / this.viewerContext.state.scale
         );
 
-        const marker = this.editorCtx.invoker.execute(
-            new CreateMarkerAction(this.storeCtx, this.editorCtx, x, y)
+        const marker = this.editorContext.invoker.execute(
+            new CreateMarkerAction(this.storeContext, this.editorContext, x, y)
         );
 
-        this.editorCtx.setSelected(marker);
-        this.editorCtx.setState({dockArea: {items: [UI_MODE.ENTITY_FORM]}});
+        this.editorContext.setSelected(marker);
+        this.editorContext.setState({dockArea: {items: [UI_MODE.ENTITY_FORM]}});
 
         event.preventDefault();
     }

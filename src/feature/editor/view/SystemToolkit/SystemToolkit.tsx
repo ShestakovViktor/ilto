@@ -17,7 +17,7 @@ import {downloadFile} from "@feature/editor/service/browser";
 i18next.addResourceBundle("en", "editor", {SystemKit: en}, true, true);
 
 export function SystemToolkit(): JSX.Element {
-    const storeCtx = useStoreContext();
+    const storeContext = useStoreContext();
     const {archiveDriver} = useEditorContext();
 
     const projectSettingsDialog = new Modal();
@@ -35,13 +35,13 @@ export function SystemToolkit(): JSX.Element {
     );
 
     async function handleExport(): Promise<void> {
-        const data = storeCtx.store.extract();
+        const data = storeContext.store.extract();
         const archive = await archiveData(archiveDriver, data);
         downloadFile(archive, "test.ilto");
     }
 
     async function handleCompile(): Promise<void> {
-        const data = storeCtx.store.extract();
+        const data = storeContext.store.extract();
         const archive = await compileData(archiveDriver, data);
         downloadFile(archive, "test.ilto");
     }

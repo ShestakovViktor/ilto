@@ -9,15 +9,15 @@ import {Param} from "@type";
 i18next.addResourceBundle("en", "project", {MaxScaleField: en}, true, true);
 
 export function MaxScaleField(): JSX.Element {
-    const storeCtx = useStoreContext();
+    const storeContext = useStoreContext();
 
     const maxScale = createMemo(
-        () => storeCtx.store.config.getByParams({name: "maxScale"})[0]
+        () => storeContext.store.config.getByParams({name: "maxScale"})[0]
     );
 
     function handleChange (event: Event): void {
         const target = event.target as HTMLInputElement;
-        storeCtx.store.config.set<Param>(
+        storeContext.store.config.set<Param>(
             maxScale().id,
             {value: Number(target.value)}
         );

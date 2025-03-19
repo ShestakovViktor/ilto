@@ -20,7 +20,7 @@ type Props = {
 };
 
 export function MotionForm(props: Props): JSX.Element {
-    const storeCtx = useStoreContext();
+    const storeContext = useStoreContext();
 
     function handleSubmit(event: SubmitEvent): void {
         event.preventDefault();
@@ -31,7 +31,7 @@ export function MotionForm(props: Props): JSX.Element {
         const file = formData.get("file") as File;
         const cssClass = formData.get("class") as string;
 
-        const asset = storeCtx.store.asset.add<Motion>({
+        const asset = storeContext.store.asset.add<Motion>({
             assetTypeId: ASSET_TYPE.MOTION,
             media: file.type,
             name: file.name,

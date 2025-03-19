@@ -1,6 +1,6 @@
 import {createEffect, createSignal, JSX, on} from "solid-js";
 import {createStore} from "solid-js/store";
-import {EditorContext} from "@feature/editor/context";
+import {EditorContextObject} from "@feature/editor/context";
 import {INPUT_MODE} from "@feature/editor/enum";
 import {WebArchiveDriver, WebImageDriver} from "@feature/editor/controller/driver";
 import {EditorState} from "@feature/editor/type";
@@ -11,7 +11,7 @@ type Props = {
     children: JSX.Element | JSX.Element[];
 };
 
-export function EditorProvider(props: Props): JSX.Element {
+export function EditorContextProvider(props: Props): JSX.Element {
     const [selected, setSelected] = createSignal<Entity | undefined>();
     const [layer, setLayer] = createSignal<Entity & Parent | undefined>();
 
@@ -59,8 +59,8 @@ export function EditorProvider(props: Props): JSX.Element {
     };
 
     return (
-        <EditorContext.Provider value={value}>
+        <EditorContextObject.Provider value={value}>
             {props.children}
-        </EditorContext.Provider>
+        </EditorContextObject.Provider>
     );
 }

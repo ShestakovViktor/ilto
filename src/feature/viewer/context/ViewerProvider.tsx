@@ -1,6 +1,6 @@
 import {JSX} from "solid-js";
 import {createStore} from "solid-js/store";
-import {ViewerContext} from "@feature/viewer/context";
+import {ViewerContextObject} from "@feature/viewer/context";
 import {ViewerState} from "@feature/viewer/type";
 import {VIEWER_MODE} from "@feature/viewer/enum";
 
@@ -9,7 +9,7 @@ type Props = {
     path?: string;
 };
 
-export function ViewerProvider(props: Props): JSX.Element {
+export function ViewerContextProvider(props: Props): JSX.Element {
     const [state, setState] = createStore<ViewerState>({
         mode: VIEWER_MODE.PRODUCTION,
         x: 0,
@@ -20,8 +20,8 @@ export function ViewerProvider(props: Props): JSX.Element {
     const value = {state, setState, path: props.path || ""};
 
     return (
-        <ViewerContext.Provider value={value}>
+        <ViewerContextObject.Provider value={value}>
             {props.children}
-        </ViewerContext.Provider>
+        </ViewerContextObject.Provider>
     );
 }

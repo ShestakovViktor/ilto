@@ -15,11 +15,11 @@ type Props = {
 
 export function DecorView(props: Props): JSX.Element {
     const {store} = useStoreContext();
-    const viewerCtx = useViewerContext();
+    const viewerContext = useViewerContext();
 
     const transform = createMemo((): string => {
-        const x = props.entity().x * viewerCtx.state.scale;
-        const y = props.entity().y * viewerCtx.state.scale;
+        const x = props.entity().x * viewerContext.state.scale;
+        const y = props.entity().y * viewerContext.state.scale;
 
         return `translate3d(${x}px, ${y}px, 0px)`;
     });
@@ -33,7 +33,7 @@ export function DecorView(props: Props): JSX.Element {
 
         if (!prop) return undefined;
 
-        const src = viewerCtx.path + prop.path;
+        const src = viewerContext.path + prop.path;
 
         return src;
     });

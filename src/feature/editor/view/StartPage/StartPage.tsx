@@ -13,19 +13,19 @@ import {getBlobFromBrowser} from "@feature/editor/service/browser";
 i18next.addResourceBundle("en", "editor", {StartChoice: en}, true, true);
 
 export function StartPage(): JSX.Element {
-    const startupCtx = useStartupContext();
-    const [,setData] = startupCtx.dataSignal;
-    const [,setPage] = startupCtx.pageSignal;
+    const startupContext = useStartupContext();
+    const [,setData] = startupContext.dataSignal;
+    const [,setPage] = startupContext.pageSignal;
 
     async function handleProjectRestore(): Promise<void> {
         const file = await getBlobFromBrowser("save.ilto");
-        const data = await importData(file, startupCtx.archiveDriver);
+        const data = await importData(file, startupContext.archiveDriver);
         setData(data);
     }
 
     async function handleProjectUpload(): Promise<void> {
         const file = await uploadFile({type: "file", accept: ".ilto"});
-        const data = await importData(file, startupCtx.archiveDriver);
+        const data = await importData(file, startupContext.archiveDriver);
         setData(data);
     }
 

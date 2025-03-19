@@ -1,10 +1,11 @@
-import {useStoreContext} from "@feature/store/context";
-import {Param} from "@type";
-import {useViewerContext, ViewerContextType} from "../context";
 import {createEffect} from "solid-js";
+import {Param} from "@type";
+import {useStoreContext} from "@feature/store/context";
+import {useViewerContext} from "@feature/viewer/context";
+import {ViewerContext} from "@feature/viewer/type";
 
 export class Viewport {
-    viewerCtx: ViewerContextType;
+    viewerContext: ViewerContext;
 
     x = 0;
 
@@ -78,23 +79,23 @@ export class Viewport {
     };
 
     constructor(private viewerEl: HTMLElement) {
-        const storeCtx = useStoreContext();
-        this.viewerCtx = useViewerContext();
+        const storeContext = useStoreContext();
+        this.viewerContext = useViewerContext();
 
-        this.width = Number(storeCtx.store.config
+        this.width = Number(storeContext.store.config
             .getByParams<Param>({name: "width"})[0].value);
-        this.height = Number(storeCtx.store.config
+        this.height = Number(storeContext.store.config
             .getByParams<Param>({name: "height"})[0].value);
 
         createEffect(() => {
             this.minScale = Number(
-                storeCtx.store.config.getByParams({name: "minScale"})[0].value
+                storeContext.store.config.getByParams({name: "minScale"})[0].value
             );
         });
 
         createEffect(() => {
             this.maxScale = Number(
-                storeCtx.store.config.getByParams({name: "maxScale"})[0].value
+                storeContext.store.config.getByParams({name: "maxScale"})[0].value
             );
         });
 
@@ -521,7 +522,7 @@ export class Viewport {
         else this.updatePosition();
         this.updateScale(timeStamp);
 
-        this.viewerCtx.setState({
+        this.viewerContext.setState({
             x: this.x,
             y: this.y,
             scale: this.scale,

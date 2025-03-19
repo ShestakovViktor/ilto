@@ -16,10 +16,10 @@ type Props = {
 };
 
 export function EntityView(props: Props): JSX.Element {
-    const storeCtx = useStoreContext();
+    const storeContext = useStoreContext();
 
     const entity = createMemo(() => {
-        const entity = storeCtx.store.entity.getById(props.entityId);
+        const entity = storeContext.store.entity.getById(props.entityId);
         if (!entity) throw new Error();
         return entity;
     });

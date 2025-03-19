@@ -1,21 +1,10 @@
 import {createContext, useContext} from "solid-js";
-import {SetStoreFunction, Store} from "solid-js/store";
-import {ViewerState} from "@feature/viewer/type";
-import {Viewport} from "@feature/viewer/controller";
+import {ViewerContext} from "@feature/viewer/type";
 
-export type ViewerContextType = {
-    state: Store<ViewerState>;
-    setState: SetStoreFunction<ViewerState>;
+export const ViewerContextObject = createContext<ViewerContext | undefined>();
 
-    viewport?: Viewport;
-
-    path: string;
-};
-
-export const ViewerContext = createContext<ViewerContextType | undefined>();
-
-export function useViewerContext(): ViewerContextType {
-    const context = useContext(ViewerContext);
+export function useViewerContext(): ViewerContext {
+    const context = useContext(ViewerContextObject);
     if (!context) {
         throw new Error("There is no viewer context");
     }

@@ -21,12 +21,12 @@ type Props = {
 };
 
 export function AssetBrowser(props: Props): JSX.Element {
-    const storeCtx = useStoreContext();
+    const storeContext = useStoreContext();
 
     const assets = createMemo(() => {
         return props.type
-            ? storeCtx.store.asset.getByParams<Asset>({assetTypeId: props.type})
-            : storeCtx.store.asset.getAll<Asset>();
+            ? storeContext.store.asset.getByParams<Asset>({assetTypeId: props.type})
+            : storeContext.store.asset.getAll<Asset>();
     });
 
     const [selected, setSelected] = createSignal<number[]>([] as number[]);

@@ -11,16 +11,16 @@ type Props = {
 
 export function LayerView(props: Props): JSX.Element {
     const {entity} = props;
-    const viewerCtx = useViewerContext();
+    const viewerContext = useViewerContext();
 
     const transform = createMemo((): string => {
         if (entity().displayOptionIds.includes(DISPLAY_OPTION.MOVABLE)) {
-            const x = entity().x || 0 + viewerCtx.state.x;
-            const y = entity().y || 0 + viewerCtx.state.y;
+            const x = entity().x || 0 + viewerContext.state.x;
+            const y = entity().y || 0 + viewerContext.state.y;
             return `translate3d(${x}px, ${y}px, 0px)`;
         }
         else if (entity().displayOptionIds.includes(DISPLAY_OPTION.SCALABLE)) {
-            return `scale(${viewerCtx.state.scale})`;
+            return `scale(${viewerContext.state.scale})`;
         }
         else {
             return "";

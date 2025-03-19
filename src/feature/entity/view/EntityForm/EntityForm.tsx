@@ -7,9 +7,9 @@ import {DecorForm} from "@feature/decor/view";
 import {AreaForm} from "@feature/area/view";
 
 export function EntityForm(): JSX.Element {
-    const editorCtx = useEditorContext();
+    const editorContext = useEditorContext();
 
-    const entity = createMemo(() => editorCtx.selected());
+    const entity = createMemo(() => editorContext.selected());
 
     const entities: {[key: string]: ValidComponent} = {
         [ENTITY_TYPE.MARKER]: MarkerForm,

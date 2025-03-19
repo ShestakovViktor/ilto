@@ -10,18 +10,18 @@ type Props = {
 };
 
 export function AreaView(props: Props): JSX.Element {
-    const viewerCtx = useViewerContext();
+    const viewerContext = useViewerContext();
     let area!: HTMLDivElement;
     let footnote!: HTMLDivElement;
 
     const [getShowArea, setShowArea] = createSignal(false);
 
-    const factor = createMemo((): number => 5 / viewerCtx.state.scale);
+    const factor = createMemo((): number => 5 / viewerContext.state.scale);
 
     const transform = createMemo((): string => {
-        const x = props.entity().x * viewerCtx.state.scale;
-        const y = props.entity().y * viewerCtx.state.scale;
-        const scale = viewerCtx.state.scale;
+        const x = props.entity().x * viewerContext.state.scale;
+        const y = props.entity().y * viewerContext.state.scale;
+        const scale = viewerContext.state.scale;
 
         return `translate3d(${x}px, ${y}px, 0px) scale(${scale})`;
     });
@@ -64,7 +64,7 @@ export function AreaView(props: Props): JSX.Element {
         const points = props.entity().points
             .reduce((r, p) => r + ` ${p.x},${p.y}`, "");
 
-        const fill = viewerCtx.state.mode == VIEWER_MODE.DEVELOPMENT
+        const fill = viewerContext.state.mode == VIEWER_MODE.DEVELOPMENT
             ? "#0003"
             : "#0000";
 
@@ -79,7 +79,7 @@ export function AreaView(props: Props): JSX.Element {
     });
 
     const helpers = createMemo((): JSX.Element[] => {
-        if (viewerCtx.state.mode == VIEWER_MODE.DEVELOPMENT) {
+        if (viewerContext.state.mode == VIEWER_MODE.DEVELOPMENT) {
             return props.entity().points
                 .map((point) =>
                     <circle

@@ -9,26 +9,28 @@ import {
     DockArea,
     CommandKit,
 } from "@feature/editor/view";
-import {InputManager} from "@feature/editor/controller";
+import {InputManager, HotkeyManager} from "@feature/editor/controller";
 import {Viewer} from "@feature/viewer/view";
 import {useEditorContext} from "@feature/editor/context";
 import {useStoreContext} from "@feature/store/context";
 import {Parent} from "@feature/entity/type";
 
 export function Editor(): JSX.Element {
-    const storeCtx = useStoreContext();
-    const editorCtx = useEditorContext();
+    const storeContext = useStoreContext();
+    const editorContext = useEditorContext();
 
     let viewerRef!: HTMLDivElement;
     let editorRef!: HTMLDivElement;
 
     onMount(() => {
         new InputManager(viewerRef);
+        new HotkeyManager(editorRef);
+        editorRef.focus();
 
-        const parent = storeCtx.store.entity.getById<Parent>(3);
+        const parent = storeContext.store.entity.getById<Parent>(3);
         if (!parent) throw new Error();
 
-        editorCtx.setLayer(parent);
+        editorContext.setLayer(parent);
     });
 
     return (

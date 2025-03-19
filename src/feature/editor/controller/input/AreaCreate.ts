@@ -1,33 +1,36 @@
-import {ViewerContextType, useViewerContext} from "@feature/viewer/context";
+import {useViewerContext} from "@feature/viewer/context";
 import {MOUSE} from "@enum";
 import {pushAreaPoint} from "@feature/area/controller/pushAreaPoint";
-import {StoreContextType, useStoreContext} from "@feature/store/context";
-import {EditorContexType, useEditorContext} from "@feature/editor/context";
+import {useStoreContext} from "@feature/store/context";
+import {useEditorContext} from "@feature/editor/context";
 import {InputMode} from "@feature/editor/controller";
 import {UI_MODE} from "@feature/editor/enum";
 import {Area} from "@feature/area/type/Area";
 import {Parent} from "@feature/entity/type";
 import {Footnote} from "@feature/footnote/type/Footnote";
 import {ENTITY_TYPE} from "@feature/entity/enum";
+import {StoreContext} from "@feature/store/type";
+import {ViewerContext} from "@feature/viewer/type";
+import {EditorContext} from "@feature/editor/type";
 
 export class AreaCreate extends InputMode {
-    private storeCtx: StoreContextType;
+    private storeContext: StoreContext;
 
-    private viewerCtx: ViewerContextType;
+    private viewerContext: ViewerContext;
 
-    private editorCtx: EditorContexType;
+    private editorContext: EditorContext;
 
     constructor() {
         super();
-        this.storeCtx = useStoreContext();
-        this.viewerCtx = useViewerContext();
-        this.editorCtx = useEditorContext();
+        this.storeContext = useStoreContext();
+        this.viewerContext = useViewerContext();
+        this.editorContext = useEditorContext();
     }
 
     initArea(x: number, y: number): Area {
-        const {store} = this.storeCtx;
+        const {store} = this.storeContext;
 
-        const parent = this.editorCtx.layer();
+        const parent = this.editorContext.layer();
         if (!parent) throw new Error();
 
         const area = store.entity.add<Area>({
@@ -59,8 +62,8 @@ export class AreaCreate extends InputMode {
     onMouseDown(event: MouseEvent): void {
         event.stopPropagation();
 
-        const editorCtx = this.editorCtx;
-        const {state} = this.viewerCtx;
+        const editorContext = this.editorContext;
+        const {state} = this.viewerContext;
 
         const x = Math.floor((event.x - state.x) / state.scale);
         const y = Math.floor((event.y - state.y) / state.scale);
@@ -68,27 +71,27 @@ export class AreaCreate extends InputMode {
 
         if (event.buttons == MOUSE.LEFT) {
 
-            const selected = editorCtx.selected();
+            const selected = editorContext.selected();
             if (
                 !selected
                 || selected.entityTypeId != ENTITY_TYPE.AREA
             ) {
-                editorCtx.setSelected(this.initArea(x, y));
+                editorContext.setSelected(this.initArea(x, y));
             }
             else {
                 const area = selected as Area;
 
                 const res = pushAreaPoint(area, click);
 
-                this.storeCtx.store.entity.set<Area>(area.id, res);
+                this.storeContext.store.entity.set<Area>(area.id, res);
             }
 
-            editorCtx.setState({dockArea: {items: [UI_MODE.ENTITY_FORM]}});
+            editorContext.setState({dockArea: {items: [UI_MODE.ENTITY_FORM]}});
 
             event.preventDefault();
         }
         else if (event.buttons == MOUSE.RIGHT) {
-            editorCtx.setSelected(undefined);
+            editorContext.setSelected(undefined);
         }
     }
 
