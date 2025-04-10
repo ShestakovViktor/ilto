@@ -6,6 +6,6 @@ export class UndoHotkey extends Hotkey {
     protected ctrlKey = true;
 
     handle(): void {
-        this.editorContext.invoker.undo();
+        this.editorContext.action.undo();
     }
 }

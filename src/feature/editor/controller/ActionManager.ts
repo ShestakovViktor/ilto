@@ -1,10 +1,18 @@
 import {Action} from "@feature/editor/controller";
+import {useEditorContext} from "../context";
+import {EditorContext} from "../type";
 
-export class Invoker {
+export class ActionManager {
 
     private executed: Action<any>[] = [];
 
     private canceled: Action<any>[] = [];
+
+    private editorContext: EditorContext;
+
+    constructor() {
+        this.editorContext = useEditorContext();
+    }
 
     execute<T>(action: Action<T>): T {
         const result = action.execute();

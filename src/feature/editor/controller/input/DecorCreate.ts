@@ -32,8 +32,8 @@ export class DecorCreate extends InputMode {
 
         const decor = this.initEntity(x, y);
 
-        this.editorContext.setSelected(decor);
         this.editorContext.setState({
+            selected: decor,
             dockArea: {items: [UI_MODE.ENTITY_FORM]},
         });
 
@@ -43,7 +43,7 @@ export class DecorCreate extends InputMode {
     initEntity(x: number, y: number): Decor {
         const {store} = this.storeContext;
 
-        const parent = this.editorContext.layer();
+        const parent = this.editorContext.state.layer;
 
         if (!parent) throw new Error();
 

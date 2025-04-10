@@ -4,8 +4,14 @@
 
     > :nth-child(2) {
         position: absolute;
-        right: 16px;
+        left: 16px;
         top: 50%;
         transform: translateY(-50%);
+    }
+
+    > :nth-child(3) {
+        position: absolute;
+        right: 16px;
+        bottom: 16px;
     }
 }

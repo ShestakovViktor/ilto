@@ -7,19 +7,19 @@ import {
     DecorCreate,
     AreaCreate,
 } from "@feature/editor/controller/input";
-import {useEditorContext} from "@feature/editor/context";
 import {createEffect} from "solid-js";
+import {useEditorContext} from "@feature/editor/context";
 
 export class InputManager {
     active: InputMode;
 
     modes: {[key in EditorState["inputMode"]]: InputMode};
 
-    constructor(viewer: HTMLElement) {
-        const editorContex = useEditorContext();
+    constructor(element: HTMLElement) {
+        const editorContext = useEditorContext();
 
         createEffect(() => {
-            this.active = this.modes[editorContex.state.inputMode];
+            this.active = this.modes[editorContext.state.inputMode];
         });
 
         this.modes = {
@@ -32,19 +32,19 @@ export class InputManager {
 
         this.active = this.modes.DefaultView;
 
-        viewer.addEventListener("mousedown", (event: MouseEvent) => {
+        element.addEventListener("mousedown", (event: MouseEvent) => {
             this.active.onMouseDown(event);
         }, {capture: true});
 
-        viewer.addEventListener("mousemove", (event: MouseEvent) => {
+        element.addEventListener("mousemove", (event: MouseEvent) => {
             this.active.onMouseMove(event);
         }, {capture: true});
 
-        viewer.addEventListener("mouseup", (event: MouseEvent) => {
+        element.addEventListener("mouseup", (event: MouseEvent) => {
             this.active.onMouseUp(event);
         }, {capture: true});
 
-        viewer.addEventListener("contextmenu", (event) => {
+        element.addEventListener("contextmenu", (event) => {
             event.preventDefault();
         }, {capture: true});
     }

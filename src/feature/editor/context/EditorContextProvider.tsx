@@ -1,33 +1,34 @@
-import {createEffect, createSignal, JSX, on} from "solid-js";
+import {createEffect, JSX} from "solid-js";
 import {createStore} from "solid-js/store";
 import {EditorContextObject} from "@feature/editor/context";
 import {INPUT_MODE} from "@feature/editor/enum";
 import {WebArchiveDriver, WebImageDriver} from "@feature/editor/controller/driver";
-import {EditorState} from "@feature/editor/type";
-import {Entity, Parent} from "@feature/entity/type";
-import {Invoker} from "@feature/editor/controller/Invoker";
+import {EditorContext, EditorState} from "@feature/editor/type";
+import {ActionManager} from "@feature/editor/controller/ActionManager";
+import {Entity} from "@feature/entity/type";
+import {InputManager, NotificationManager} from "@feature/editor/controller";
 
 type Props = {
     children: JSX.Element | JSX.Element[];
 };
 
 export function EditorContextProvider(props: Props): JSX.Element {
-    const [selected, setSelected] = createSignal<Entity | undefined>();
-    const [layer, setLayer] = createSignal<Entity & Parent | undefined>();
-
-    const invoker = new Invoker();
-
-    const archiveDriver = new WebArchiveDriver();
-    const imageDriver = new WebImageDriver();
-
     const [state, setState] = createStore<EditorState>({
+        selected: undefined,
+        layer: undefined,
         dockArea: {
             items: [],
         },
         inputMode: INPUT_MODE.ETITY_SELECT,
+        notification: [],
     });
 
-    createEffect(on(selected, (curr, prev) => {
+    let prev: Entity | undefined;
+    let curr: Entity | undefined;
+
+    createEffect(() => {
+        curr = state.selected;
+
         if (prev) {
             const prevSelected = document
                 .querySelector(`[data-entity-id="${prev.id}"]`);
@@ -40,23 +41,14 @@ export function EditorContextProvider(props: Props): JSX.Element {
 
             if (currSelected) currSelected.classList.add("Selected");
         }
-    }));
+
+        prev = curr;
+    });
 
     const value = {
-        selected,
-        setSelected,
-
-        invoker,
-
-        layer,
-        setLayer,
-
         state,
         setState,
-
-        archiveDriver,
-        imageDriver,
-    };
+    } as EditorContext;
 
     return (
         <EditorContextObject.Provider value={value}>

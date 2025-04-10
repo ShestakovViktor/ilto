@@ -30,12 +30,14 @@ export class MarkerCreate extends InputMode {
             (event.y - this.viewerContext.state.y) / this.viewerContext.state.scale
         );
 
-        const marker = this.editorContext.invoker.execute(
+        const marker = this.editorContext.action.execute(
             new CreateMarkerAction(this.storeContext, this.editorContext, x, y)
         );
 
-        this.editorContext.setSelected(marker);
-        this.editorContext.setState({dockArea: {items: [UI_MODE.ENTITY_FORM]}});
+        this.editorContext.setState({
+            selected: marker,
+            dockArea: {items: [UI_MODE.ENTITY_FORM]},
+        });
 
         event.preventDefault();
     }

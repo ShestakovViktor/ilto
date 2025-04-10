@@ -30,7 +30,7 @@ export class AreaCreate extends InputMode {
     initArea(x: number, y: number): Area {
         const {store} = this.storeContext;
 
-        const parent = this.editorContext.layer();
+        const parent = this.editorContext.state.layer;
         if (!parent) throw new Error();
 
         const area = store.entity.add<Area>({
@@ -71,12 +71,12 @@ export class AreaCreate extends InputMode {
 
         if (event.buttons == MOUSE.LEFT) {
 
-            const selected = editorContext.selected();
+            const selected = editorContext.state.selected;
             if (
                 !selected
                 || selected.entityTypeId != ENTITY_TYPE.AREA
             ) {
-                editorContext.setSelected(this.initArea(x, y));
+                editorContext.setState({selected: this.initArea(x, y)});
             }
             else {
                 const area = selected as Area;
@@ -91,7 +91,7 @@ export class AreaCreate extends InputMode {
             event.preventDefault();
         }
         else if (event.buttons == MOUSE.RIGHT) {
-            editorContext.setSelected(undefined);
+            editorContext.setState({selected: undefined});
         }
     }
 

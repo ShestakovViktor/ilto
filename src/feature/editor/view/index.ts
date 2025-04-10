@@ -1,3 +1,4 @@
+export * from "./NotificationArea";
 export * from "./MinScaleField";
 export * from "./MaxScaleField";
 export * from "./WorkSpace";
@@ -7,7 +8,6 @@ export * from "./InputToolkit";
 export * from "./EditToolkit";
 export * from "./SystemToolkit";
 export * from "./CommandKit";
-export * from "./Editor";
 export * from "./DockArea";
 export * from "./ToolKit";
 export * from "./UserInput";
@@ -17,3 +17,4 @@ export * from "./CreatePage";
 export * from "./StartupDialog";
 export * from "./ProjectSettings";
 export * from "./ProjectForm";
+export * from "./Editor";

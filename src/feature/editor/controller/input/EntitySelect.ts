@@ -65,9 +65,8 @@ export class EntitySelect extends InputMode {
             event.stopPropagation();
         }
 
-        this.editorContext.setSelected(entity);
-
         this.editorContext.setState({
+            selected: entity,
             dockArea: {items: ["EntityForm"]},
         });
     }
@@ -91,7 +90,7 @@ export class EntitySelect extends InputMode {
 
     onMouseUp(): void {
         if (this.entityId) {
-            this.editorContext.invoker.append(
+            this.editorContext.action.append(
                 new MoveEntityAction(
                     this.storeContext,
                     this.entityId,

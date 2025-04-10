@@ -8,6 +8,6 @@ export class RedoHotkey extends Hotkey {
     protected shiftKey = true;
 
     handle(): void {
-        this.editorContext.invoker.redo();
+        this.editorContext.action.redo();
     }
 }

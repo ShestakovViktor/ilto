@@ -12,6 +12,10 @@ export class MoveEntityAction extends Action<void> {
         super();
     }
 
+    message(): string {
+        return `Moving entity ${this.entityId} along X by ${this.shiftX} and along Y by ${this.shiftY}`;
+    }
+
     execute(): void {
         const entity = this.storeContext.store.entity
             .getById<Entity & Spatial>(this.entityId);

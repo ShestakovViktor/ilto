@@ -46,7 +46,7 @@ export function MarkerForm(props: Props): JSX.Element {
 
         store.entity.del(id);
 
-        editorContext.setSelected(undefined);
+        editorContext.setState({selected: undefined});
     }
 
     function handleSubmit(event: SubmitEvent): void {

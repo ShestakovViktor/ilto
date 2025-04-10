@@ -1,12 +1,12 @@
 import assert from "assert";
-import {Invoker} from "./Invoker";
+import {ActionManager} from "./ActionManager";
 import {MockAction} from "@feature/editor/controller/action";
 
 describe("Invoker", () => {
     it("Execute", () => {
         const store: string[] = [];
         const action = new MockAction(store);
-        const invoker = new Invoker();
+        const invoker = new ActionManager();
         invoker.execute(action);
 
         assert.equal(store.length, 1);
@@ -15,7 +15,7 @@ describe("Invoker", () => {
     it("Undo", () => {
         const store: string[] = [];
         const action = new MockAction(store);
-        const invoker = new Invoker();
+        const invoker = new ActionManager();
         invoker.execute(action);
 
         invoker.undo();
@@ -26,7 +26,7 @@ describe("Invoker", () => {
     it("Redo", () => {
         const store: string[] = [];
         const action = new MockAction(store);
-        const invoker = new Invoker();
+        const invoker = new ActionManager();
         invoker.execute(action);
 
         invoker.undo();

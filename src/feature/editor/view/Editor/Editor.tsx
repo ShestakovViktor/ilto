@@ -1,6 +1,10 @@
 import {IDS} from "@enum";
 import {JSX, onMount} from "solid-js";
 import styles from "./Editor.module.scss";
+import {Viewer} from "@feature/viewer/view";
+import {useEditorContext} from "@feature/editor/context";
+import {useStoreContext} from "@feature/store/context";
+import {Parent} from "@feature/entity/type";
 import {
     ModalLayer,
     WorkSpace,
@@ -8,12 +12,16 @@ import {
     ToolKit,
     DockArea,
     CommandKit,
+    NotificationArea,
 } from "@feature/editor/view";
-import {InputManager, HotkeyManager} from "@feature/editor/controller";
-import {Viewer} from "@feature/viewer/view";
-import {useEditorContext} from "@feature/editor/context";
-import {useStoreContext} from "@feature/store/context";
-import {Parent} from "@feature/entity/type";
+import {
+    ActionManager,
+    HotkeyManager,
+    InputManager,
+    NotificationManager,
+} from "@feature/editor/controller";
+import {WebArchiveDriver, WebImageDriver} from "@feature/editor/controller/driver";
+import {EditorContext} from "@feature/editor/type";
 
 export function Editor(): JSX.Element {
     const storeContext = useStoreContext();
@@ -23,14 +31,22 @@ export function Editor(): JSX.Element {
     let editorRef!: HTMLDivElement;
 
     onMount(() => {
-        new InputManager(viewerRef);
-        new HotkeyManager(editorRef);
+        Object.assign<EditorContext, Partial<EditorContext>>(editorContext, {
+            input: new InputManager(viewerRef),
+            action: new ActionManager(),
+            hotkey: new HotkeyManager(editorRef),
+            notification: new NotificationManager(),
+
+            archiveDriver: new WebArchiveDriver(),
+            imageDriver: new WebImageDriver(),
+        });
+
         editorRef.focus();
 
         const parent = storeContext.store.entity.getById<Parent>(3);
         if (!parent) throw new Error();
 
-        editorContext.setLayer(parent);
+        editorContext.setState({layer: parent});
     });
 
     return (
@@ -43,6 +59,7 @@ export function Editor(): JSX.Element {
             <WorkSpace>
                 <Viewer ref={viewerRef}/>
                 <ToolKit/>
+                <NotificationArea/>
             </WorkSpace>
             <SidePanel>
                 <CommandKit/>

@@ -26,7 +26,7 @@ export class CreateMarkerAction extends Action<Marker> {
     execute(): Marker {
         const storeContext = this.storeContext;
 
-        const parent = this.editorContext.layer();
+        const parent = this.editorContext.state.layer;
 
         if (!parent) throw new Error();
 
@@ -62,7 +62,7 @@ export class CreateMarkerAction extends Action<Marker> {
     }
 
     revert(): void {
-        this.editorContext.setSelected(undefined);
+        this.editorContext.setState({selected: undefined});
 
         if (this.parentId && this.markerId) {
             const parent = this.storeContext.store.entity

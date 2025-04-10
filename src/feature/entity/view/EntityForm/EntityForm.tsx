@@ -9,7 +9,7 @@ import {AreaForm} from "@feature/area/view";
 export function EntityForm(): JSX.Element {
     const editorContext = useEditorContext();
 
-    const entity = createMemo(() => editorContext.selected());
+    const entity = createMemo(() => editorContext.state.selected);
 
     const entities: {[key: string]: ValidComponent} = {
         [ENTITY_TYPE.MARKER]: MarkerForm,

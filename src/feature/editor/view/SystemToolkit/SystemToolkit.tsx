@@ -18,7 +18,7 @@ i18next.addResourceBundle("en", "editor", {SystemKit: en}, true, true);
 
 export function SystemToolkit(): JSX.Element {
     const storeContext = useStoreContext();
-    const {archiveDriver} = useEditorContext();
+    const {archiveDriver: archiveDriver} = useEditorContext();
 
     const projectSettingsDialog = new Modal();
     projectSettingsDialog.render(

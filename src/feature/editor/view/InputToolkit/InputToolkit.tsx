@@ -21,9 +21,8 @@ export function InputToolkit(): JSX.Element {
         {
             icon: LoupeIconSvg,
             onClick(): void {
-                editorContext.setSelected(undefined);
-
                 editorContext.setState({
+                    selected: undefined,
                     dockArea: {items: []},
                     inputMode: INPUT_MODE.DEFAULT_VIEW,
                 });

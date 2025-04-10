@@ -27,9 +27,14 @@ export function EditToolkit(): JSX.Element {
                     "editor:EditToolkit.save",
                     {postProcess: ["capitalize"]}
                 )}
-                onClick={
-                    () => void saveData(storeContext.store, editorContext.archiveDriver)
-                }
+                onClick={() => {
+                    void saveData(
+                        storeContext.store,
+                        editorContext.archiveDriver
+                    );
+                    editorContext.notification
+                        .show({message: "Project saved"});
+                }}
             />
             <Button
                 class={styles.Button}
@@ -38,7 +43,7 @@ export function EditToolkit(): JSX.Element {
                     "editor:EditToolkit.undo",
                     {postProcess: ["capitalize"]}
                 )}
-                onClick={() => editorContext.invoker.undo()}
+                onClick={() => editorContext.action.undo()}
             />
             <Button
                 class={styles.Button}
@@ -47,7 +52,7 @@ export function EditToolkit(): JSX.Element {
                     "editor:EditToolkit.redo",
                     {postProcess: ["capitalize"]}
                 )}
-                onClick={() => editorContext.invoker.redo()}
+                onClick={() => editorContext.action.redo()}
             />
         </Toolbar>
     );
