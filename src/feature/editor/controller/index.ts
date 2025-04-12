@@ -5,4 +5,5 @@ export * from "./InputManager";
 export * from "./Hotkey";
 export * from "./HotkeyManager";
 export * from "./NotificationManager";
+export * from "./LogManager";
 export * from "./Media";

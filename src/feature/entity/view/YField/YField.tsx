@@ -3,7 +3,6 @@ import i18next from "i18next";
 
 import {Field, Input} from "@shared/view";
 import {Accessor, JSX} from "solid-js";
-import {DATA_TYPE} from "@enum";
 import {useStoreContext} from "@feature/store/context";
 import {Entity, Spatial} from "@feature/entity/type";
 

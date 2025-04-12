@@ -23,6 +23,20 @@ export class CreateMarkerAction extends Action<Marker> {
         super();
     }
 
+    getLogMessage(): string {
+        return "create marker";
+    }
+
+    getLogData(): {[key: string]: unknown} {
+        return {
+            markerId: this.markerId,
+            x: this.x,
+            y: this.y,
+            parentId: this.parentId,
+            footnoteId: this.footnoteId,
+        };
+    }
+
     execute(): Marker {
         const storeContext = this.storeContext;
 

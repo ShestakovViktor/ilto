@@ -1,4 +1,3 @@
-import {IDS} from "@enum";
 import {JSX, onMount} from "solid-js";
 import styles from "./Editor.module.scss";
 import {Viewer} from "@feature/viewer/view";
@@ -19,6 +18,7 @@ import {
     HotkeyManager,
     InputManager,
     NotificationManager,
+    LogManager,
 } from "@feature/editor/controller";
 import {WebArchiveDriver, WebImageDriver} from "@feature/editor/controller/driver";
 import {EditorContext} from "@feature/editor/type";
@@ -36,6 +36,7 @@ export function Editor(): JSX.Element {
             action: new ActionManager(),
             hotkey: new HotkeyManager(editorRef),
             notification: new NotificationManager(),
+            log: new LogManager(),
 
             archiveDriver: new WebArchiveDriver(),
             imageDriver: new WebImageDriver(),
@@ -51,7 +52,6 @@ export function Editor(): JSX.Element {
 
     return (
         <div
-            id={IDS.EDITOR}
             class={styles.Editor}
             ref={editorRef}
             tabIndex={0}

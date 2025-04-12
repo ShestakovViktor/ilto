@@ -3,7 +3,6 @@ import en from "./string/en.json";
 import i18next from "i18next";
 import {Field} from "@shared/view";
 import {JSX} from "solid-js";
-import {DATA_TYPE} from "@enum";
 
 i18next.addResourceBundle(
     "en", "asset", {WidthField: en}, true, true
@@ -20,7 +19,6 @@ export function WidthField(): JSX.Element {
             </label>
             <input
                 type="number"
-                data-type={DATA_TYPE.NUMBER}
                 name="width"
                 required
             />

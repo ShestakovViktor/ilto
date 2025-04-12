@@ -1,6 +1,5 @@
 import styles from "./ModalLayer.module.scss";
 import {JSX} from "solid-js";
-import {IDS} from "@enum";
 
 type Props = {
     children?: JSX.Element;
@@ -8,7 +7,7 @@ type Props = {
 
 export function ModalLayer(props: Props): JSX.Element {
     return (
-        <div id={IDS.MODAL_LAYER} class={styles.ModalLayer}>
+        <div id={"modal"} class={styles.ModalLayer}>
             <div>
                 {props.children}
             </div>

@@ -5,7 +5,6 @@ import {Portal} from "solid-js/web";
 import {useViewerContext} from "@feature/viewer/context";
 import {Viewport} from "@feature/viewer/controller";
 import {EntityView} from "@feature/entity/view";
-import {IDS} from "@enum";
 import {useStoreContext} from "@feature/store/context";
 import {ASSET_TYPE} from "@feature/asset/enum";
 
@@ -33,7 +32,6 @@ export function Viewer(props: Props = {ref: undefined}): JSX.Element {
 
     return (
         <div
-            id={IDS.VIEWER}
             class={styles.Viewer}
             ref={onViewerMount}
             draggable="false"

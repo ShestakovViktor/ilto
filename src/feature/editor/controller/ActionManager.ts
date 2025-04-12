@@ -1,6 +1,7 @@
 import {Action} from "@feature/editor/controller";
 import {useEditorContext} from "../context";
 import {EditorContext} from "../type";
+import {DEBUG_LEVEL} from "../enum";
 
 export class ActionManager {
 
@@ -18,12 +19,25 @@ export class ActionManager {
         const result = action.execute();
         this.executed.push(action);
         this.canceled.length = 0;
+
+        this.editorContext.log.log(
+            DEBUG_LEVEL.INF,
+            action.getLogMessage(),
+            action.getLogData()
+        );
+
         return result;
     }
 
     append<T>(action: Action<T>): void {
         this.executed.push(action);
         this.canceled.length = 0;
+
+        this.editorContext.log.log(
+            DEBUG_LEVEL.INF,
+            action.getLogMessage(),
+            action.getLogData()
+        );
     }
 
     undo(): void {

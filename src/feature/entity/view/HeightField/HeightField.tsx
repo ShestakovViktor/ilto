@@ -3,7 +3,6 @@ import i18next from "i18next";
 
 import {Field, Input} from "@shared/view";
 import {Accessor, JSX} from "solid-js";
-import {DATA_TYPE} from "@enum";
 import {useStoreContext} from "@feature/store/context";
 import {Entity, Size} from "@feature/entity/type";
 
@@ -37,7 +36,6 @@ export function HeightField(props: Props): JSX.Element {
                 type="number"
                 name="height"
                 value={String(props.entity().height)}
-                data-type={DATA_TYPE.NUMBER}
                 onChange={handleChange}
             />
         </Field>

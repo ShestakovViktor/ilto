@@ -1,4 +1,4 @@
-import {EditorContext, Notification} from "@feature/editor/type";
+import {EditorContext, NotificationRecord} from "@feature/editor/type";
 import {useEditorContext} from "../context";
 import {uuid} from "@shared/uuid";
 
@@ -14,8 +14,8 @@ export class NotificationManager {
     }
 
     private addNotification(
-        notification: Notification
-    ): Notification  {
+        notification: NotificationRecord
+    ): NotificationRecord  {
         this.editorContext.setState({
             notification: this.editorContext.state.notification
                 .concat(notification),
@@ -24,7 +24,7 @@ export class NotificationManager {
         return this.editorContext.state.notification.at(-1)!;
     }
 
-    private delNotification(notifiaction: Notification): void {
+    private delNotification(notifiaction: NotificationRecord): void {
         this.editorContext.setState({
             notification: this.editorContext.state.notification
                 .filter(item => item.id != notifiaction.id),

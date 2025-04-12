@@ -12,8 +12,16 @@ export class MoveEntityAction extends Action<void> {
         super();
     }
 
-    message(): string {
-        return `Moving entity ${this.entityId} along X by ${this.shiftX} and along Y by ${this.shiftY}`;
+    getLogMessage(): string {
+        return "move entity";
+    }
+
+    getLogData(): {[key: string]: unknown} {
+        return {
+            entityId: this.entityId,
+            shiftX: this.shiftX,
+            shiftY: this.shiftY,
+        };
     }
 
     execute(): void {

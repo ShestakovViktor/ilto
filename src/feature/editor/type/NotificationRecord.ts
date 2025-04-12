@@ -1,4 +1,4 @@
-export type Notification = {
+export type NotificationRecord = {
     id: string;
     timestamp: number;
     message: string;

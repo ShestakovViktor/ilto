@@ -7,6 +7,7 @@ import {
     InputManager,
     NotificationManager,
 } from "@feature/editor/controller";
+import {LogManager} from "../controller/LogManager";
 
 export type EditorContext = {
     state: EditorState;
@@ -16,6 +17,7 @@ export type EditorContext = {
     action: ActionManager;
     hotkey: HotkeyManager;
     notification: NotificationManager;
+    log: LogManager;
 
     archiveDriver: ArchiveDriver;
     imageDriver: ImageDriver;

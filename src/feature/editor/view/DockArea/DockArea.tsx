@@ -1,4 +1,3 @@
-import {IDS} from "@enum";
 import styles from "./DockArea.module.scss";
 import {For, JSX, Match, Switch} from "solid-js";
 import {useEditorContext} from "@feature/editor/context";
@@ -9,7 +8,7 @@ export function DockArea(): JSX.Element {
     const {state} = useEditorContext();
 
     return (
-        <div id={IDS.DOCK_AREA} class={styles.DockArea}>
+        <div class={styles.DockArea}>
             <For each={state.dockArea.items}>
                 {(item) =>
                     <Switch >
