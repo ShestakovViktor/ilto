@@ -4,5 +4,18 @@
     },
     "testMatch": [
         "**/?(*.)+(spec).[jt]s?(x)"
+    ],
+    "collectCoverage": false,
+    "collectCoverageFrom": [
+        "./src/feature/editor/controller/**/*.ts",
+        "!**/*.d.ts",
+        "!**/index.ts",
+        "!**/view/**",
+        "!**/type/**",
+        "!**/enum/**",
+        "!**/context/**"
+    ],
+    "coverageReporters": [
+        "text"
     ]
 }
