@@ -1,4 +1,4 @@
-import styles from "./ModalLayer.module.scss";
+import * as styles from "./ModalLayer.module.scss";
 import {JSX} from "solid-js";
 
 type Props = {

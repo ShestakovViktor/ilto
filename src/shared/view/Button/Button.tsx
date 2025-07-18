@@ -1,6 +1,8 @@
-import {Icon} from "@shared/view";
-import styles from "./Button.module.scss";
+import * as styles from "./Button.module.scss";
+
 import {JSX, Show} from "solid-js";
+
+import {Icon} from "@shared/view";
 
 type Props = {
     class?: string;

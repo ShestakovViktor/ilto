@@ -1,4 +1,4 @@
-import styles from "./StartupDialog.module.scss";
+import * as styles from "./StartupDialog.module.scss";
 import en from "./string/en.json";
 
 import i18next from "i18next";

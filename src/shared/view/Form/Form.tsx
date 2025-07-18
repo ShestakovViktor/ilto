@@ -1,5 +1,5 @@
 import {JSX} from "solid-js";
-import styles from "./Form.module.scss";
+import * as styles from "./Form.module.scss";
 
 type Props = {
     children?: JSX.Element | JSX.Element[];

@@ -1,4 +1,4 @@
-import styles from "./AreaForm.module.scss";
+import * as styles from "./AreaForm.module.scss";
 import {Accordion, Form} from "@shared/view";
 import en from "./string/en.json";
 

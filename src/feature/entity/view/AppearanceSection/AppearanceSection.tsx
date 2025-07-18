@@ -1,6 +1,6 @@
 import en from "./string/en.json";
 import i18next from "i18next";
-import styles from "./AppearanceSection.module.scss";
+import * as styles from "./AppearanceSection.module.scss";
 import ImageIconSvg from "@res/svg/image.svg";
 import MotionIconSvg from "@res/svg/motion.svg";
 

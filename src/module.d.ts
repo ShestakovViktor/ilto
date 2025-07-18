@@ -14,6 +14,6 @@ declare module "*.html" {
 }
 
 declare module "*.module.scss" {
-    const content: {[key: string]: string} = {};
-    export default content;
+    const classes: {[key: string]: string} = {};
+    export = classes;
 }

@@ -1,11 +1,17 @@
 import path from "path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
-import {Configuration} from "webpack";
+import webpack from "webpack";
 import {merge} from "webpack-merge";
-import common from "./webpack.config";
+import common from "./webpack.config.js";
 
-export default merge<Configuration>(common, {
+import {fileURLToPath} from "url";
+import {dirname} from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+export default merge<webpack.Configuration>(common, {
     mode: "production",
     entry: {
         viewer: "./src/viewer.tsx",

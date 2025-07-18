@@ -1,4 +1,4 @@
-import styles from "./StartPage.module.scss";
+import * as styles from "./StartPage.module.scss";
 import en from "./string/en.json";
 
 import {Button, Page} from "@shared/view";

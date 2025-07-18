@@ -1,4 +1,4 @@
-import styles from "./DecorView.module.scss";
+import * as styles from "./DecorView.module.scss";
 import ImageIconSvg from "@res/svg/image.svg";
 import {Accessor, JSX, Show, createMemo} from "solid-js";
 import {useViewerContext} from "@feature/viewer/context";
@@ -66,13 +66,11 @@ export function DecorView(props: Props): JSX.Element {
                     fallback={(
                         <Icon
                             svg={ImageIconSvg}
-                            class={styles.Prop}
                             classList={classList()}
                         />
                     )}
                 >
                     {<img
-                        class={styles.Prop}
                         classList={classList()}
                         src={propSrc()}
                         draggable={false}

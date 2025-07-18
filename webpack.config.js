@@ -1,5 +1,8 @@
 import path from "path";
-import TsconfigPathsWebpackPlugin from "tsconfig-paths-webpack-plugin";
+import url from "url";
+
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default {
     stats: {
@@ -10,27 +13,7 @@ export default {
             {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
-                use: [
-                    {
-                        "loader": "babel-loader",
-                        "options": {
-                            presets: [
-                                [
-                                    "@babel/preset-env",
-                                    {
-                                        "targets": ">0.25%",
-                                        "modules": "commonjs",
-                                    },
-                                ],
-                                "solid",
-                            ],
-                        },
-                    },
-                    {
-                        loader: "ts-loader",
-                    },
-
-                ],
+                use: 'babel-loader',
             },
             {
                 test: /\.html$/,
@@ -44,7 +27,7 @@ export default {
                 loader: "svg-inline-loader",
             },
             {
-                test: /\.s[ac]ss$/i,
+                test: /\.scss$/,
                 use: [
                     "style-loader",
                     {
@@ -53,18 +36,18 @@ export default {
                             modules: {
                                 auto: /\.module\.scss$/,
                                 mode: "local",
-                                localIdentName: "[local]_[hash:base64:6]",
-                                exportLocalsConvention: "camelCase",
+                                localIdentName: "[local]_[hash:base64:2]",
+                                exportLocalsConvention: "camel-case",
                             },
                         },
                     },
                     {
                         loader: "sass-loader",
                         options: {
-                            api: "modern",
+                            sourceMap: true,
                             sassOptions: {
                                 loadPaths: [
-                                    path.join(__dirname, "res/style"),
+                                    path.join(__dirname, "./res/style"),
                                 ],
                             },
                         },
@@ -76,6 +59,5 @@ export default {
 
     resolve: {
         extensions: [".ts", ".tsx", ".js"],
-        plugins: [new TsconfigPathsWebpackPlugin()],
     },
 };

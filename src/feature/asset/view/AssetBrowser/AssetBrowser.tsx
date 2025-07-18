@@ -1,6 +1,6 @@
 import PlusIconSvg from "@res/svg/plus.svg";
 import SaltireIconSvg from "@res/svg/saltire.svg";
-import styles from "./AssetBrowser.module.scss";
+import * as styles from "./AssetBrowser.module.scss";
 import en from "./string/en.json";
 
 import {For, JSX, Show, createEffect, createMemo, createSignal} from "solid-js";

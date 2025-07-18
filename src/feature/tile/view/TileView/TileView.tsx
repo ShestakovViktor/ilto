@@ -1,4 +1,4 @@
-import styles from "./TileView.module.scss";
+import * as styles from "./TileView.module.scss";
 import {Accessor, JSX, createMemo} from "solid-js";
 import {Tile} from "@feature/tile/type";
 import {useStoreContext} from "@feature/store/context";

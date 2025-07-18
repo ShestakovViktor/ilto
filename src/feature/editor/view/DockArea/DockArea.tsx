@@ -1,4 +1,4 @@
-import styles from "./DockArea.module.scss";
+import * as styles from "./DockArea.module.scss";
 import {For, JSX, Match, Switch} from "solid-js";
 import {useEditorContext} from "@feature/editor/context";
 import {EntityForm} from "@feature/entity/view";

@@ -1,4 +1,4 @@
-import styles from "./MarkerView.module.scss";
+import * as styles from "./MarkerView.module.scss";
 import MarkerIconSvg from "@res/svg/marker.svg";
 import {
     JSX,

@@ -1,4 +1,3 @@
-import styles from "./EditToolkit.module.scss";
 import en from "./string/en.json";
 import DisketteIconSvg from "@res/svg/diskette.svg";
 import ArrowLeftIconSvg from "@res/svg/arrow-left.svg";
@@ -19,9 +18,8 @@ export function EditToolkit(): JSX.Element {
     const editorContext = useEditorContext();
 
     return (
-        <Toolbar class={styles.SystemToolkit}>
+        <Toolbar>
             <Button
-                class={styles.Button}
                 icon={DisketteIconSvg}
                 tooltip={i18next.t(
                     "editor:EditToolkit.save",
@@ -37,7 +35,6 @@ export function EditToolkit(): JSX.Element {
                 }}
             />
             <Button
-                class={styles.Button}
                 icon={ArrowLeftIconSvg}
                 tooltip={i18next.t(
                     "editor:EditToolkit.undo",
@@ -46,7 +43,6 @@ export function EditToolkit(): JSX.Element {
                 onClick={() => editorContext.action.undo()}
             />
             <Button
-                class={styles.Button}
                 icon={ArrowRightIconSvg}
                 tooltip={i18next.t(
                     "editor:EditToolkit.redo",

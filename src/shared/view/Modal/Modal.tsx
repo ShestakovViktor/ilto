@@ -1,4 +1,4 @@
-import styles from "./Modal.module.scss";
+import * as styles from "./Modal.module.scss";
 import {Accessor, JSX, Setter, Show, createSignal} from "solid-js";
 import {Portal} from "solid-js/web";
 

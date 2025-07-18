@@ -1,0 +1,30 @@
+{
+    "presets": [
+        "@babel/preset-env",
+        "@babel/preset-typescript",
+        "solid"
+    ],
+    "plugins": [
+        [
+            "module-resolver",
+            {
+                "alias": {
+                    "@enum": "./src/enum",
+                    "@enum/*": "./src/enum/*",
+                    "@interface": "./src/interface",
+                    "@interface/*": "./src/interface/*",
+                    "@type": "./src/type",
+                    "@type/*": "./src/type/*",
+                    "@feature": "./src/feature",
+                    "@feature/*": "./src/feature/*",
+                    "@shared": "./src/shared",
+                    "@shared/*": "./src/shared/*",
+                    "@src": "./src/",
+                    "@src/*": "./src/*",
+                    "@res": "./res",
+                    "@res/*": "./res/*"
+                }
+            }
+        ]
+    ]
+}

@@ -1,5 +1,5 @@
 import {Accessor, createMemo, For, JSX} from "solid-js";
-import styles from "./LayerView.module.scss";
+import * as styles from "./LayerView.module.scss";
 import {EntityView} from "@feature/entity/view";
 import {useViewerContext} from "@feature/viewer/context";
 import {Layer} from "@feature/layer/type";

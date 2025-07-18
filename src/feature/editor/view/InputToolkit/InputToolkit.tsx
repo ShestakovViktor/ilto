@@ -1,4 +1,4 @@
-import styles from "./InputToolkit.module.scss";
+import * as styles from "./InputToolkit.module.scss";
 import LoupeIconSvg from "@res/svg/loupe.svg";
 import CursorIconSvg from "@res/svg/cursor.svg";
 import MarkerIconSvg from "@res/svg/marker.svg";

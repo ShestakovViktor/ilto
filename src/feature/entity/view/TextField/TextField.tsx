@@ -1,6 +1,6 @@
 import en from "./string/en.json";
 import i18next from "i18next";
-import styles from "./TextField.module.scss";
+import * as styles from "./TextField.module.scss";
 
 import {Field} from "@shared/view";
 import {Accessor, JSX} from "solid-js";

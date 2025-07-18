@@ -1,4 +1,4 @@
-import styles from "./Accordion.module.scss";
+import * as styles from "./Accordion.module.scss";
 import {For, JSX, children} from "solid-js";
 import {SectionProps} from "./Section";
 import {useNamespaceContext} from "@feature/app/context";

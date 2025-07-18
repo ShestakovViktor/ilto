@@ -1,4 +1,4 @@
-import styles from "./Tabs.module.scss";
+import * as styles from "./Tabs.module.scss";
 import {For, JSX, children, createSignal} from "solid-js";
 import {TabProps} from "./Tab";
 

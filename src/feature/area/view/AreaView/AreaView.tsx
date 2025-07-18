@@ -1,4 +1,4 @@
-import styles from "./AreaView.module.scss";
+import * as styles from "./AreaView.module.scss";
 import {JSX, createSignal, createMemo, Show, Accessor} from "solid-js";
 import {useViewerContext} from "@feature/viewer/context";
 import {EntityView} from "@feature/entity/view";

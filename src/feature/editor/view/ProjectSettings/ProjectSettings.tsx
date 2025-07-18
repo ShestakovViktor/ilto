@@ -1,4 +1,4 @@
-import styles from "./ProjectSettings.module.scss";
+import * as styles from "./ProjectSettings.module.scss";
 import en from "./string/en.json";
 
 import i18next from "i18next";

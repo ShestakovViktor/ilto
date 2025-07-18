@@ -1,4 +1,4 @@
-import styles from "./FootnoteDialog.module.scss";
+import * as styles from "./FootnoteDialog.module.scss";
 import en from "./string/en.json";
 import i18next from "i18next";
 import {Accessor, createMemo, JSX} from "solid-js";

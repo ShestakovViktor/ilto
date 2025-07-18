@@ -1,4 +1,4 @@
-import styles from "./Viewer.module.scss";
+import * as styles from "./Viewer.module.scss";
 import {JSX, createMemo, Show, For, Ref} from "solid-js";
 import {Portal} from "solid-js/web";
 

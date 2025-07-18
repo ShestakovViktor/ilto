@@ -1,4 +1,3 @@
-import styles from "./SystemSection.module.scss";
 import en from "./string/en.json";
 import i18next from "i18next";
 import TrasIconSvg from "@res/svg/trash.svg";
@@ -16,7 +15,6 @@ type Props = {
 export function SystemSection(props: Props): JSX.Element {
     return (
         <Section
-            class={styles.SystemSection}
             title={
                 i18next.t(
                     "entity:SystemSection.title",

@@ -1,4 +1,3 @@
-import styles from "./EntityToolKit.module.scss";
 import MoveIconSvg from "@res/svg/move.svg";
 
 import {Button, Toolbar} from "@shared/view";
@@ -14,7 +13,7 @@ type Props = {entityId?: Signal<number | null>};
 export function EntityToolKit(props: Props): JSX.Element {
     return (
         <Toolbar>
-            <Button class={styles.Button} icon={MoveIconSvg}/>
+            <Button icon={MoveIconSvg}/>
         </Toolbar>
     );
 }

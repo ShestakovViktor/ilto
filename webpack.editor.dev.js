@@ -1,18 +1,8 @@
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import {
-    Configuration as WebpackConfiguration,
-} from "webpack";
-import {
-    Configuration as WebpackDevServerConfiguration,
-} from "webpack-dev-server";
 import {merge} from "webpack-merge";
-import common from "./webpack.config";
+import common from "./webpack.config.js";
 
-interface Configuration extends WebpackConfiguration {
-    devServer?: WebpackDevServerConfiguration;
-}
-
-export default merge<Configuration>(common, {
+export default merge(common, {
     mode: "development",
     entry: {
         editor: "./src/editor.tsx",

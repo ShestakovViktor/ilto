@@ -1,4 +1,3 @@
-import styles from "./PositionSection.module.scss";
 import en from "./string/en.json";
 import i18next from "i18next";
 
@@ -21,7 +20,6 @@ export function PositionSection(props: Props): JSX.Element {
                 "entity:PositionSection.title",
                 {postProcess: ["capitalize"]}
             )}
-            class={styles.PositionSection}
         >
             <XField entity={props.entity}/>
             <YField entity={props.entity}/>

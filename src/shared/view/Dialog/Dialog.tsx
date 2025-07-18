@@ -1,4 +1,4 @@
-import styles from "./Dialog.module.scss";
+import * as styles from "./Dialog.module.scss";
 import SaltireIconSvg from "@res/svg/saltire.svg";
 import {Button} from "@shared/view";
 
@@ -31,7 +31,6 @@ export function Dialog(props: Props): JSX.Element {
                 <div class={styles.Control}>
                     <Show when={props.onClose}>
                         <Button
-                            class={styles.CloseButton}
                             icon={SaltireIconSvg}
                             onClick={props.onClose}
                         />

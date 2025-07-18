@@ -1,5 +1,5 @@
 import {useEditorContext} from "@feature/editor/context";
-import styles from "./NotificationArea.module.scss";
+import * as styles from "./NotificationArea.module.scss";
 import {For, JSX} from "solid-js";
 
 export function NotificationArea(): JSX.Element {

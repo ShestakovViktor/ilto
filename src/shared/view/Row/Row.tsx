@@ -1,5 +1,5 @@
 import {JSX} from "solid-js";
-import styles from "./Row.module.scss";
+import * as styles from "./Row.module.scss";
 
 type Props = {
     children?: JSX.Element | JSX.Element[];

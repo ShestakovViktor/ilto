@@ -1,5 +1,5 @@
 import {JSX} from "solid-js";
-import styles from "./Panel.module.scss";
+import * as styles from "./Panel.module.scss";
 
 type Props = {
     class?: string;

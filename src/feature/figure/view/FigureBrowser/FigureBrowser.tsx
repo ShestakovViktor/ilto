@@ -1,5 +1,5 @@
 import en from "./string/en.json";
-import styles from "./FigureBrowser.module.scss";
+import * as styles from "./FigureBrowser.module.scss";
 
 import {JSX} from "solid-js";
 import i18next from "i18next";

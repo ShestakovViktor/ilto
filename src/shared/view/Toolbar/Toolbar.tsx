@@ -1,5 +1,5 @@
 import {JSX} from "solid-js";
-import styles from "./Toolbar.module.scss";
+import * as styles from "./Toolbar.module.scss";
 
 type Props = {
     id?: string;

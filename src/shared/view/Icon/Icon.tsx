@@ -1,5 +1,5 @@
 import {JSX} from "solid-js";
-import styles from "./Icon.module.scss";
+import * as styles from "./Icon.module.scss";
 
 type Props = {
     class?: string;

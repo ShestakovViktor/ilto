@@ -1,18 +1,22 @@
 import path from "path";
+import url from "url";
+import {merge} from "webpack-merge";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
-import {Configuration} from "webpack";
-import {merge} from "webpack-merge";
-import common from "./webpack.config";
+import common from "./webpack.config.js";
 
-export default merge<Configuration>(common, {
-    mode: "production",
+const filename = url.fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
+const outputPath = path.resolve(dirname, './build');
+
+export default merge(common, {
+    mode: "development",
     entry: {
         editor: "./src/editor.tsx",
     },
     output: {
         filename: "[name].js",
-        path: path.resolve(__dirname, "./build"),
+        path: outputPath,
         publicPath: "./",
         clean: {
             keep: "test",

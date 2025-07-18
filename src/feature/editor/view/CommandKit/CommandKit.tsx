@@ -1,4 +1,4 @@
-import styles from "./CommandKit.module.scss";
+import * as styles from "./CommandKit.module.scss";
 
 import {JSX} from "solid-js";
 import {SystemToolkit, InputToolkit, EditToolkit} from "@feature/editor/view";

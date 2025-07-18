@@ -1,0 +1,8 @@
+{
+    "transform": {
+        "^.+\\.tsx?$": "babel-jest"
+    },
+    "testMatch": [
+        "**/?(*.)+(spec).[jt]s?(x)"
+    ]
+}

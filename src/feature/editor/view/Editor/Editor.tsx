@@ -1,6 +1,5 @@
 import {JSX, onMount} from "solid-js";
-import styles from "./Editor.module.scss";
-import {Viewer} from "@feature/viewer/view";
+import * as styles from "./Editor.module.scss";
 import {useEditorContext} from "@feature/editor/context";
 import {useStoreContext} from "@feature/store/context";
 import {Parent} from "@feature/entity/type";

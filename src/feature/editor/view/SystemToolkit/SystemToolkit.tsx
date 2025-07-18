@@ -1,4 +1,4 @@
-import styles from "./SystemToolkit.module.scss";
+import * as styles from "./SystemToolkit.module.scss";
 import FileIconSvg from "@res/svg/file.svg";
 import DownloadIconSvg from "@res/svg/download.svg";
 import SlidersIconSvg from "@res/svg/sliders.svg";
@@ -47,9 +47,8 @@ export function SystemToolkit(): JSX.Element {
     }
 
     return (
-        <Toolbar class={styles.SystemToolkit}>
+        <Toolbar>
             <Button
-                class={styles.Button}
                 icon={FileIconSvg}
                 tooltip={i18next.t(
                     "editor:SystemKit.exportProject",
@@ -59,7 +58,6 @@ export function SystemToolkit(): JSX.Element {
             />
 
             <Button
-                class={styles.Button}
                 icon={DownloadIconSvg}
                 tooltip={i18next.t(
                     "editor:SystemKit.compileProject",
@@ -69,7 +67,6 @@ export function SystemToolkit(): JSX.Element {
             />
 
             <Button
-                class={styles.Button}
                 icon={SlidersIconSvg}
                 tooltip={i18next.t(
                     "editor:SystemKit.projectSettings",
@@ -79,7 +76,6 @@ export function SystemToolkit(): JSX.Element {
             />
 
             {/* <Button
-                class={styles.Button}
                 icon={GearIconSvg}
                 tooltip={i18next.t(
                     "editor:SystemBar.editorSettingsDialog",

@@ -1,4 +1,3 @@
-import styles from "./ProjectForm.module.scss";
 import en from "./string/en.json";
 
 import i18next from "i18next";
@@ -34,7 +33,7 @@ export function ProjectForm(): JSX.Element {
     }
 
     return (
-        <Form class={styles.ResourceForm} onSubmit={projectCreate}>
+        <Form onSubmit={projectCreate}>
             <Field>
                 <label for="name">
                     {i18next.t(

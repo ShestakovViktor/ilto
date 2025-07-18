@@ -1,5 +1,5 @@
 import {JSX} from "solid-js";
-import styles from "./Field.module.scss";
+import * as styles from "./Field.module.scss";
 
 type Props = {
     id?: string;

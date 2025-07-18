@@ -1,4 +1,4 @@
-import styles from "./CreatePage.module.scss";
+import * as styles from "./CreatePage.module.scss";
 
 import {JSX} from "solid-js";
 import {ProjectForm} from "@feature/editor/view";

@@ -1,4 +1,4 @@
-import styles from "./DecorForm.module.scss";
+import * as styles from "./DecorForm.module.scss";
 import {Accordion, Form} from "@shared/view";
 import en from "./string/en.json";
 

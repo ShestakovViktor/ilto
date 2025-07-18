@@ -1,4 +1,4 @@
-import styles from "./AreaToolbar.module.scss";
+import * as styles from "./AreaToolbar.module.scss";
 
 import {Button, Toolbar} from "@shared/view";
 import en from "./string/en.json";

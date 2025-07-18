@@ -1,4 +1,4 @@
-import styles from "./FootnoteView.module.scss";
+import * as styles from "./FootnoteView.module.scss";
 import {Accessor, JSX, createMemo} from "solid-js";
 import {Footnote} from "@feature/footnote/type";
 import {Dynamic} from "solid-js/web";

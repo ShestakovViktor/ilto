@@ -1,5 +1,5 @@
 import ImageIconSvg from "@res/svg/image.svg";
-import styles from "./FootnoteForm.module.scss";
+import * as styles from "./FootnoteForm.module.scss";
 import en from "./string/en.json";
 import i18next from "i18next";
 
@@ -25,7 +25,6 @@ export function FootnoteForm(props: Props): JSX.Element {
     const figureBrowserDialog = new Modal();
     figureBrowserDialog.render(
         <Dialog
-            class={styles.FigureBrowserDialog}
             onClose={() => figureBrowserDialog.hide()}
         >
             <FigureBrowser

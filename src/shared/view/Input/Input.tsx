@@ -1,5 +1,5 @@
 import {JSX} from "solid-js";
-import styles from "./Input.module.scss";
+import * as styles from "./Input.module.scss";
 
 type Props = {
     type?: string;
