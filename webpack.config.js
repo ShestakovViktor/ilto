@@ -1,63 +1,103 @@
 import path from "path";
 import url from "url";
+import {merge} from "webpack-merge";
+import {WebpackHtmlPlugin, WebpackTscPlugin} from "./webpack.plugin.js";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export default {
-    stats: {
-        errorDetails: true,
-    },
-    module: {
-        rules: [
-            {
-                test: /\.tsx?$/,
-                exclude: /node_modules/,
-                use: 'babel-loader',
+export default (env) => {
+    const conditional = env.WEBPACK_BUILD
+        ? {
+            mode: "production",
+            externals: {
+                "jszip": "JSZip",
             },
-            {
-                test: /\.html$/,
-                loader: "html-loader",
-                options: {
-                    minimize: false,
-                },
+            output: {
+                filename: "[name].js",
+                path: path.resolve(__dirname, './build'),
+                publicPath: "./",
+                clean: true
             },
-            {
-                test: /\.svg$/,
-                loader: "svg-inline-loader",
+        }
+        : {
+            mode: "development",
+            devtool: "inline-source-map",
+            devServer: {
+                port: 3000,
+                hot: true,
+                compress: true,
+                static: ["./build"],
             },
-            {
-                test: /\.scss$/,
-                use: [
-                    "style-loader",
-                    {
-                        loader: "css-loader",
-                        options: {
-                            modules: {
-                                auto: /\.module\.scss$/,
-                                mode: "local",
-                                localIdentName: "[local]_[hash:base64:2]",
-                                exportLocalsConvention: "camel-case",
-                            },
-                        },
-                    },
-                    {
-                        loader: "sass-loader",
-                        options: {
-                            sourceMap: true,
-                            sassOptions: {
-                                loadPaths: [
-                                    path.join(__dirname, "./res/style"),
-                                ],
-                            },
-                        },
-                    },
-                ],
+            plugins: [
+                new WebpackTscPlugin()
+            ],
+            output: {
+                filename: "[name]_[fullhash:2].js",
             },
-        ],
-    },
+        };
 
-    resolve: {
-        extensions: [".ts", ".tsx", ".js"],
-    },
-};
+    return merge(conditional, {
+        entry: {
+            editor: "./src/editor.tsx",
+            viewer: "./src/viewer.tsx",
+        },
+        plugins: [
+            new WebpackHtmlPlugin()
+        ],
+        resolve: {
+            extensions: [".ts", ".tsx", ".js"],
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.tsx?$/,
+                    exclude: /node_modules/,
+                    use: 'babel-loader',
+                },
+                {
+                    test: /\.html$/,
+                    loader: "html-loader",
+                    options: {
+                        minimize: false,
+                    },
+                },
+                {
+                    test: /\.svg$/,
+                    loader: "svg-inline-loader",
+                },
+                {
+                    test: /\.scss$/,
+                    use: [
+                        "style-loader",
+                        {
+                            loader: "css-loader",
+                            options: {
+                                modules: {
+                                    auto: /\.module\.scss$/,
+                                    mode: "local",
+                                    localIdentName: "[local]_[hash:base64:2]",
+                                    exportLocalsConvention: "camel-case",
+                                },
+                            },
+                        },
+                        {
+                            loader: "sass-loader",
+                            options: {
+                                sourceMap: true,
+                                sassOptions: {
+                                    loadPaths: [
+                                        path.join(__dirname, "./res/style"),
+                                    ],
+                                },
+                            },
+                        },
+                    ],
+                },
+            ],
+        },
+        stats: {
+            errorDetails: true,
+        },
+    });
+}

@@ -10,7 +10,7 @@
         "jsx": "react-jsx",
         "jsxImportSource": "solid-js",
         "lib": [
-            "es6",
+            "ESNext",
             "dom",
             "dom.iterable",
         ],

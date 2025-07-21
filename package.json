@@ -6,11 +6,8 @@
     "type": "module",
     "license": "MIT",
     "scripts": {
-        "editor-dev": "webpack-dev-server --config webpack.editor.dev.js",
-        "viewer-dev": "webpack-dev-server --config webpack.viewer.dev.js",
-        "editor-build": "webpack --config webpack.editor.build.js",
-        "viewer-build": "webpack --config webpack.viewer.build.js",
-        "build": "npm run editor-build && npm run viewer-build",
+        "build": "webpack --config webpack.config.js",
+        "serve": "webpack serve --config webpack.config.js",
         "test": "jest"
     },
     "dependencies": {
