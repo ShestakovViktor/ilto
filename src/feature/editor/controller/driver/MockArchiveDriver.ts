@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {ArchiveDriver} from "@src/interface";
 
 export class MockArchiveDriver implements ArchiveDriver {

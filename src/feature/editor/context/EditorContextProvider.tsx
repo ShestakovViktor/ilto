@@ -2,11 +2,8 @@ import {createEffect, JSX} from "solid-js";
 import {createStore} from "solid-js/store";
 import {EditorContextObject} from "@feature/editor/context";
 import {INPUT_MODE} from "@feature/editor/enum";
-import {WebArchiveDriver, WebImageDriver} from "@feature/editor/controller/driver";
 import {EditorContext, EditorState} from "@feature/editor/type";
-import {ActionManager} from "@feature/editor/controller/ActionManager";
 import {Entity} from "@feature/entity/type";
-import {InputManager, NotificationManager} from "@feature/editor/controller";
 
 type Props = {
     children: JSX.Element | JSX.Element[];

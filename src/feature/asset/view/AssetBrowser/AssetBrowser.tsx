@@ -25,8 +25,10 @@ export function AssetBrowser(props: Props): JSX.Element {
 
     const assets = createMemo(() => {
         return props.type
-            ? storeContext.store.asset.getByParams<Asset>({assetTypeId: props.type})
-            : storeContext.store.asset.getAll<Asset>();
+            ? storeContext.store.asset
+                .getByParams<Asset>({assetTypeId: props.type})
+            : storeContext.store.asset
+                .getAll<Asset>();
     });
 
     const [selected, setSelected] = createSignal<number[]>([] as number[]);
@@ -50,7 +52,9 @@ export function AssetBrowser(props: Props): JSX.Element {
                                     <Button
                                         icon={PlusIconSvg}
                                         onClick={() => {
-                                            if (props.onCreate) props.onCreate();
+                                            if (props.onCreate) {
+                                                props.onCreate();
+                                            }
                                         }}
                                     />
                                 </Show>
@@ -93,7 +97,11 @@ export function AssetBrowser(props: Props): JSX.Element {
                                             <Button
                                                 icon={SaltireIconSvg}
                                                 onClick={() => {
-                                                    if (props.onDelete) props.onDelete([asset.id]);
+                                                    if (props.onDelete) {
+                                                        props.onDelete(
+                                                            [asset.id]
+                                                        );
+                                                    }
                                                 }}
                                             />
                                         </Show>

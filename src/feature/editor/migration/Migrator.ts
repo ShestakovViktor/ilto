@@ -1,5 +1,4 @@
 import {Data} from "@type";
-import {migrate1} from ".";
 
 export class Migrator {
 
@@ -23,7 +22,7 @@ export class Migrator {
 
         if (!version) throw new Error();
 
-        const migrations = {...migrate1};
+        // const migrations = {...migrate1};
 
         // while (version.value in migrations) {
         //     migrations[version.value](data);

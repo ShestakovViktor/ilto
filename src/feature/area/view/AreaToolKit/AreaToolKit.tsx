@@ -1,13 +1,8 @@
-import * as styles from "./AreaToolbar.module.scss";
-
 import {Button, Toolbar} from "@shared/view";
 import en from "./string/en.json";
 
 import i18next from "i18next";
-import {JSX, Signal, createSignal} from "solid-js";
-import {useEditorContext} from "@feature/editor/context";
-import {useViewerContext} from "@feature/viewer/context";
-import {popAreaPoint} from "@feature/area/controller";
+import {JSX} from "solid-js";
 
 i18next.addResourceBundle("en", "area", {AreaToolbar: en}, true, true);
 

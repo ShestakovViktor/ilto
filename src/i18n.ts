@@ -11,4 +11,4 @@ i18next
         },
     })
     .init({lng: "en", resources: {}, debug: false})
-    .catch(err => console.log(err));
+    .catch(err => {throw new Error(err);});

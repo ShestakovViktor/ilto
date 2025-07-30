@@ -1,4 +1,4 @@
-import {createStore, SetStoreFunction} from "solid-js/store";
+import {createStore, SetStoreFunction, StoreSetter} from "solid-js/store";
 
 export class Collection<U extends {id: number}> {
     public data: {[key: number]: U};
@@ -24,15 +24,22 @@ export class Collection<U extends {id: number}> {
     }
 
     set<T extends U = U>(id: number, data: Partial<T>): void {
-        this.setData(id, data as any);
+        this.setData(id, data as StoreSetter<U, [number]>);
     }
 
     del(id: number): void {
         this.setData(id, undefined!);
     }
 
-    getById<T extends U = U>(id: number): T | undefined {
-        return this.data[id] as T | undefined;
+    getContains<T extends U>(
+        prop: keyof T,
+        value: unknown
+    ): T | undefined {
+        return Object.values(this.data).find(item => {
+            const propertyValue = (item as T)[prop];
+            return Array.isArray(propertyValue)
+                && propertyValue.includes(value);
+        }) as T | undefined;
     }
 
     getAll<T extends U = U>(): T[] {
@@ -44,14 +51,18 @@ export class Collection<U extends {id: number}> {
         return result;
     }
 
-    getByParams<T extends U = U>(params: {[key: string]: any}): T[] {
+    getById<T extends U = U>(id: number): T | undefined {
+        return this.data[id] as T | undefined;
+    }
+
+    getByParams<T extends U = U>(params: {[key: string]: unknown}): T[] {
         const result: T[] = [];
         for (const itemId in this.data) {
             const item = this.data[itemId];
 
             for (const prop in params) {
                 if (!(prop in item)) break;
-                if (params[prop] == (item as any)[prop]) {
+                if (params[prop] == (item as typeof params)[prop]) {
                     result.push(item as T);
                 }
             }

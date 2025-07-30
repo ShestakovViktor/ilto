@@ -23,7 +23,10 @@ export function pushAreaPoint(area: Area, point: {x: number; y: number}): {
 
     const points = [
         ...area.points
-            .map(point => ({x: point.x - shift.x / 2, y: point.y - shift.y / 2})),
+            .map(point => ({
+                x: point.x - shift.x / 2,
+                y: point.y - shift.y / 2,
+            })),
         {x: point.x - center.x, y: point.y - center.y},
     ];
 

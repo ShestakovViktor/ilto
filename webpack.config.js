@@ -15,9 +15,9 @@ export default (env) => {
             },
             output: {
                 filename: "[name].js",
-                path: path.resolve(__dirname, './build'),
+                path: path.resolve(__dirname, "./build"),
                 publicPath: "./",
-                clean: true
+                clean: true,
             },
         }
         : {
@@ -30,7 +30,7 @@ export default (env) => {
                 static: ["./build"],
             },
             plugins: [
-                new WebpackTscPlugin()
+                new WebpackTscPlugin(),
             ],
             output: {
                 filename: "[name]_[fullhash:2].js",
@@ -43,7 +43,7 @@ export default (env) => {
             viewer: "./src/viewer.tsx",
         },
         plugins: [
-            new WebpackHtmlPlugin()
+            new WebpackHtmlPlugin(),
         ],
         resolve: {
             extensions: [".ts", ".tsx", ".js"],
@@ -53,7 +53,7 @@ export default (env) => {
                 {
                     test: /\.tsx?$/,
                     exclude: /node_modules/,
-                    use: 'babel-loader',
+                    use: "babel-loader",
                 },
                 {
                     test: /\.html$/,
@@ -100,4 +100,4 @@ export default (env) => {
             errorDetails: true,
         },
     });
-}
+};

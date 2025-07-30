@@ -40,10 +40,10 @@ export class WebImageDriver implements ImageDriver {
         blob: Blob,
         mime: string
     ): Promise<{
-            width: number;
-            height: number;
-            tiles: ImageTile[];
-        }> {
+        width: number;
+        height: number;
+        tiles: ImageTile[];
+    }> {
         const image = document.createElement("img");
         image.src = URL.createObjectURL(blob);
         await new Promise(resolve => image.onload = resolve);

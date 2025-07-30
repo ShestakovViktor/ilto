@@ -4,7 +4,7 @@
         "allowImportingTsExtensions": true,
         "downlevelIteration": true,
         "baseUrl": "./",
-        "checkJs": true,
+        "checkJs": false,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "jsx": "react-jsx",
@@ -74,11 +74,12 @@
         "target": "esnext"
     },
     "include": [
-        "./**/*.ts",
-        "./**/*.tsx",
-        "./**/*.d.ts",
+        "./src/**/*.ts",
+        "./src/**/*.tsx",
+        "./src/**/*.d.ts",
+        "./*.js",
     ],
     "exclude": [
-        "node_modules"
+        "node_modules",
     ]
 }

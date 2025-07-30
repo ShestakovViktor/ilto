@@ -5,15 +5,18 @@ import {exec} from "child_process";
 
 export class WebpackTscPlugin {
     apply(compiler) {
-        compiler.hooks.done.tap('webpack-tsc-plugin', () => {
-            exec('tsc --noEmit', this.process)
+        compiler.hooks.done.tap("webpack-tsc-plugin", () => {
+            exec("tsc --noEmit", this.process);
         });
     }
-    
+
     process(error, stdout) {
         if (!error) {
+            // eslint-disable-next-line no-console
             console.error("<i> [webpack-tsc-plugin] Success");
-        } else {
+        }
+        else {
+            // eslint-disable-next-line no-console
             console.error("<i> [webpack-tsc-plugin] Failure:\n" + stdout);
         }
     }
@@ -22,7 +25,7 @@ export class WebpackTscPlugin {
 export class WebpackHtmlPlugin {
     apply(compiler) {
         compiler.hooks.compilation.tap(
-            "webpack-html-plugin", 
+            "webpack-html-plugin",
             (compilation) => this.onCompilation(compilation)
         );
     }
@@ -33,7 +36,11 @@ export class WebpackHtmlPlugin {
                 name: "webpack-html-plugin",
                 stage: compilation.PROCESS_ASSETS_STAGE_ADDITIONS,
             },
-            (assets, callback) => this.onProcessAssets(compilation, assets, callback)
+            (assets, callback) => this.onProcessAssets(
+                compilation,
+                assets,
+                callback
+            )
         );
     }
 
@@ -49,7 +56,7 @@ export class WebpackHtmlPlugin {
         }
 
         compilation.emitAsset(
-            "index.html", 
+            "index.html",
             new webpack.sources.RawSource(editorHtml)
         );
 
@@ -57,11 +64,11 @@ export class WebpackHtmlPlugin {
     }
 
     isEditorBundle(fileName) {
-        return fileName.includes("editor") && fileName.endsWith(".js")
+        return fileName.includes("editor") && fileName.endsWith(".js");
     }
 
     isViewerBundle(fileName) {
-        return fileName.includes("viewer") && fileName.endsWith(".js")
+        return fileName.includes("viewer") && fileName.endsWith(".js");
     }
 
     async getTemplate() {

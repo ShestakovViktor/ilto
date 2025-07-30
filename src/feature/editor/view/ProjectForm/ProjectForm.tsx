@@ -74,7 +74,7 @@ export function ProjectForm(): JSX.Element {
                     "editor:ProjectForm.cancel",
                     {postProcess: ["capitalize"]}
                 )}
-                onClick={() => {console.log("qwe");}}
+                onClick={() => {}}
             />
         </Form>
     );

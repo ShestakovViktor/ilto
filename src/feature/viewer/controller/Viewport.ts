@@ -131,13 +131,17 @@ export class Viewport {
         };
 
         if (bndryDirX) {
-            this.moveTransition.from.x = this.x - bndryDirX * this.bndryMag / this.attorMag;
-            this.moveTransition.to.x = this.x - bndryDirX * this.bndryMag / this.attorMag;
+            this.moveTransition.from.x = this.x
+                - bndryDirX * this.bndryMag / this.attorMag;
+            this.moveTransition.to.x = this.x
+                - bndryDirX * this.bndryMag / this.attorMag;
         }
 
         if (bndryDirY) {
-            this.moveTransition.from.y = this.y - bndryDirY * this.bndryMag / this.attorMag;
-            this.moveTransition.to.y = this.y - bndryDirY * this.bndryMag / this.attorMag;
+            this.moveTransition.from.y = this.y
+                - bndryDirY * this.bndryMag / this.attorMag;
+            this.moveTransition.to.y = this.y
+                - bndryDirY * this.bndryMag / this.attorMag;
         }
 
         this.mouseDown = {pointer: {x: event.clientX, y: event.clientY}};
@@ -435,13 +439,17 @@ export class Viewport {
             timeDelta
         );
 
-        const corrX
-            = this.lerp(0, this.scaleTransition.shift.x, timeDelta)
-            - this.lerp(0, this.scaleTransition.shift.x, this.scaleTransition.timeDelta);
+        const corrX = this.lerp(
+            0, this.scaleTransition.shift.x, timeDelta
+        ) - this.lerp(
+            0, this.scaleTransition.shift.x, this.scaleTransition.timeDelta
+        );
 
-        const corrY
-            = this.lerp(0, this.scaleTransition.shift.y, timeDelta)
-            - this.lerp(0, this.scaleTransition.shift.y, this.scaleTransition.timeDelta);
+        const corrY = this.lerp(
+            0, this.scaleTransition.shift.y, timeDelta
+        ) - this.lerp(
+            0, this.scaleTransition.shift.y, this.scaleTransition.timeDelta
+        );
 
         this.x -= corrX;
         this.y -= corrY;
