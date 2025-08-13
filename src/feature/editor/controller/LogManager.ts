@@ -1,23 +1,16 @@
-import {EditorContext, LogRecord} from "@feature/editor/type";
-import {useEditorContext} from "../context";
+import {LogRecord} from "@feature/editor/type";
 import {uuid} from "@shared/uuid";
-import {DEBUG_LEVEL} from "@feature/editor/enum";
+import {LogLevel} from "@feature/editor/enum";
 
 export class LogManager {
-    private duration = 3000;
-
-    private editorContext: EditorContext;
-
-    constructor() {
-        this.editorContext = useEditorContext();
-    }
+    private buffer: LogRecord[] = [];
 
     log(
-        level: typeof DEBUG_LEVEL[keyof typeof DEBUG_LEVEL],
+        level: LogLevel,
         message: string,
         params?: {[key: string]: unknown}
     ): void {
-        const log: LogRecord = {
+        const record: LogRecord = {
             id: uuid(),
             timestamp: Date.now(),
             level,
@@ -25,6 +18,10 @@ export class LogManager {
             params,
         };
 
-        console.log(log);
+        this.buffer.push(record);
+    }
+
+    logs(): LogRecord[] {
+        return this.buffer;
     }
 }

@@ -21,7 +21,7 @@ export class ActionManager {
         this.canceled.length = 0;
 
         this.editorContext.log.log(
-            DEBUG_LEVEL.INF,
+            LOG_LEVEL.INFO,
             action.getLogMessage(),
             action.getLogData()
         );
