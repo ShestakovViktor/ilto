@@ -1,17 +1,9 @@
-export class Action<T> {
-    execute(): T {
-        throw new Error("implement me");
-    }
+export abstract class Action<T = void> {
+    abstract submit(): T;
 
-    revert(): void {
-        throw new Error("implement me");
-    }
+    abstract revert(): void;
 
-    getLogMessage(): string {
-        return "not implemented";
-    }
+    abstract getLogMessage(): string;
 
-    getLogData(): {[key: string]: unknown} {
-        return {};
-    }
+    abstract getLogData(): {[key: string]: unknown};
 }
