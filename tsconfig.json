@@ -71,7 +71,7 @@
         "strictNullChecks": true,
         "sourceMap": true,
         "skipLibCheck": true,
-        "target": "esnext"
+        "target": "esnext",
     },
     "include": [
         "./src/**/*.ts",
