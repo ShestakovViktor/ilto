@@ -142,6 +142,7 @@ export default defineConfig([
                     "max": 1,
                 },
             ],
+            "@stylistic/no-multi-spaces": "error",
             "@stylistic/no-trailing-spaces": "error",
             "@stylistic/object-curly-spacing": [
                 "error",
@@ -159,6 +160,7 @@ export default defineConfig([
                 "error",
                 "never",
             ],
+            "@stylistic/space-infix-ops": ["error", {"int32Hint": false}],
             "@stylistic/template-curly-spacing": [
                 "error",
                 "never",

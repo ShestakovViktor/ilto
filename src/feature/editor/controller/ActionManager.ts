@@ -32,7 +32,7 @@ export class ActionManager {
         this.queue[this.cursor] = action;
         this.cursor++;
 
-        this.editorContext.log.log(
+        this.logManager.log(
             LOG_LEVEL.INFO,
             action.getLogMessage(),
             action.getLogData()

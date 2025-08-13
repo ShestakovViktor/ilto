@@ -9,10 +9,9 @@ import {
     SystemSection,
 } from "@feature/entity/view";
 import {NamespaceContextProvider} from "@feature/app/context";
-import {useStoreContext} from "@feature/store/context";
-import {useEditorContext} from "@feature/editor/context";
+// import {useStoreContext} from "@feature/store/context";
+// import {useEditorContext} from "@feature/editor/context";
 import {Area} from "@feature/area/type";
-import {Parent} from "@feature/entity/type";
 
 i18next.addResourceBundle("en", "area", {AreaForm: en}, true, true);
 
@@ -21,28 +20,28 @@ type Props = {
 };
 
 export function AreaForm(props: Props): JSX.Element {
-    const {store} = useStoreContext();
-    const editorContext = useEditorContext();
+    // const {store} = useStoreContext();
+    // const editorContext = useEditorContext();
 
     function handleDelete(): void {
-        const {id, parentId, footnoteId} = props.entity();
+        // const {id, parentId, footnoteId} = props.entity();
 
-        if (parentId) {
-            const parent = store.entity.getById<Parent>(parentId);
-            if (!parent) throw new Error();
+        // if (parentId) {
+        //     const parent = store.entity.getById<Parent>(parentId);
+        //     if (!parent) throw new Error();
 
-            store.entity.set<Parent>(parentId, {
-                childIds: parent.childIds.filter(childId => childId != id),
-            });
-        }
+        //     store.entity.set<Parent>(parentId, {
+        //         childIds: parent.childIds.filter(childId => childId != id),
+        //     });
+        // }
 
-        if (footnoteId) {
-            store.entity.del(footnoteId);
-        }
+        // if (footnoteId) {
+        //     store.entity.del(footnoteId);
+        // }
 
-        store.entity.del(id);
+        // store.entity.del(id);
 
-        editorContext.setState({selected: undefined});
+        // editorContext.setState({selected: undefined});
     }
 
     function handleSubmit(event: SubmitEvent): void {

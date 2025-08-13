@@ -3,11 +3,10 @@ import * as styles from "./Editor.module.scss";
 import {useEditorContext} from "@feature/editor/context";
 import {useStoreContext} from "@feature/store/context";
 import {Parent} from "@feature/entity/type";
+import {EditorContext} from "@feature/editor/type";
+import {Viewer} from "@feature/viewer/view";
+import {Explorer} from "@feature/explorer/view/Explorer";
 import {
-    ModalLayer,
-    WorkSpace,
-    SidePanel,
-    ToolKit,
     DockArea,
     CommandKit,
     NotificationArea,
@@ -19,8 +18,10 @@ import {
     NotificationManager,
     LogManager,
 } from "@feature/editor/controller";
-import {WebArchiveDriver, WebImageDriver} from "@feature/editor/controller/driver";
-import {EditorContext} from "@feature/editor/type";
+import {
+    WebArchiveDriver,
+    WebImageDriver,
+} from "@feature/editor/controller/driver";
 
 export function Editor(): JSX.Element {
     const storeContext = useStoreContext();
@@ -30,12 +31,14 @@ export function Editor(): JSX.Element {
     let editorRef!: HTMLDivElement;
 
     onMount(() => {
+        const logManager = new LogManager();
+
         Object.assign<EditorContext, Partial<EditorContext>>(editorContext, {
+            log: logManager,
             input: new InputManager(viewerRef),
-            action: new ActionManager(),
+            action: new ActionManager(logManager),
             hotkey: new HotkeyManager(editorRef),
             notification: new NotificationManager(),
-            log: new LogManager(),
 
             archiveDriver: new WebArchiveDriver(),
             imageDriver: new WebImageDriver(),

@@ -5,6 +5,6 @@ export type Asset = {
     size: number;
     name: string;
     path: string;
-    data: string;
+    // data: string;
     media: string;
 };
