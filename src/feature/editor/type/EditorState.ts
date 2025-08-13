@@ -5,7 +5,7 @@ import {NotificationRecord} from "@feature/editor/type";
 export type EditorState = {
     selected: Entity | undefined;
 
-    layer: Entity & Parent | undefined;
+    layer: Parent | undefined;
 
     dockArea: {
         items: typeof UI_MODE[keyof typeof UI_MODE][];

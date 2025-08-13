@@ -7,7 +7,6 @@ import {
     NameField,
 } from "@feature/asset/view";
 import {ASSET_TYPE} from "@feature/asset/enum";
-import {Form} from "@shared/view";
 import {useStoreContext} from "@feature/store/context";
 import {Figure} from "@feature/figure/type";
 import {AssetForm} from "@feature/asset/view/AssetForm";

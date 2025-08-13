@@ -48,7 +48,6 @@ export async function initProject(params: {
             y: imageTile.y,
             width: imageTile.width,
             height: imageTile.height,
-            parentId: parent.id,
             imageId: image.id,
         });
 

@@ -25,7 +25,11 @@ export function FootnoteView(props: Props): JSX.Element {
             if (node.nodeName === "FN-FIGURE") {
                 const element = node as HTMLElement;
                 const entityId = Number(element.getAttribute("data-entity-id"));
-                return <FootnoteFigure entityId={entityId}>{node.textContent}</FootnoteFigure>;
+                return (
+                    <FootnoteFigure entityId={entityId}>
+                        {node.textContent}
+                    </FootnoteFigure>
+                );
             }
 
             const children = Array.from(node.childNodes).map(renderNode);

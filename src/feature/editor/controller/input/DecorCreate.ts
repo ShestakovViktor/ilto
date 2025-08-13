@@ -55,7 +55,6 @@ export class DecorCreate extends InputMode {
             height: 64,
             propId: null,
             motionId: null,
-            parentId: parent.id,
         });
 
         store.entity.update<Layer>(

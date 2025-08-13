@@ -40,18 +40,17 @@ export class AreaCreate extends InputMode {
             width: 0,
             height: 0,
             points: [{x: 0, y: 0}],
-            parentId: parent.id,
             footnoteId: null,
         });
 
-        store.entity
-            .update<Parent>(parent.id, {childIds: [...parent.childIds, area.id]});
+        store.entity.update<Parent>(
+            parent.id,
+            {childIds: [...parent.childIds, area.id]}
+        );
 
         const footnote = store.entity.create<Footnote>({
             entityTypeId: ENTITY_TYPE.FOOTNOTE,
             text: "",
-            figureIds: [],
-            parentId: area.id,
         });
 
         store.entity.update<Area>(area.id, {footnoteId: footnote.id});
