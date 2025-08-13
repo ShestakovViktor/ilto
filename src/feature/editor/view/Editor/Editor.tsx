@@ -55,16 +55,13 @@ export function Editor(): JSX.Element {
             ref={editorRef}
             tabIndex={0}
         >
-            <WorkSpace>
-                <Viewer ref={viewerRef}/>
-                <ToolKit/>
-                <NotificationArea/>
-            </WorkSpace>
-            <SidePanel>
-                <CommandKit/>
-                <DockArea/>
-            </SidePanel>
-            <ModalLayer/>
+            <Viewer ref={viewerRef}/>
+            <Explorer/>
+            <NotificationArea/>
+            <CommandKit/>
+            <DockArea/>
+            {/* <ModalLayer/> */}
+            {/* <ToolKit/> */}
         </div>
     );
 }
