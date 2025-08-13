@@ -29,7 +29,7 @@ export function DecorView(props: Props): JSX.Element {
 
         if (!propId) return undefined;
 
-        const prop = store.asset.getById<Prop>(propId);
+        const prop = store.asset.select<Prop>(propId);
 
         if (!prop) return undefined;
 
@@ -43,7 +43,7 @@ export function DecorView(props: Props): JSX.Element {
 
         if (!motionId) return undefined;
 
-        const motion = store.asset.getById<Motion>(motionId);
+        const motion = store.asset.select<Motion>(motionId);
 
         if (!motion) return undefined;
 

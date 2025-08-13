@@ -17,7 +17,7 @@ export function WidthField(props: Props): JSX.Element {
 
     function handleChange (event: Event): void {
         const target = event.target as HTMLInputElement;
-        store.entity.set<Entity & {width: number}>(
+        store.entity.update<Entity & {width: number}>(
             props.entity().id,
             {width: Number(target.value)}
         );

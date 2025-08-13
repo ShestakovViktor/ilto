@@ -31,7 +31,7 @@ export function MotionForm(props: Props): JSX.Element {
         const file = formData.get("file") as File;
         const cssClass = formData.get("class") as string;
 
-        const asset = storeContext.store.asset.add<Motion>({
+        const asset = storeContext.store.asset.create<Motion>({
             assetTypeId: ASSET_TYPE.MOTION,
             media: file.type,
             name: file.name,

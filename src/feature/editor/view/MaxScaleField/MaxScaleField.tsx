@@ -12,12 +12,12 @@ export function MaxScaleField(): JSX.Element {
     const storeContext = useStoreContext();
 
     const maxScale = createMemo(
-        () => storeContext.store.config.getByParams({name: "maxScale"})[0]
+        () => storeContext.store.config.selectByParams({name: "maxScale"})[0]
     );
 
     function handleChange (event: Event): void {
         const target = event.target as HTMLInputElement;
-        storeContext.store.config.set<Param>(
+        storeContext.store.config.update<Param>(
             maxScale().id,
             {value: Number(target.value)}
         );

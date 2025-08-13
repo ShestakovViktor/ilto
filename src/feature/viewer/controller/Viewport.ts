@@ -83,19 +83,19 @@ export class Viewport {
         this.viewerContext = useViewerContext();
 
         this.width = Number(storeContext.store.config
-            .getByParams<Param>({name: "width"})[0].value);
+            .selectByParams<Param>({name: "width"})[0].value);
         this.height = Number(storeContext.store.config
-            .getByParams<Param>({name: "height"})[0].value);
+            .selectByParams<Param>({name: "height"})[0].value);
 
         createEffect(() => {
             this.minScale = Number(
-                storeContext.store.config.getByParams({name: "minScale"})[0].value
+                storeContext.store.config.selectByParams({name: "minScale"})[0].value
             );
         });
 
         createEffect(() => {
             this.maxScale = Number(
-                storeContext.store.config.getByParams({name: "maxScale"})[0].value
+                storeContext.store.config.selectByParams({name: "maxScale"})[0].value
             );
         });
 
@@ -171,7 +171,7 @@ export class Viewport {
     }
 
     isValidScale(scale: number): boolean {
-        return this.minScale < scale  && scale < this.maxScale;
+        return this.minScale < scale && scale < this.maxScale;
     }
 
     handleMouseWheel(event: WheelEvent): void {
@@ -209,7 +209,7 @@ export class Viewport {
 
         this.frame = this.viewerEl.getBoundingClientRect();
 
-        this.dragZoom =  this.isDoubleTap(event);
+        this.dragZoom = this.isDoubleTap(event);
 
         this.moveTransition = {
             from: {x: this.x, y: this.y},

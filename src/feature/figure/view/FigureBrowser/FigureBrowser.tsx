@@ -38,7 +38,7 @@ export function FigureBrowser(props: Props): JSX.Element {
             }}
             onDelete={(ids) => {
                 ids.forEach((id) => {
-                    storeContext.store.asset.del(id);
+                    storeContext.store.asset.delete(id);
                 });
             }}
             onSelect={props.onSelect}

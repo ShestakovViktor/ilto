@@ -26,9 +26,9 @@ export function AssetBrowser(props: Props): JSX.Element {
     const assets = createMemo(() => {
         return props.type
             ? storeContext.store.asset
-                .getByParams<Asset>({assetTypeId: props.type})
+                .selectByParams<Asset>({assetTypeId: props.type})
             : storeContext.store.asset
-                .getAll<Asset>();
+                .selectAll<Asset>();
     });
 
     const [selected, setSelected] = createSignal<number[]>([] as number[]);

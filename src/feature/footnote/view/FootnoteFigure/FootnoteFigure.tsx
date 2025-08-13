@@ -22,7 +22,7 @@ export function FootnoteFigure(props: Props): JSX.Element {
 
         if (!figureId) return undefined;
 
-        const figure = storeContext.store.asset.getById<Fig>(figureId);
+        const figure = storeContext.store.asset.select<Fig>(figureId);
 
         if (!figure) return undefined;
 

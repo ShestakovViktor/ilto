@@ -30,7 +30,7 @@ export function FigureForm(props: Props): JSX.Element {
 
         const file = formData.get("file") as File;
 
-        const asset = storeContext.store.asset.add<Figure>({
+        const asset = storeContext.store.asset.create<Figure>({
             assetTypeId: ASSET_TYPE.FIGURE,
             media: file.type,
             name: file.name,

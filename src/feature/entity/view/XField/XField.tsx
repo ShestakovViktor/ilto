@@ -17,7 +17,7 @@ export function XField(props: Props): JSX.Element {
 
     function handleChange(event: Event): void {
         const target = event.target as HTMLInputElement;
-        store.entity.set<Entity & {x: number}>(
+        store.entity.update<Entity & {x: number}>(
             props.entity().id,
             {x: Number(target.value)}
         );

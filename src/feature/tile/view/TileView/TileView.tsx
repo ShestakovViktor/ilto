@@ -23,7 +23,7 @@ export function TileView({entity}: Props): JSX.Element {
             return "";
         }
         else {
-            const tile = storeContext.store.asset.getById(imageId);
+            const tile = storeContext.store.asset.select(imageId);
 
             if (!tile) throw new Error();
 

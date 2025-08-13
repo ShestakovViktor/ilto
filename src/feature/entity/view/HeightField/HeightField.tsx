@@ -18,7 +18,7 @@ export function HeightField(props: Props): JSX.Element {
     function handleChange(event: Event): void {
         const target = event.target as HTMLInputElement;
 
-        store.entity.set<Entity & {height: number}>(
+        store.entity.update<Entity & {height: number}>(
             props.entity().id,
             {height: Number(target.value)}
         );

@@ -47,7 +47,7 @@ export class DecorCreate extends InputMode {
 
         if (!parent) throw new Error();
 
-        const decor = store.entity.add<Decor>({
+        const decor = store.entity.create<Decor>({
             entityTypeId: ENTITY_TYPE.DECOR,
             x,
             y,
@@ -58,7 +58,7 @@ export class DecorCreate extends InputMode {
             parentId: parent.id,
         });
 
-        store.entity.set<Layer>(
+        store.entity.update<Layer>(
             parent.id,
             {childIds: [...parent.childIds, decor.id]}
         );

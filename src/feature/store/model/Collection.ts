@@ -1,64 +1,88 @@
-import {createStore, SetStoreFunction, StoreSetter} from "solid-js/store";
+import {createStore, SetStoreFunction, StoreSetter, unwrap} from "solid-js/store";
 
 export class Collection<U extends {id: number}> {
-    public data: {[key: number]: U};
+    public items: {[key: number]: U};
 
-    private setData: SetStoreFunction<{[key: number]: U}>;
+    private setItem: SetStoreFunction<{[key: number]: U}>;
 
     constructor(data: {[key: number]: U}) {
-        const [entity, setEntity] = createStore(data);
-        this.data = entity;
-        this.setData = setEntity;
+        const [items, setItem] = createStore(data);
+        this.items = items;
+        this.setItem = setItem;
     }
 
     private genId(): number {
         let id = 1;
-        while (id in this.data) id++;
+        while (id in this.items) id++;
         return id;
     }
 
-    add<T extends U = U>(data: Partial<T>): T {
+    select<T extends U = U>(id: number): Readonly<T> | undefined {
+        return this.items[id] as T | undefined;
+    }
+
+    create<T extends U = U>(data: Omit<T, "id">): T {
         const id = this.genId();
-        this.setData(id, {...data, id} as T);
-        return this.data[id] as T;
+        this.setItem(id, {...data, id} as T);
+        return this.items[id] as T;
     }
 
-    set<T extends U = U>(id: number, data: Partial<T>): void {
-        this.setData(id, data as StoreSetter<U, [number]>);
+    insert<T extends U = U>(data: T): T {
+        if (data.id in this.items) throw new Error();
+        this.setItem(data.id, data);
+        return this.items[data.id] as T;
     }
 
-    del(id: number): void {
-        this.setData(id, undefined!);
+    update<T extends U = U>(id: number, data: Partial<T>): U {
+        this.setItem(id, data as StoreSetter<U, [number]>);
+        return this.items[id];
     }
 
-    getContains<T extends U>(
+    delete<T extends U = U>(id: number): T {
+        const item = this.select<T>(id);
+        if (!item) throw new Error();
+        this.setItem(id, undefined!);
+        return unwrap(item);
+    }
+
+    selectAll<T extends U = U>(): T[] {
+        const result: T[] = [];
+        for (const itemId in this.items) {
+            const item = this.items[itemId];
+            result.push(item as T);
+        }
+        return result;
+    }
+
+    selectContains<T extends U>(
         prop: keyof T,
         value: unknown
     ): T | undefined {
-        return Object.values(this.data).find(item => {
+        return Object.values(this.items).find(item => {
             const propertyValue = (item as T)[prop];
             return Array.isArray(propertyValue)
                 && propertyValue.includes(value);
         }) as T | undefined;
     }
 
-    getAll<T extends U = U>(): T[] {
-        const result: T[] = [];
-        for (const itemId in this.data) {
-            const item = this.data[itemId];
-            result.push(item as T);
+    selectRelated<T extends U = U>(id: number, field: keyof T): number[] {
+        const item = this.select<T>(id);
+
+        if (!item || !Array.isArray(item[field])) return [];
+
+        const result = [];
+
+        for (const id of item[field]) {
+            result.push(id, ...this.selectRelated(id, field));
         }
+
         return result;
     }
 
-    getById<T extends U = U>(id: number): T | undefined {
-        return this.data[id] as T | undefined;
-    }
-
-    getByParams<T extends U = U>(params: {[key: string]: unknown}): T[] {
+    selectByParams<T extends U = U>(params: {[key: string]: unknown}): T[] {
         const result: T[] = [];
-        for (const itemId in this.data) {
-            const item = this.data[itemId];
+        for (const itemId in this.items) {
+            const item = this.items[itemId];
 
             for (const prop in params) {
                 if (!(prop in item)) break;

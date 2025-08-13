@@ -25,7 +25,7 @@ export function PropForm(props: Props): JSX.Element {
 
         const file = formData.get("file") as File;
 
-        const asset = storeContext.store.asset.add<Prop>({
+        const asset = storeContext.store.asset.create<Prop>({
             assetTypeId: ASSET_TYPE.PROP,
             media: file.type,
             name: file.name,

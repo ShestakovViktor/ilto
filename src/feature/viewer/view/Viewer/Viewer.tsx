@@ -17,12 +17,12 @@ export function Viewer(props: Props = {ref: undefined}): JSX.Element {
     const viewerContext = useViewerContext();
 
     const root = createMemo(() => {
-        return storeContext.store.entity.getById(1);
+        return storeContext.store.entity.select(1);
     });
 
     const motions = createMemo(() => {
         return storeContext.store.asset
-            .getByParams({assetTypeId: ASSET_TYPE.MOTION});
+            .selectByParams({assetTypeId: ASSET_TYPE.MOTION});
     });
 
     function onViewerMount(viewer: HTMLDivElement): void {

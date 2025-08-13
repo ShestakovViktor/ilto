@@ -46,7 +46,7 @@ export function MarkerView(props: Props): JSX.Element {
 
         if (!propId) return undefined;
 
-        const prop = storeContext.store.asset.getById<Prop>(propId);
+        const prop = storeContext.store.asset.select<Prop>(propId);
 
         if (!prop) return undefined;
 

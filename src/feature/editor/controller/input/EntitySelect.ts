@@ -48,7 +48,7 @@ export class EntitySelect extends InputMode {
         this.entityId = Number(element.getAttribute("data-entity-id"));
 
         const entity = this.storeContext.store.entity
-            .getById<Entity & Spatial>(this.entityId);
+            .select<Entity & Spatial>(this.entityId);
 
         if (!entity) throw new Error();
 
@@ -85,7 +85,7 @@ export class EntitySelect extends InputMode {
         };
 
         this.storeContext.store.entity
-            .set<Entity & Spatial>(this.entityId, this.end);
+            .update<Entity & Spatial>(this.entityId, this.end);
     }
 
     onMouseUp(): void {

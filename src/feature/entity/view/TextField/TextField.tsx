@@ -19,7 +19,7 @@ export function TextField(props: Props): JSX.Element {
 
     function saveValue(event: Event): void {
         const {value: text} = event.target as HTMLInputElement;
-        store.entity.set<Entity & {text: string}>(props.entity().id, {text});
+        store.entity.update<Entity & {text: string}>(props.entity().id, {text});
     }
 
     return (

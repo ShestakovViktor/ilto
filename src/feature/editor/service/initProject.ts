@@ -27,14 +27,14 @@ export async function initProject(params: {
 
     const store = new Store(data);
 
-    const parent = store.entity.getById<Layer>(2);
+    const parent = store.entity.select<Layer>(2);
 
     if (!parent) throw new Error();
 
     const tileIds: number[] = [];
 
     imageTiles.forEach((imageTile, index) => {
-        const image = store.asset.add<Image>({
+        const image = store.asset.create<Image>({
             assetTypeId: ASSET_TYPE.IMAGE,
             name: `tile ${index + 1}`,
             media: imageTile.media,
@@ -42,7 +42,7 @@ export async function initProject(params: {
             size: imageTile.size,
         });
 
-        const tile = store.entity.add<Tile>({
+        const tile = store.entity.create<Tile>({
             entityTypeId: ENTITY_TYPE.TILE,
             x: imageTile.x,
             y: imageTile.y,
@@ -56,7 +56,7 @@ export async function initProject(params: {
     });
 
     store.entity
-        .set<Parent>(parent.id, {childIds: [...parent.childIds, ...tileIds]});
+        .update<Parent>(parent.id, {childIds: [...parent.childIds, ...tileIds]});
 
     return store.extract();
 }

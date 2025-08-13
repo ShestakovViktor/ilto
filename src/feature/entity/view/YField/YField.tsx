@@ -17,7 +17,7 @@ export function YField(props: Props): JSX.Element {
 
     function handleChange (event: Event): void {
         const target = event.target as HTMLInputElement;
-        store.entity.set<Entity & {y: number}>(
+        store.entity.update<Entity & {y: number}>(
             props.entity().id,
             {y: Number(target.value)}
         );

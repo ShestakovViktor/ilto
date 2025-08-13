@@ -26,11 +26,11 @@ export class MoveEntityAction extends Action<void> {
 
     execute(): void {
         const entity = this.storeContext.store.entity
-            .getById<Entity & Spatial>(this.entityId);
+            .select<Entity & Spatial>(this.entityId);
 
         if (!entity) throw new Error();
 
-        this.storeContext.store.entity.set<Entity & Spatial>(
+        this.storeContext.store.entity.update<Entity & Spatial>(
             this.entityId,
             {x: entity.x + this.shiftX, y: entity.y + this.shiftY}
         );
@@ -38,11 +38,11 @@ export class MoveEntityAction extends Action<void> {
 
     revert(): void {
         const entity = this.storeContext.store.entity
-            .getById<Entity & Spatial>(this.entityId);
+            .select<Entity & Spatial>(this.entityId);
 
         if (!entity) throw new Error();
 
-        this.storeContext.store.entity.set<Entity & Spatial>(
+        this.storeContext.store.entity.update<Entity & Spatial>(
             this.entityId,
             {
                 x: entity.x - this.shiftX,

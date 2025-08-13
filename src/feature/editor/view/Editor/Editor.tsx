@@ -43,7 +43,7 @@ export function Editor(): JSX.Element {
 
         editorRef.focus();
 
-        const parent = storeContext.store.entity.getById<Parent>(3);
+        const parent = storeContext.store.entity.select<Parent>(3);
         if (!parent) throw new Error();
 
         editorContext.setState({layer: parent});

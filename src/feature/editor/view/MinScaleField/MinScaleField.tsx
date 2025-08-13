@@ -12,12 +12,12 @@ export function MinScaleField(): JSX.Element {
     const storeContext = useStoreContext();
 
     const minScale = createMemo(
-        () => storeContext.store.config.getByParams({name: "minScale"})[0]
+        () => storeContext.store.config.selectByParams({name: "minScale"})[0]
     );
 
     function handleChange (event: Event): void {
         const target = event.target as HTMLInputElement;
-        storeContext.store.config.set<Param>(
+        storeContext.store.config.update<Param>(
             minScale().id,
             {value: Number(target.value)}
         );

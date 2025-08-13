@@ -33,7 +33,7 @@ export class AreaCreate extends InputMode {
         const parent = this.editorContext.state.layer;
         if (!parent) throw new Error();
 
-        const area = store.entity.add<Area>({
+        const area = store.entity.create<Area>({
             entityTypeId: ENTITY_TYPE.AREA,
             x,
             y,
@@ -45,16 +45,16 @@ export class AreaCreate extends InputMode {
         });
 
         store.entity
-            .set<Parent>(parent.id, {childIds: [...parent.childIds, area.id]});
+            .update<Parent>(parent.id, {childIds: [...parent.childIds, area.id]});
 
-        const footnote = store.entity.add<Footnote>({
+        const footnote = store.entity.create<Footnote>({
             entityTypeId: ENTITY_TYPE.FOOTNOTE,
             text: "",
             figureIds: [],
             parentId: area.id,
         });
 
-        store.entity.set<Area>(area.id, {footnoteId: footnote.id});
+        store.entity.update<Area>(area.id, {footnoteId: footnote.id});
 
         return area;
     }
@@ -83,7 +83,7 @@ export class AreaCreate extends InputMode {
 
                 const res = pushAreaPoint(area, click);
 
-                this.storeContext.store.entity.set<Area>(area.id, res);
+                this.storeContext.store.entity.update<Area>(area.id, res);
             }
 
             editorContext.setState({dockArea: {items: [UI_MODE.ENTITY_FORM]}});

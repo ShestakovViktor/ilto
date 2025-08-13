@@ -33,7 +33,7 @@ export function AppearanceSection(props: Props): JSX.Element {
 
         if (!propId) return undefined;
 
-        const prop = storeContext.store.asset.getById<Prop>(propId);
+        const prop = storeContext.store.asset.select<Prop>(propId);
 
         if (!prop) return undefined;
 
@@ -56,7 +56,7 @@ export function AppearanceSection(props: Props): JSX.Element {
             <PropBrowser
                 selected={selectedProp()}
                 onSelect={(ids: number[]) => {
-                    storeContext.store.entity.set<Entity & {propId: number}>(
+                    storeContext.store.entity.update<Entity & {propId: number}>(
                         props.entity().id,
                         {propId: ids[0]}
                     );
@@ -71,7 +71,7 @@ export function AppearanceSection(props: Props): JSX.Element {
 
         if (!motionId) return undefined;
 
-        const motion = storeContext.store.asset.getById<Motion>(motionId);
+        const motion = storeContext.store.asset.select<Motion>(motionId);
 
         if (!motion) return undefined;
 
@@ -79,7 +79,7 @@ export function AppearanceSection(props: Props): JSX.Element {
     });
 
     const classList = createMemo(() => {
-        return {[motionClass() || ""]:  Boolean(motionClass())};
+        return {[motionClass() || ""]: Boolean(motionClass())};
     });
 
     const selectedMotion = createMemo(() => {
@@ -96,10 +96,11 @@ export function AppearanceSection(props: Props): JSX.Element {
             <MotionBrowser
                 selected={selectedMotion()}
                 onSelect={(ids: number[]) => {
-                    storeContext.store.entity.set<Entity & {motionId: number}>(
-                        props.entity().id,
-                        {motionId: ids[0]}
-                    );
+                    storeContext.store.entity
+                        .update<Entity & {motionId: number}>(
+                            props.entity().id,
+                            {motionId: ids[0]}
+                        );
                     motionBrowserDialog.hide();
                 }}
             />

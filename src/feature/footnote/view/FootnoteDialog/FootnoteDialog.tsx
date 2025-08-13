@@ -22,7 +22,7 @@ export function FootnoteDialog(props: Props): JSX.Element {
         const footnoteId = props.entity().footnoteId;
         if (!footnoteId) throw new Error();
 
-        const footnote = store.entity.getById<Footnote>(footnoteId);
+        const footnote = store.entity.select<Footnote>(footnoteId);
         if (!footnote) throw new Error();
 
         return footnote;
