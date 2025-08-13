@@ -64,11 +64,11 @@ export class WebpackHtmlPlugin {
     }
 
     isEditorBundle(fileName) {
-        return fileName.includes("editor") && fileName.endsWith(".js");
+        return fileName.includes("editor_") && fileName.endsWith(".js");
     }
 
     isViewerBundle(fileName) {
-        return fileName.includes("viewer") && fileName.endsWith(".js");
+        return fileName.includes("viewer_") && fileName.endsWith(".js");
     }
 
     async getTemplate() {
