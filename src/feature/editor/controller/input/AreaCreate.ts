@@ -98,4 +98,6 @@ export class AreaCreate extends InputMode {
     onMouseMove(event: PointerEvent): void {
         event.stopPropagation();
     }
+
+    onMouseUp(): void {}
 }

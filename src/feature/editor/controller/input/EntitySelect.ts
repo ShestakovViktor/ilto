@@ -77,10 +77,12 @@ export class EntitySelect extends InputMode {
 
         this.end = {
             x: Math.floor(
-                (event.x - this.offset.x - this.viewerContext.state.x) / state.scale
+                (event.x - this.offset.x - this.viewerContext.state.x)
+                / state.scale
             ),
             y: Math.floor(
-                (event.y - this.offset.y - this.viewerContext.state.y) / state.scale
+                (event.y - this.offset.y - this.viewerContext.state.y)
+                / state.scale
             ),
         };
 

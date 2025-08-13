@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+export abstract class InputMode {
+    abstract onMouseDown(event: MouseEvent): void;
 
-export class InputMode {
-    onMouseDown(event: MouseEvent): void {}
+    abstract onMouseMove(event: MouseEvent): void;
 
-    onMouseMove(event: MouseEvent): void {}
-
-    onMouseUp(event: MouseEvent): void {}
+    abstract onMouseUp(event: MouseEvent): void;
 }

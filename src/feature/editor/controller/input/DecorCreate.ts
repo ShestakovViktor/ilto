@@ -65,4 +65,8 @@ export class DecorCreate extends InputMode {
 
         return decor;
     }
+
+    onMouseUp(): void {}
+
+    onMouseMove(): void {}
 }

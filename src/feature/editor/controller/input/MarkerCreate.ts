@@ -23,12 +23,10 @@ export class MarkerCreate extends InputMode {
     }
 
     onMouseDown(event: MouseEvent): void {
-        const x = Math.floor(
-            (event.x - this.viewerContext.state.x) / this.viewerContext.state.scale
-        );
-        const y = Math.floor(
-            (event.y - this.viewerContext.state.y) / this.viewerContext.state.scale
-        );
+        const x = Math.floor((event.x - this.viewerContext.state.x)
+            / this.viewerContext.state.scale);
+        const y = Math.floor((event.y - this.viewerContext.state.y)
+            / this.viewerContext.state.scale);
 
         const marker = this.editorContext.action.execute(
             new CreateMarkerAction(this.storeContext, this.editorContext, x, y)
@@ -41,4 +39,8 @@ export class MarkerCreate extends InputMode {
 
         event.preventDefault();
     }
+
+    onMouseMove(): void {}
+
+    onMouseUp(): void {}
 }
