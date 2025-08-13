@@ -1,17 +1,17 @@
 import {Media} from "@feature/editor/controller";
 
-import assert from "assert";
-
 describe("Media", () => {
-    it("Convert media type to file extension", function () {
-        const media = new Media();
+    let media: Media;
 
-        assert.equal(media.typeToExtension("image/svg+xml"), "svg");
+    beforeEach(() => {
+        media = new Media();
     });
 
-    it("Convert file extension to media type", function () {
-        const media = new Media();
+    it("should convert media type to file extension", () => {
+        expect(media.typeToExtension("image/svg+xml")).toBe("svg");
+    });
 
-        assert.equal(media.extensionToType("svg"), "image/svg+xml");
+    it("should convert file extension to media type", () => {
+        expect(media.extensionToType("svg")).toBe("image/svg+xml");
     });
 });
