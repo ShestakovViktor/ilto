@@ -37,7 +37,7 @@ export class CreateMarkerAction extends Action<Marker> {
         };
     }
 
-    execute(): Marker {
+    submit(): Marker {
         const storeContext = this.storeContext;
 
         const parent = this.editorContext.state.layer;

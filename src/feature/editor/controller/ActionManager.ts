@@ -1,26 +1,25 @@
-import {Action} from "@feature/editor/controller";
-import {useEditorContext} from "../context";
-import {EditorContext} from "../type";
-import {DEBUG_LEVEL} from "../enum";
+import {Action, LogManager} from "@feature/editor/controller";
+import {LOG_LEVEL} from "@feature/editor/enum";
 
 export class ActionManager {
 
-    private executed: Action<any>[] = [];
+    private queue: Action<unknown>[] = [];
 
-    private canceled: Action<any>[] = [];
+    private cursor = this.queue.length;
 
-    private editorContext: EditorContext;
+    private logManager: LogManager;
 
-    constructor() {
-        this.editorContext = useEditorContext();
+    constructor(logManager: LogManager) {
+        this.logManager = logManager;
     }
 
     execute<T>(action: Action<T>): T {
-        const result = action.execute();
-        this.executed.push(action);
-        this.canceled.length = 0;
+        this.queue[this.cursor] = action;
+        this.cursor++;
 
-        this.editorContext.log.log(
+        const result = action.submit();
+
+        this.logManager.log(
             LOG_LEVEL.INFO,
             action.getLogMessage(),
             action.getLogData()
@@ -30,30 +29,25 @@ export class ActionManager {
     }
 
     append<T>(action: Action<T>): void {
-        this.executed.push(action);
-        this.canceled.length = 0;
+        this.queue[this.cursor] = action;
+        this.cursor++;
 
         this.editorContext.log.log(
-            DEBUG_LEVEL.INF,
+            LOG_LEVEL.INFO,
             action.getLogMessage(),
             action.getLogData()
         );
     }
 
     undo(): void {
-        const action = this.executed.pop();
-        if (!action) return;
-
-        action.revert();
-        this.canceled.push(action);
+        if (this.cursor == 0) return;
+        this.cursor--;
+        this.queue[this.cursor].revert();
     }
 
     redo(): void {
-        const action = this.canceled.pop();
-
-        if (!action) return;
-
-        action.execute();
-        this.executed.push(action);
+        if (this.cursor == this.queue.length) return;
+        this.queue[this.cursor].submit();
+        this.cursor++;
     }
 }

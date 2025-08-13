@@ -1,5 +1,5 @@
 import {EditorContext, NotificationRecord} from "@feature/editor/type";
-import {useEditorContext} from "../context";
+import {useEditorContext} from "@feature/editor/context";
 import {uuid} from "@shared/uuid";
 
 export class NotificationManager {
@@ -15,7 +15,7 @@ export class NotificationManager {
 
     private addNotification(
         notification: NotificationRecord
-    ): NotificationRecord  {
+    ): NotificationRecord {
         this.editorContext.setState({
             notification: this.editorContext.state.notification
                 .concat(notification),

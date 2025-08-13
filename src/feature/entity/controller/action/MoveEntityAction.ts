@@ -24,7 +24,7 @@ export class MoveEntityAction extends Action<void> {
         };
     }
 
-    execute(): void {
+    submit(): void {
         const entity = this.storeContext.store.entity
             .select<Entity & Spatial>(this.entityId);
 
