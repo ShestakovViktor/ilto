@@ -14,7 +14,6 @@ describe("Invoker", () => {
             width: 0,
             height: 0,
             points: [{x: 0, y: 0}],
-            parentId: 1,
             footnoteId: null,
         };
     });
