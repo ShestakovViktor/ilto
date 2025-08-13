@@ -4,10 +4,8 @@ import {
     JSX,
     Show,
     Accessor,
-    on,
-    createEffect,
     createMemo,
-    createSignal,
+    For,
 } from "solid-js";
 import {EntityView} from "@feature/entity/view";
 import {useStoreContext} from "@feature/store/context";
@@ -24,7 +22,7 @@ export function MarkerView(props: Props): JSX.Element {
     const storeContext = useStoreContext();
     const viewerContext = useViewerContext();
 
-    let element: HTMLDivElement | undefined;
+    let element!: HTMLDivElement;
 
     const transform = createMemo((): string => {
         const x = props.entity().x * viewerContext.state.scale;
@@ -55,28 +53,22 @@ export function MarkerView(props: Props): JSX.Element {
         return src;
     });
 
-    const [show, setShow] = createSignal(false);
-
-    const hideListener = (event: PointerEvent): void => {
+    function handleOffClick(event: PointerEvent): void {
         if (
             event.target instanceof Element
-            && !element?.contains(event.target)
+            && !element.contains(event.target)
+            && element.classList.contains(styles.Show)
         ) {
-            setShow(false);
+            element.classList.toggle(styles.Show);
+            window.removeEventListener("pointerdown", handleOffClick);
         }
-    };
-
-    createEffect(on(show, (value) => {
-        if (value) {
-            window.addEventListener("pointerdown", hideListener);
-        }
-        else {
-            window.removeEventListener("pointerdown", hideListener);
-        }
-    }, {defer: true}));
+    }
 
     function handleClick(): void {
-        setShow(true);
+        if (!element.classList.contains(styles.Show)) {
+            window.addEventListener("pointerdown", handleOffClick);
+        }
+        element.classList.toggle(styles.Show);
 
         viewerContext.viewport?.focus(props.entity().x, props.entity().y);
     }
@@ -112,9 +104,9 @@ export function MarkerView(props: Props): JSX.Element {
                 </Show>
             </div>
 
-            <Show when={show() && props.entity().footnoteId}>
-                {id => <EntityView entityId={id()}/>}
-            </Show>
+            <For each={props.entity().childIds}>
+                {id => <EntityView entityId={id}/>}
+            </For>
         </div>
     );
 }

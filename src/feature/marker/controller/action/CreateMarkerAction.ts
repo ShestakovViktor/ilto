@@ -44,29 +44,25 @@ export class CreateMarkerAction extends Action<Marker> {
 
         if (!parent) throw new Error();
 
-        const marker = storeContext.store.entity.add<Marker>({
+        const footnote = storeContext.store.entity.create<Footnote>({
+            entityTypeId: ENTITY_TYPE.FOOTNOTE,
+            text: "",
+        });
+
+        const marker = storeContext.store.entity.create<Marker>({
             entityTypeId: ENTITY_TYPE.MARKER,
             x: this.x,
             y: this.y,
             width: 64,
             height: 64,
             propId: null,
-            parentId: parent.id,
-            footnoteId: null,
+            childIds: [footnote.id],
         });
 
-        storeContext.store.entity
-            .set<Layer>(parent.id, {childIds: [...parent.childIds, marker.id]});
-
-        const footnote = storeContext.store.entity.add<Footnote>({
-            entityTypeId: ENTITY_TYPE.FOOTNOTE,
-            text: "",
-            figureIds: [],
-            parentId: marker.id,
-        });
-
-        storeContext.store.entity
-            .set<Marker>(marker.id, {footnoteId: footnote.id});
+        storeContext.store.entity.update<Layer>(
+            parent.id,
+            {childIds: [...parent.childIds, marker.id]}
+        );
 
         this.parentId = parent.id;
         this.markerId = marker.id;
@@ -80,21 +76,21 @@ export class CreateMarkerAction extends Action<Marker> {
 
         if (this.parentId && this.markerId) {
             const parent = this.storeContext.store.entity
-                .getById<Parent>(this.parentId);
+                .select<Parent>(this.parentId);
             if (!parent) throw new Error();
 
-            this.storeContext.store.entity.set<Parent>(this.parentId, {
+            this.storeContext.store.entity.update<Parent>(this.parentId, {
                 childIds: parent.childIds
                     .filter(childId => childId != this.markerId),
             });
         }
 
         if (this.footnoteId) {
-            this.storeContext.store.entity.del(this.footnoteId);
+            this.storeContext.store.entity.delete(this.footnoteId);
         }
 
         if (this.markerId) {
-            this.storeContext.store.entity.del(this.markerId);
+            this.storeContext.store.entity.delete(this.markerId);
         }
     }
 }

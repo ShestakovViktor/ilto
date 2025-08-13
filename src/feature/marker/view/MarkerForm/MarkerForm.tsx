@@ -2,7 +2,6 @@ import en from "./string/en.json";
 import i18next from "i18next";
 
 import {Marker} from "@feature/marker/type";
-import {Parent} from "@feature/entity/type";
 import {Accessor, JSX} from "solid-js";
 import {Accordion, Form} from "@shared/view";
 import {
@@ -10,13 +9,13 @@ import {
     SystemSection,
     AppearanceSection,
     SizeSection,
-    FootnoteSection,
 } from "@feature/entity/view";
 
 import {NamespaceContextProvider} from "@feature/app/context";
 import {useStoreContext} from "@feature/store/context";
 
 import {useEditorContext} from "@feature/editor/context";
+import {DeleteEntityAction} from "@feature/entity/controller/action";
 
 i18next.addResourceBundle("en", "marker", {MarkerForm: en}, true, true);
 
@@ -25,28 +24,16 @@ type Props = {
 };
 
 export function MarkerForm(props: Props): JSX.Element {
-    const {store} = useStoreContext();
+    const storeContext = useStoreContext();
     const editorContext = useEditorContext();
 
     function handleDelete(): void {
-        const {id, parentId, footnoteId} = props.entity();
+        const deleteMarkerAction = new DeleteEntityAction(
+            storeContext.store.entity,
+            props.entity().id
+        );
 
-        if (parentId) {
-            const parent = store.entity.getById<Parent>(parentId);
-            if (!parent) throw new Error();
-
-            store.entity.set<Parent>(parentId, {
-                childIds: parent.childIds.filter(childId => childId != id),
-            });
-        }
-
-        if (footnoteId) {
-            store.entity.del(footnoteId);
-        }
-
-        store.entity.del(id);
-
-        editorContext.setState({selected: undefined});
+        editorContext.action.execute(deleteMarkerAction);
     }
 
     function handleSubmit(event: SubmitEvent): void {
@@ -63,7 +50,7 @@ export function MarkerForm(props: Props): JSX.Element {
                     <PositionSection entity={props.entity}/>
                     <SizeSection entity={props.entity}/>
                     <AppearanceSection entity={props.entity}/>
-                    <FootnoteSection entity={props.entity}/>
+                    {/* <FootnoteSection entity={props.entity}/> */}
                 </Accordion>
             </Form>
         </NamespaceContextProvider>
