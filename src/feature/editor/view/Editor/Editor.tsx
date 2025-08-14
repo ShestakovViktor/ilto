@@ -9,7 +9,7 @@ import {Explorer} from "@feature/explorer/view/Explorer";
 import {
     Dashboard,
     Toolkit,
-    NotificationArea,
+    Notification,
 } from "@feature/editor/view";
 import {
     ActionManager,
@@ -60,7 +60,7 @@ export function Editor(): JSX.Element {
         >
             <Viewer ref={viewerRef}/>
             <Explorer/>
-            <NotificationArea/>
+            <Notification/>
             <Toolkit/>
             <Dashboard/>
             {/* <ModalLayer/> */}
