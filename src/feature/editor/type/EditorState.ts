@@ -7,7 +7,7 @@ export type EditorState = {
 
     layer: Parent | undefined;
 
-    dockArea: {
+    dashboard: {
         items: typeof UI_MODE[keyof typeof UI_MODE][];
     };
 

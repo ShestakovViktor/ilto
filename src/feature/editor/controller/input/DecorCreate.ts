@@ -34,7 +34,7 @@ export class DecorCreate extends InputMode {
 
         this.editorContext.setState({
             selected: decor,
-            dockArea: {items: [UI_MODE.ENTITY_FORM]},
+            dashboard: {items: [UI_MODE.ENTITY_FORM]},
         });
 
         event.preventDefault();

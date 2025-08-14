@@ -20,11 +20,11 @@ export class EntitySelect extends InputMode {
 
     storeContext: StoreContext;
 
-    start: {x: number; y: number} = {x: 0, y:0};
+    start: {x: number; y: number} = {x: 0, y: 0};
 
-    end: {x: number; y: number} = {x: 0, y:0};
+    end: {x: number; y: number} = {x: 0, y: 0};
 
-    offset: {x: number; y: number} = {x: 0, y:0};
+    offset: {x: number; y: number} = {x: 0, y: 0};
 
     constructor() {
         super();
@@ -67,7 +67,7 @@ export class EntitySelect extends InputMode {
 
         this.editorContext.setState({
             selected: entity,
-            dockArea: {items: ["EntityForm"]},
+            dashboard: {items: ["EntityForm"]},
         });
     }
 

@@ -6,7 +6,7 @@ export * from "./InputToolkit";
 export * from "./EditToolkit";
 export * from "./SystemToolkit";
 export * from "./CommandKit";
-export * from "./DockArea";
+export * from "./Dashboard";
 export * from "./ToolKit";
 export * from "./UserInput";
 export * from "./Editor";

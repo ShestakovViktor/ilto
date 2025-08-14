@@ -85,7 +85,7 @@ export class AreaCreate extends InputMode {
                 this.storeContext.store.entity.update<Area>(area.id, res);
             }
 
-            editorContext.setState({dockArea: {items: [UI_MODE.ENTITY_FORM]}});
+            editorContext.setState({dashboard: {items: [UI_MODE.ENTITY_FORM]}});
 
             event.preventDefault();
         }

@@ -23,7 +23,7 @@ export function InputToolkit(): JSX.Element {
             onClick(): void {
                 editorContext.setState({
                     selected: undefined,
-                    dockArea: {items: []},
+                    dashboard: {items: []},
                     inputMode: INPUT_MODE.DEFAULT_VIEW,
                 });
 
@@ -34,7 +34,7 @@ export function InputToolkit(): JSX.Element {
             icon: CursorIconSvg,
             onClick(): void {
                 editorContext.setState({
-                    dockArea: {items: []},
+                    dashboard: {items: []},
                     inputMode: INPUT_MODE.ETITY_SELECT,
                 });
 
@@ -45,7 +45,7 @@ export function InputToolkit(): JSX.Element {
             icon: MarkerIconSvg,
             onClick(): void {
                 editorContext.setState({
-                    dockArea: {items: [UI_MODE.ENTITY_FORM]},
+                    dashboard: {items: [UI_MODE.ENTITY_FORM]},
                     inputMode: INPUT_MODE.MARKER_CREATE,
                 });
 
@@ -56,7 +56,7 @@ export function InputToolkit(): JSX.Element {
             icon: DecorIconSvg,
             onClick(): void {
                 editorContext.setState({
-                    dockArea: {items: [UI_MODE.ENTITY_FORM]},
+                    dashboard: {items: [UI_MODE.ENTITY_FORM]},
                     inputMode: INPUT_MODE.DECOR_CREATE,
                 });
 
@@ -68,7 +68,7 @@ export function InputToolkit(): JSX.Element {
             icon: PolygonIconSvg,
             onClick(): void {
                 editorContext.setState({
-                    dockArea: {items: [UI_MODE.ENTITY_FORM]},
+                    dashboard: {items: [UI_MODE.ENTITY_FORM]},
                     inputMode: INPUT_MODE.AREA_CREATE,
                 });
 

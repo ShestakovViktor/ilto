@@ -34,7 +34,7 @@ export class MarkerCreate extends InputMode {
 
         this.editorContext.setState({
             selected: marker,
-            dockArea: {items: [UI_MODE.ENTITY_FORM]},
+            dashboard: {items: [UI_MODE.ENTITY_FORM]},
         });
 
         event.preventDefault();

@@ -13,7 +13,7 @@ export function EditorContextProvider(props: Props): JSX.Element {
     const [state, setState] = createStore<EditorState>({
         selected: undefined,
         layer: undefined,
-        dockArea: {
+        dashboard: {
             items: [],
         },
         inputMode: INPUT_MODE.ETITY_SELECT,

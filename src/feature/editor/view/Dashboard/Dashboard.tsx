@@ -1,15 +1,15 @@
-import * as styles from "./DockArea.module.scss";
+import * as styles from "./Dashboard.module.scss";
 import {For, JSX, Match, Switch} from "solid-js";
 import {useEditorContext} from "@feature/editor/context";
 import {EntityForm} from "@feature/entity/view";
 import {UI_MODE} from "@feature/editor/enum";
 
-export function DockArea(): JSX.Element {
+export function Dashboard(): JSX.Element {
     const {state} = useEditorContext();
 
     return (
-        <div class={styles.DockArea}>
-            <For each={state.dockArea.items}>
+        <div class={styles.Dashboard}>
+            <For each={state.dashboard.items}>
                 {(item) =>
                     <Switch >
                         <Match when={item == UI_MODE.ENTITY_FORM}>

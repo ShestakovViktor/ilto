@@ -7,7 +7,7 @@ import {EditorContext} from "@feature/editor/type";
 import {Viewer} from "@feature/viewer/view";
 import {Explorer} from "@feature/explorer/view/Explorer";
 import {
-    DockArea,
+    Dashboard,
     CommandKit,
     NotificationArea,
 } from "@feature/editor/view";
@@ -62,7 +62,7 @@ export function Editor(): JSX.Element {
             <Explorer/>
             <NotificationArea/>
             <CommandKit/>
-            <DockArea/>
+            <Dashboard/>
             {/* <ModalLayer/> */}
             {/* <ToolKit/> */}
         </div>
