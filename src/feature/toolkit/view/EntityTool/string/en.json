@@ -1,0 +1,9 @@
+{
+    "delete": "delete",
+    "idLabel": "id",
+    "entityTypeIdLabel": "Type id",
+    "xLabel": "x",
+    "yLabel": "y",
+    "widthLabel": "width",
+    "heightLabel": "height"
+}

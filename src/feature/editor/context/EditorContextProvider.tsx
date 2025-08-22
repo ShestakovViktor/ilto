@@ -1,7 +1,7 @@
 import {createEffect, JSX} from "solid-js";
 import {createStore} from "solid-js/store";
 import {EditorContextObject} from "@feature/editor/context";
-import {INPUT_MODE} from "@feature/editor/enum";
+import {INPUT_MODE, TOOLKIT_MODE} from "@feature/editor/enum";
 import {EditorContext, EditorState} from "@feature/editor/type";
 import {Entity} from "@feature/entity/type";
 
@@ -13,9 +13,7 @@ export function EditorContextProvider(props: Props): JSX.Element {
     const [state, setState] = createStore<EditorState>({
         selected: undefined,
         layer: undefined,
-        dashboard: {
-            items: [],
-        },
+        toolkit: TOOLKIT_MODE.EXPLORE,
         inputMode: INPUT_MODE.ETITY_SELECT,
         notification: [],
     });

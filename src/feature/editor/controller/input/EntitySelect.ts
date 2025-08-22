@@ -67,7 +67,6 @@ export class EntitySelect extends InputMode {
 
         this.editorContext.setState({
             selected: entity,
-            dashboard: {items: ["EntityForm"]},
         });
     }
 

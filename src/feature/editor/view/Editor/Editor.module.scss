@@ -3,40 +3,18 @@
     height: 100%;
 
     position: relative;
-    display: grid;
-    grid-template-columns: 20% auto 20% 16px 320px;
-    grid-template-rows: 20% auto 30% 16px;
-    grid-template-areas: 
-        "explorer .   .   . toolkit " 
-        "explorer .   .   . dockarea" 
-        "explorer . notif . dockarea"
-        "explorer .   .   . dockarea";
+    display: flex;
+    align-items: stretch;
 
     > :nth-child(1) {
-        position: absolute;
-        width: calc(100% - 320px);
-        height: 100%;
-        z-index: 0;
-    }
-
-    > :nth-child(n+2) {
-        z-index: 1;
+        flex: 0 0 auto;
     }
 
     > :nth-child(2) {
-        grid-area: explorer;
+        flex: 0 0 320px;
     }
 
     > :nth-child(3) {
-        grid-area: notif;
-        background-color: lightblue;
-    }
-
-    > :nth-child(4) {
-        grid-area: toolkit;
-    }
-
-    > :nth-child(5) {
-        grid-area: dockarea;
+        flex: 1 1 auto;
     }
 }

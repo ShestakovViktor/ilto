@@ -5,12 +5,7 @@ import {useStoreContext} from "@feature/store/context";
 import {Parent} from "@feature/entity/type";
 import {EditorContext} from "@feature/editor/type";
 import {Viewer} from "@feature/viewer/view";
-import {Explorer} from "@feature/explorer/view/Explorer";
-import {
-    Dashboard,
-    Toolkit,
-    Notification,
-} from "@feature/editor/view";
+import {ToolBar, ToolView} from "@feature/toolkit/view";
 import {
     ActionManager,
     HotkeyManager,
@@ -58,13 +53,11 @@ export function Editor(): JSX.Element {
             ref={editorRef}
             tabIndex={0}
         >
+            <ToolBar/>
+            <ToolView/>
             <Viewer ref={viewerRef}/>
-            <Explorer/>
-            <Notification/>
-            <Toolkit/>
-            <Dashboard/>
+            {/* <Notification/> */}
             {/* <ModalLayer/> */}
-            {/* <ToolKit/> */}
         </div>
     );
 }

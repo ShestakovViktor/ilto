@@ -1,4 +1,6 @@
 .Button {
+    padding: 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -7,17 +9,13 @@
     color: inherit;
 
     cursor: pointer;
-    
+
     .Icon {
-        cursor: pointer;
-        width: 16px;
-        height: 16px;
+        cursor: inherit;
+        pointer-events: none;
     }
 
     .Label {
-        cursor: pointer;
+        cursor: inherit;
     }
 }
-
-
-

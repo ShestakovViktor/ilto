@@ -3,9 +3,8 @@ import {useEditorContext} from "@feature/editor/context";
 import {useStoreContext} from "@feature/store/context";
 import {ENTITY_TYPE} from "@feature/entity/enum";
 import {InputMode} from "@feature/editor/controller";
-import {UI_MODE} from "@feature/editor/enum";
-import {Layer} from "@feature/layer/type";
-import {Decor} from "@feature/decor/type";
+import {Layer} from "@feature/entity/type";
+import {Decor} from "@feature/entity/type";
 import {StoreContext} from "@feature/store/type";
 import {ViewerContext} from "@feature/viewer/type";
 import {EditorContext} from "@feature/editor/type";
@@ -34,7 +33,6 @@ export class DecorCreate extends InputMode {
 
         this.editorContext.setState({
             selected: decor,
-            dashboard: {items: [UI_MODE.ENTITY_FORM]},
         });
 
         event.preventDefault();

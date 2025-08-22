@@ -1,4 +1,4 @@
-import {Motion} from "@feature/motion/type";
-import {Prop} from "@feature/prop/type";
+import {Motion} from "@feature/asset/type";
+import {Prop} from "@feature/asset/type";
 
 export type Assets = Prop | Motion;

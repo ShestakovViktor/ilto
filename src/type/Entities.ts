@@ -1,6 +1,6 @@
-import {Decor} from "@feature/decor/type";
-import {Footnote} from "@feature/footnote/type";
-import {Layer} from "@feature/layer/type";
-import {Marker} from "@feature/marker/type";
+import {Decor} from "@feature/entity/type";
+import {Footnote} from "@feature/entity/type";
+import {Layer} from "@feature/entity/type";
+import {Marker} from "@feature/entity/type";
 
 export type Entities = Marker | Layer | Footnote | Decor;

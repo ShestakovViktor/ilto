@@ -1,0 +1,29 @@
+.ToolView {
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 8px;
+
+    background-color: var(--grey-94);
+
+    .Accordion {
+        gap: 8px;
+
+        .Section {
+            background-color: white;
+            border-radius: 8px;
+
+            .Header {
+                padding: 8px;
+                background-color: var(--grey-98);
+
+                .Title {
+                    font-weight: bold;
+                }
+            }
+
+            .Content {
+                padding: 8px;
+            }
+        }
+    }
+}

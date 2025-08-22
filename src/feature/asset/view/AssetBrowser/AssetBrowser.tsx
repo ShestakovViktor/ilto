@@ -1,5 +1,5 @@
-import PlusIconSvg from "@res/svg/plus.svg";
-import SaltireIconSvg from "@res/svg/saltire.svg";
+import PlusIconSvg from "@res/svg/small/plus.svg";
+import SaltireIconSvg from "@res/svg/small/saltire.svg";
 import * as styles from "./AssetBrowser.module.scss";
 import en from "./string/en.json";
 
@@ -73,7 +73,7 @@ export function AssetBrowser(props: Props): JSX.Element {
                                         if (props.multiple && event.shiftKey) {
                                             setSelected((prev) => {
                                                 return !prev.includes(asset.id)
-                                                    ?  [...prev, asset.id]
+                                                    ? [...prev, asset.id]
                                                     : prev;
                                             });
                                         }

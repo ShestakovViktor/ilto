@@ -1,12 +1,11 @@
 import {createMemo, JSX, ValidComponent} from "solid-js";
-import {TileView} from "@feature/tile/view";
-import {LayerView} from "@feature/layer/view";
-import {MarkerView} from "@feature/marker/view";
+import {TileView, MarkerView} from "@feature/entity/view";
+import {LayerView} from "@feature/entity/view";
 import {Dynamic} from "solid-js/web";
 import {ENTITY_TYPE} from "@feature/entity/enum";
-import {DecorView} from "@feature/decor/view";
-import {AreaView} from "@feature/area/view";
-import {FootnoteView} from "@feature/footnote/view";
+import {DecorView} from "@feature/entity/view";
+import {AreaView} from "@feature/entity/view";
+import {FootnoteView} from "@feature/entity/view";
 import {useStoreContext} from "@feature/store/context";
 
 type Props = {

@@ -1,5 +1,6 @@
 .Viewer {
     overflow: hidden;
+    position: relative;
 
     .Canvas {
         transform-origin: top left;

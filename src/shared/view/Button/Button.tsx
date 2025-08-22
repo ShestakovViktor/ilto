@@ -2,39 +2,48 @@ import * as styles from "./Button.module.scss";
 
 import {JSX, Show} from "solid-js";
 
-import {Icon} from "@shared/view";
-
 type Props = {
-    class?: string;
-    pressed?: string;
-
     label?: string;
-    tooltip?: string;
     icon?: string;
-    name?: string;
+    pressed?: boolean;
+    classList?: Partial<{
+        pressed: string;
+        button: string;
+        icon: string;
+        label: string;
+    }>;
 
     onClick?: (event?: MouseEvent) => void;
 };
 
 export function Button(props: Props): JSX.Element {
+    const {classList} = props;
+
     return (
-        <button
+        <div
+            class={styles.Button}
             classList={{
-                [styles.Button]: true,
-                [props.class ?? ""]: Boolean(props.class),
-                [props.pressed ?? ""]: Boolean(props.pressed),
+                [classList?.button ?? ""]: true,
+                [classList?.pressed ?? ""]: props.pressed,
             }}
-            title={props.tooltip}
             onClick={props.onClick}
-            name={props.name}
         >
             <Show when={props.icon}>
-                <Icon class={styles.Icon} svg={props.icon!}/>
+                <div
+                    class={styles.Icon}
+                    classList={{[classList?.icon ?? ""]: true}}
+                    innerHTML={props.icon}
+                    onClick={props.onClick}
+                />
             </Show>
-
             <Show when={props.label}>
-                <label class={styles.Label}>{props.label}</label>
+                <div
+                    class={styles.Label}
+                    classList={{[classList?.label ?? ""]: true}}
+                >
+                    {props.label}
+                </div>
             </Show>
-        </button>
+        </div>
     );
 }

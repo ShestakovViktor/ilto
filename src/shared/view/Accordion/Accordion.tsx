@@ -6,7 +6,14 @@ import {createLocalStorageSyncSignal} from "@feature/app/service";
 
 type Props = {
     children: JSX.Element | JSX.Element[];
-    class?: string;
+    classList?: Partial<{
+        accordion: string;
+        section: string;
+        header: string;
+        title: string;
+        expand: string;
+        content: string;
+    }>;
 };
 
 export function Accordion(props: Props): JSX.Element {
@@ -16,7 +23,7 @@ export function Accordion(props: Props): JSX.Element {
     const sections = childs.toArray() as unknown as SectionProps[];
 
     return (
-        <div class={styles.Accordion}>
+        <div class={`${styles.Accordion} ${props.classList?.accordion || ""}`}>
             <For each={sections}>
                 {(child) => {
                     const name = namespaceContext.namespace
@@ -32,24 +39,24 @@ export function Accordion(props: Props): JSX.Element {
                     return (
                         <div
                             id={child.id}
-                            class={styles.Section}
+                            class={`${styles.Section} ${props.classList?.section || ""}`}
                             classList={{
-                                [styles.Selected]: Boolean(getExpand()),
+                                [styles.Expanded]: Boolean(getExpand()),
                             }}
                         >
                             <div
-                                class={styles.Header}
+                                class={`${styles.Header} ${props.classList?.header || ""}`}
                                 onClick={() => setExpand(!Boolean(getExpand()))}
                             >
-                                <div class={styles.Title}>
+                                <div class={`${styles.Title} ${props.classList?.title || ""}`}>
                                     {child.title}
                                 </div>
-                                <div class={styles.Expand}>
+                                <div class={`${styles.Expand} ${props.classList?.expand || ""}`}>
                                     {getExpand() ? "-" : "+"}
                                 </div>
                             </div>
                             <div
-                                class={styles.Content}
+                                class={`${styles.Content} ${props.classList?.content || ""}`}
                                 classList={{
                                     [child.class!]: Boolean(child.class),
                                 }}

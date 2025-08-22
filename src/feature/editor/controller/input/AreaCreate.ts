@@ -1,13 +1,13 @@
 import {useViewerContext} from "@feature/viewer/context";
 import {MOUSE} from "@enum";
-import {pushAreaPoint} from "@feature/area/controller/pushAreaPoint";
+import {pushAreaPoint} from "@feature/entity/controller/pushAreaPoint";
 import {useStoreContext} from "@feature/store/context";
 import {useEditorContext} from "@feature/editor/context";
 import {InputMode} from "@feature/editor/controller";
-import {UI_MODE} from "@feature/editor/enum";
-import {Area} from "@feature/area/type/Area";
+import {TOOLKIT_MODE} from "@feature/editor/enum";
+import {Area} from "@feature/entity/type/Area";
 import {Parent} from "@feature/entity/type";
-import {Footnote} from "@feature/footnote/type/Footnote";
+import {Footnote} from "@feature/entity/type/Footnote";
 import {ENTITY_TYPE} from "@feature/entity/enum";
 import {StoreContext} from "@feature/store/type";
 import {ViewerContext} from "@feature/viewer/type";
@@ -85,7 +85,7 @@ export class AreaCreate extends InputMode {
                 this.storeContext.store.entity.update<Area>(area.id, res);
             }
 
-            editorContext.setState({dashboard: {items: [UI_MODE.ENTITY_FORM]}});
+            // editorContext.setState({toolkit: {items: [TOOLKIT_MODE.ENTITY_FORM]}});
 
             event.preventDefault();
         }

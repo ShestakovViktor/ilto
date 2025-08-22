@@ -2,8 +2,7 @@ import {InputMode} from "@feature/editor/controller";
 import {useViewerContext} from "@feature/viewer/context";
 import {useEditorContext} from "@feature/editor/context";
 import {useStoreContext} from "@feature/store/context";
-import {UI_MODE} from "@feature/editor/enum";
-import {CreateMarkerAction} from "@feature/marker/controller/action";
+import {CreateMarkerAction} from "@feature/entity/controller/action";
 import {StoreContext} from "@feature/store/type";
 import {EditorContext} from "@feature/editor/type";
 import {ViewerContext} from "@feature/viewer/type";
@@ -34,7 +33,6 @@ export class MarkerCreate extends InputMode {
 
         this.editorContext.setState({
             selected: marker,
-            dashboard: {items: [UI_MODE.ENTITY_FORM]},
         });
 
         event.preventDefault();

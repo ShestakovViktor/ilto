@@ -1,7 +1,7 @@
 import {ASSET_TYPE} from "@feature/asset/enum";
 import {DISPLAY_OPTION} from "@feature/entity/enum";
 import {ENTITY_TYPE} from "@feature/entity/enum";
-import {Layer} from "@feature/layer/type";
+import {Layer} from "@feature/entity/type";
 import {Data, Param} from "@type";
 
 export function initData(config?: {[key: number]: Param}): Data {

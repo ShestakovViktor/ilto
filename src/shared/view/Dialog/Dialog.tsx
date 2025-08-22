@@ -1,5 +1,5 @@
 import * as styles from "./Dialog.module.scss";
-import SaltireIconSvg from "@res/svg/saltire.svg";
+import SaltireIconSvg from "@res/svg/small/saltire.svg";
 import {Button} from "@shared/view";
 
 import {JSX, Show, onMount} from "solid-js";

@@ -1,0 +1,19 @@
+.Button {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 8px;
+
+    .Icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .Label {
+        display: block;
+    }
+
+    &.Pressed {
+        border: 1px solid black;
+    }
+}
