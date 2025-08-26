@@ -7,10 +7,10 @@ type Props = {
     icon?: string;
     pressed?: boolean;
     classList?: Partial<{
-        pressed: string;
-        button: string;
-        icon: string;
-        label: string;
+        Pressed: string;
+        Button: string;
+        Icon: string;
+        Label: string;
     }>;
 
     onClick?: (event?: MouseEvent) => void;
@@ -23,15 +23,15 @@ export function Button(props: Props): JSX.Element {
         <div
             class={styles.Button}
             classList={{
-                [classList?.button ?? ""]: true,
-                [classList?.pressed ?? ""]: props.pressed,
+                [classList?.Button ?? ""]: true,
+                [classList?.Pressed ?? ""]: props.pressed,
             }}
             onClick={props.onClick}
         >
             <Show when={props.icon}>
                 <div
                     class={styles.Icon}
-                    classList={{[classList?.icon ?? ""]: true}}
+                    classList={{[classList?.Icon ?? ""]: true}}
                     innerHTML={props.icon}
                     onClick={props.onClick}
                 />
@@ -39,7 +39,7 @@ export function Button(props: Props): JSX.Element {
             <Show when={props.label}>
                 <div
                     class={styles.Label}
-                    classList={{[classList?.label ?? ""]: true}}
+                    classList={{[classList?.Label ?? ""]: true}}
                 >
                     {props.label}
                 </div>

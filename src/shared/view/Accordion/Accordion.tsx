@@ -1,8 +1,6 @@
 import * as styles from "./Accordion.module.scss";
-import {For, JSX, children} from "solid-js";
+import {For, JSX, children, createSignal} from "solid-js";
 import {SectionProps} from "./Section";
-import {useNamespaceContext} from "@feature/app/context";
-import {createLocalStorageSyncSignal} from "@feature/app/service";
 
 type Props = {
     children: JSX.Element | JSX.Element[];
@@ -17,47 +15,65 @@ type Props = {
 };
 
 export function Accordion(props: Props): JSX.Element {
-    const namespaceContext = useNamespaceContext();
+    const {classList} = props;
 
     const childs = children(() => props.children);
-    const sections = childs.toArray() as unknown as SectionProps[];
 
     return (
-        <div class={`${styles.Accordion} ${props.classList?.accordion || ""}`}>
-            <For each={sections}>
+        <div
+            class={styles.Accordion}
+            classList={{
+                [classList?.accordion ?? ""]: true,
+            }}
+        >
+            <For each={childs.toArray() as unknown as SectionProps[]}>
                 {(child) => {
-                    const name = namespaceContext.namespace
-                        + "."
-                        + child.title
-                        + "Section"
-                        + "."
-                        + "expand";
+                    // const name = namespaceContext.namespace
+                    //     + "."
+                    //     + child.title
+                    //     + "Section"
+                    //     + "."
+                    //     + "expand";
 
-                    const [getExpand, setExpand]
-                        = createLocalStorageSyncSignal(false, {name});
+                    const [getExpand, setExpand] = createSignal(false);
 
                     return (
                         <div
                             id={child.id}
-                            class={`${styles.Section} ${props.classList?.section || ""}`}
+                            class={styles.Section}
                             classList={{
+                                [classList?.section ?? ""]: true,
                                 [styles.Expanded]: Boolean(getExpand()),
                             }}
                         >
                             <div
-                                class={`${styles.Header} ${props.classList?.header || ""}`}
+                                class={styles.Header}
+                                classList={{
+                                    [classList?.header ?? ""]: true,
+                                }}
                                 onClick={() => setExpand(!Boolean(getExpand()))}
                             >
-                                <div class={`${styles.Title} ${props.classList?.title || ""}`}>
+                                <div
+                                    class={styles.Title}
+                                    classList={{
+                                        [classList?.title ?? ""]: true,
+                                    }}
+                                >
                                     {child.title}
                                 </div>
-                                <div class={`${styles.Expand} ${props.classList?.expand || ""}`}>
+                                <div
+                                    class={styles.Expand}
+                                    classList={{
+                                        [classList?.expand ?? ""]: true,
+                                    }}
+                                >
                                     {getExpand() ? "-" : "+"}
                                 </div>
                             </div>
                             <div
-                                class={`${styles.Content} ${props.classList?.content || ""}`}
+                                class={styles.Content}
                                 classList={{
+                                    [classList?.content ?? ""]: true,
                                     [child.class!]: Boolean(child.class),
                                 }}
                             >

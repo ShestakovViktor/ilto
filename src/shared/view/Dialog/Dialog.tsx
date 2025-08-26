@@ -1,6 +1,6 @@
 import * as styles from "./Dialog.module.scss";
 import SaltireIconSvg from "@res/svg/small/saltire.svg";
-import {Button} from "@shared/view";
+import {Button} from "@src/shared/view";
 
 import {JSX, Show, onMount} from "solid-js";
 
@@ -33,6 +33,7 @@ export function Dialog(props: Props): JSX.Element {
                         <Button
                             icon={SaltireIconSvg}
                             onClick={props.onClose}
+                            classList={{Icon: styles.Icon}}
                         />
                     </Show>
                 </div>

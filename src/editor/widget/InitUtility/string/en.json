@@ -1,0 +1,8 @@
+{
+    "nameField": "name",
+    "backgroundField": "background",
+    "create": "create",
+    "cancel": "cancel",
+    "width": "width",
+    "height": "height"
+}

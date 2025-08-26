@@ -6,10 +6,9 @@
 
     overflow: auto;
 
-    background: var(--white);
 
     border-radius: 8px;
-    border: 1px solid var(--grey-90);
+    border: 1px solid var(--gray-90);
 
     box-shadow: 0px 4px 8px 0px hsla(0, 0%, 30%, 0.2);
 
@@ -20,7 +19,7 @@
 
         .Title {
             grid-area: Title;
-            color: var(--grey-60);
+            color: var(--gray-60);
             font-size: 12px;
             white-space: nowrap;
         }
@@ -28,11 +27,9 @@
         .Control {
             grid-area: Control;
 
-            button {
-                width: 32px;
-                height: 32px;
-                border: unset;
-
+            .Icon {
+                width: 16px;
+                height: 16px;
             }
         }
     }

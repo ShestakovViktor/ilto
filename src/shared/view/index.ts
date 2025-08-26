@@ -13,3 +13,4 @@ export * from "./Page";
 export * from "./Row";
 export * from "./Tabs";
 export * from "./Input";
+export * from "./Spoiler";

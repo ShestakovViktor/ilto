@@ -24,13 +24,13 @@ export class WebpackTscPlugin {
 
 export class WebpackHtmlPlugin {
     apply(compiler) {
-        compiler.hooks.compilation.tap(
+        compiler.hooks.thisCompilation.tap(
             "webpack-html-plugin",
             (compilation) => this.onCompilation(compilation)
         );
     }
 
-    async onCompilation(compilation) {
+    onCompilation(compilation) {
         compilation.hooks.processAssets.tapAsync(
             {
                 name: "webpack-html-plugin",
@@ -46,29 +46,55 @@ export class WebpackHtmlPlugin {
 
     async onProcessAssets(compilation, assets, callback) {
         const template = await this.getTemplate();
-        let editorHtml;
 
-        for (const fileName in compilation.assets) {
+        for (const fileName in assets) {
             if (this.isEditorBundle(fileName)) {
-                const inject = `<script defer module src="${fileName}"></script>`;
-                editorHtml = template.replace("<!-- inject -->", inject);
+                const data = {
+                    output: "index.html",
+                    title: "Editor",
+                    bundle: `<script defer module src="${fileName}"></script>`,
+                    content: "<div id=\"editor\" style=\"width:100%; height: 100%\"></div>",
+                };
+
+                const editorHtml = template
+                    .replace("<!-- bundle -->", data.bundle)
+                    .replace("<!-- title -->", data.title)
+                    .replace("<!-- content -->", data.content);
+
+                compilation.emitAsset(
+                    data.output,
+                    new webpack.sources.RawSource(editorHtml)
+                );
+            }
+            else if (this.isViewerBundle(fileName)) {
+                const data = {
+                    output: "viewer.html",
+                    title: "Viewer",
+                    bundle: `<script defer module src="${fileName}"></script>`,
+                    content: "<div id=\"viewer\" style=\"width:100%; height: 100%\" data-src=\"/project/\"></div>",
+                };
+
+                const editorHtml = template
+                    .replace("<!-- bundle -->", data.bundle)
+                    .replace("<!-- title -->", data.title)
+                    .replace("<!-- content -->", data.content);
+
+                compilation.emitAsset(
+                    data.output,
+                    new webpack.sources.RawSource(editorHtml)
+                );
             }
         }
-
-        compilation.emitAsset(
-            "index.html",
-            new webpack.sources.RawSource(editorHtml)
-        );
 
         callback();
     }
 
     isEditorBundle(fileName) {
-        return fileName.includes("editor_") && fileName.endsWith(".js");
+        return fileName.match(/editor(_\w+)?\.js/gm);
     }
 
     isViewerBundle(fileName) {
-        return fileName.includes("viewer_") && fileName.endsWith(".js");
+        return fileName.match(/viewer(_\w+)?\.js/gm);
     }
 
     async getTemplate() {

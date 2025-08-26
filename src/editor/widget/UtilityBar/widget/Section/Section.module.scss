@@ -1,0 +1,20 @@
+.Section {
+
+    >.Header {
+        display: flex;
+        justify-content: space-between;
+
+        >.Title {
+            font-weight: bold;
+        }
+    }
+
+    >.Content {
+        padding: 8px;
+        display: none;
+    }
+
+    &.Expand>.Content {
+        display: block;
+    }
+}

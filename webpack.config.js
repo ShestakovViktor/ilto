@@ -33,7 +33,7 @@ export default (env) => {
                 new WebpackTscPlugin(),
             ],
             output: {
-                filename: "[name]_[fullhash:2].js",
+                filename: "[name]_[fullhash:5].js",
             },
         };
 

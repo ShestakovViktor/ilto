@@ -14,23 +14,23 @@
     }
 
     &:active {
-        background-color: var(--grey-80);
+        background-color: var(--gray-80);
     }
 }
 
 @mixin Pressed {
-    background-color: var(--grey-80);
+    background-color: var(--gray-80);
 }
 
 @mixin Input {
     padding: 8px;
     border-radius: 8px;
     color: inherit;
-    background-color: var(--grey-96);
+    background-color: var(--gray-96);
 
     &[readonly] {
-        color: var(--grey-60);
-        background-color: var(--grey-98);
+        color: var(--gray-60);
+        background-color: var(--gray-98);
         cursor: default;
     }
 }

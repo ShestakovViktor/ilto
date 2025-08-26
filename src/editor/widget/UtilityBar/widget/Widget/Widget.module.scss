@@ -1,0 +1,48 @@
+.Widget {
+    gap: 8px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+
+    >.Header {
+        padding: 8px;
+        background-color: var(--gray-98);
+        display: flex;
+        justify-content: space-between;
+
+
+        >.Title {
+            font-weight: bold;
+        }
+    }
+
+    .Content {
+        padding: 8px;
+    }
+
+    &.Collapsed {
+        .Content {
+            display: none;
+        }
+    }
+
+    .Button {
+        width: 42px;
+        height: 42px;
+
+        border-radius: 8px;
+
+        .Icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .Label {
+            display: block;
+        }
+
+        &.Pressed {
+            border: 1px solid black;
+        }
+    }
+}

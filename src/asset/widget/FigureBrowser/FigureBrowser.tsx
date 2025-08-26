@@ -1,0 +1,52 @@
+import en from "./string/en.json";
+import * as styles from "./FigureBrowser.module.scss";
+
+import {JSX} from "solid-js";
+import i18next from "i18next";
+import {AssetBrowser} from "@src/asset/widget";
+import {Modal, Dialog} from "@src/shared/view";
+import {ASSET_TYPE} from "@src/asset/enum";
+import {useSharedContext} from "@src/shared/context";
+import {FigureForm} from "@src/asset/widget";
+
+i18next.addResourceBundle("en", "prop", {"PropSelect": en}, true, true);
+
+type Props = {
+    selected?: number[];
+    onSelect?: (ids: number[]) => void;
+};
+
+export function FigureBrowser(props: Props): JSX.Element {
+    const {database} = useSharedContext();
+
+    const [figureType] = database.data.assetType
+        .filter({name: ASSET_TYPE.FIGURE});
+
+    if (!figureType) throw new Error();
+
+    const FigureFormDialog = new Modal();
+    FigureFormDialog.render(
+        <Dialog
+            class={styles.FigureFormDialog}
+            onClose={() => FigureFormDialog.hide()}
+        >
+            <FigureForm onSubmit={() => FigureFormDialog.hide()}/>
+        </Dialog>
+    );
+
+    return (
+        <AssetBrowser
+            type={figureType.id}
+            selected={props.selected}
+            onCreate={() => {
+                FigureFormDialog.show();
+            }}
+            onDelete={(ids) => {
+                ids.forEach((id) => {
+                    database.data.asset.delete(id);
+                });
+            }}
+            onSelect={props.onSelect}
+        />
+    );
+}
