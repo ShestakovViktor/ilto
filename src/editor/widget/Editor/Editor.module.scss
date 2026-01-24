@@ -6,8 +6,10 @@
 
     display: grid;
     grid-template-columns: 60px 320px auto;
-    grid-template-rows: auto;
-    grid-template-areas: "tool utility workspace";
+    grid-template-rows: auto 24px;
+    grid-template-areas:
+        "tool   utility workspace"
+        "status status  status   ";
 
     > :nth-child(1) {
         grid-area: tool;
@@ -22,6 +24,11 @@
     }
 
     > :nth-child(4) {
+        grid-area: status;
+    }
+
+    > :nth-child(5) {
         grid-area: workspace;
+        position: absolute;
     }
 }

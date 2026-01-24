@@ -27,8 +27,8 @@ export class DecorCreate extends InputMode {
     }
 
     onMouseDown(event: MouseEvent): void {
-        const x = Math.floor((event.x - this.viewer.x) / this.viewer.scale);
-        const y = Math.floor((event.y - this.viewer.y) / this.viewer.scale);
+        const x = Math.floor(event.x /*- this.viewer.x*/ / this.viewer.scale);
+        const y = Math.floor(event.y /*- this.viewer.y*/ / this.viewer.scale);
 
         const decor = this.initEntity(x, y);
 

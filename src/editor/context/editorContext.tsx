@@ -32,7 +32,7 @@ export const editorContext = createContext<EditorContext | undefined>();
 
 export function EditorProvider(props: Props): JSX.Element {
     const {database, linker, browser, archiver} = useSharedContext();
-    const {viewer, viewManager} = useViewerContext();
+    const {viewer} = useViewerContext();
 
     const [session, setSession] = createStore<Session>({
         selected: undefined,
@@ -66,7 +66,7 @@ export function EditorProvider(props: Props): JSX.Element {
         [INPUT_MODE.DEFAULT_VIEW]: new DefaultView(),
         [INPUT_MODE.ETITY_SELECT]: new EntitySelect(
             database,
-            viewManager,
+            viewer,
             setSession,
             actionManager
         ),

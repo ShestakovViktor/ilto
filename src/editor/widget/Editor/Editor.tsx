@@ -1,6 +1,12 @@
 import {JSX} from "solid-js";
 import * as styles from "./Editor.module.scss";
-import {ModalLayer, ToolBar, UtilityBar, WorkSpace} from "@src/editor/widget";
+import {
+    ModalLayer,
+    StatusBar,
+    ToolBar,
+    UtilityBar,
+    WorkSpace,
+} from "@src/editor/widget";
 import {Viewer} from "@src/viewer/widget";
 
 export function Editor(): JSX.Element {
@@ -11,6 +17,7 @@ export function Editor(): JSX.Element {
             <WorkSpace>
                 <Viewer/>
             </WorkSpace>
+            <StatusBar/>
             <ModalLayer/>
             {/* <Notification/> */}
         </div>

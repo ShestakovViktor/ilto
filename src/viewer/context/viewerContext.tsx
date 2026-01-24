@@ -15,8 +15,6 @@ export const viewerContext = createContext<ViewerContext | undefined>();
 export function ViewerProvider(props: Props): JSX.Element {
     const [viewer, setViewer] = createStore<ViewerState>({
         mode: VIEWER_MODE.PRODUCTION,
-        x: 0,
-        y: 0,
         scale: 1,
     });
 

@@ -1,5 +1,6 @@
 export * from "./ToolBar";
 export * from "./UtilityBar";
+export * from "./StatusBar";
 export * from "./WorkSpace";
 export * from "./ExploreUtility";
 export * from "./LayerUtility";

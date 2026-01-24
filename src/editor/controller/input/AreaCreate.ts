@@ -69,8 +69,8 @@ export class AreaCreate extends InputMode {
     onMouseDown(event: MouseEvent): void {
         event.stopPropagation();
 
-        const x = Math.floor((event.x - this.viewer.x) / this.viewer.scale);
-        const y = Math.floor((event.y - this.viewer.y) / this.viewer.scale);
+        const x = Math.floor(event.x /*- this.viewer.x*/ / this.viewer.scale);
+        const y = Math.floor(event.y /*- this.viewer.y*/ / this.viewer.scale);
         const click = {x, y};
 
         if (event.buttons == MOUSE.LEFT) {

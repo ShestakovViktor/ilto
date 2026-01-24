@@ -5,7 +5,7 @@ import {MoveEntityAction} from "@src/entity/controller/action";
 import {Database} from "@src/shared/controller";
 import {SetStoreFunction} from "solid-js/store";
 import {Session} from "@src/editor/type";
-import {ViewManager} from "@src/viewer/controller";
+import {ViewerState} from "@src/viewer/type";
 
 export class EntitySelect extends InputMode {
     private element?: HTMLElement;
@@ -22,7 +22,7 @@ export class EntitySelect extends InputMode {
 
     constructor(
         private database: Database,
-        private viewManager: ViewManager,
+        private viewer: ViewerState,
         private setEditorState: SetStoreFunction<Session>,
         private actionManager: ActionManager
     ) {
@@ -105,11 +105,11 @@ export class EntitySelect extends InputMode {
         this.database.data.entity.update<Spatial>(this.entity?.id, {
             x: Math.round(
                 (event.x - this.parent.x - this.offset.x)
-                                / this.viewManager.s.curr
+                                / this.viewer.scale
             ),
             y: Math.round(
                 (event.y - this.parent.y - this.offset.y)
-                                / this.viewManager.s.curr
+                                / this.viewer.scale
             ),
         });
 

@@ -48,7 +48,7 @@ export class ViewManager {
         ease: this.linearEasing,
     };
 
-    public s: Tween = {
+    private s: Tween = {
         init: 1,
         curr: 1,
         dest: 1,
@@ -72,8 +72,6 @@ export class ViewManager {
     private intertia = 5;
 
     constructor(private setState: SetStoreFunction<{
-        x: number;
-        y: number;
         scale: number;
     }>) {}
 
@@ -182,7 +180,11 @@ export class ViewManager {
         else if (this.gesture.double) {
             const oldDelta = this.s.dest / this.s.curr;
             const foo = gesture.y - this.gesture.y;
-            const newDelta = Math.pow(Math.exp(Math.abs(foo) * 0.01), Math.sign(foo));
+            const newDelta = Math.pow(
+                Math.exp(Math.abs(foo) * 0.01),
+                Math.sign(foo)
+            );
+
             this.handleZoom(
                 oldDelta,
                 newDelta,
@@ -382,6 +384,8 @@ export class ViewManager {
             this.canvas.e
                 .style.transform = `translate(${x}, ${y}) scale(${s})`;
         }
+
+        this.setState({scale: this.s.curr});
 
         this.updateId = x != 1 || y != 1 || s != 1
             ? requestAnimationFrame(() => this.update()) : undefined;

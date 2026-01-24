@@ -25,8 +25,8 @@ export function MarkerWidget(props: Props): JSX.Element {
     let element!: HTMLDivElement;
 
     const transform = createMemo((): string => {
-        const x = props.entity().x * viewer.scale;
-        const y = props.entity().y * viewer.scale;
+        const x = props.entity().x;
+        const y = props.entity().y;
 
         return `translate3d(${x}px, ${y}px, 0px)`;
     });

@@ -21,9 +21,9 @@ export class MarkerCreate extends InputMode {
         const rect = (event.currentTarget as HTMLDivElement)
             .getBoundingClientRect();
 
-        const x = Math.floor((event.x - rect.x - this.viewer.x)
+        const x = Math.floor((event.x - rect.x)
             / this.viewer.scale);
-        const y = Math.floor((event.y - rect.y - this.viewer.y)
+        const y = Math.floor((event.y - rect.y)
             / this.viewer.scale);
 
         const marker = this.actionManager.execute(
