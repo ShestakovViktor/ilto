@@ -134,7 +134,9 @@ export function DisplayUtility(): JSX.Element {
                             class={styles.Preview}
                             src={propSrc()}
                             draggable={false}
-                            onPointerDown={() => propBrowserDialog.show()}
+                            onPointerDown={() => {
+                                propBrowserDialog.show();
+                            }}
                         />
                     </Show>
                 </Section>
