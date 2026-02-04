@@ -12,6 +12,8 @@ type Props = {
 export function Widget(props: Props): JSX.Element {
     const {storage, setStorage} = useEditorContext();
 
+    let contentRef!: HTMLDivElement;
+
     const childs = children(() => props.children);
 
     const {uid} = props;
@@ -24,6 +26,28 @@ export function Widget(props: Props): JSX.Element {
 
     function toggleCollapsed() {
         setStorage("widget", uid, "collapsed", (prev) => !prev);
+    }
+
+    function startResize(event: MouseEvent) {
+        const y = event.y;
+        const h = state.height || contentRef.getBoundingClientRect().height;
+
+        function handleResize(event: MouseEvent) {
+
+            if (event.button === 0 && y != undefined) {
+                setStorage("widget", uid, "height", h + (event.y - y));
+            }
+        }
+
+        function stopResize() {
+            window.removeEventListener("mousemove", handleResize);
+            window.removeEventListener("mouseup", stopResize);
+        }
+
+        window.addEventListener("mousemove", handleResize);
+        window.addEventListener("mouseup", stopResize);
+
+        event.preventDefault();
     }
 
     return (
@@ -50,8 +74,15 @@ export function Widget(props: Props): JSX.Element {
                 classList={{
                     [props?.class ?? ""]: true,
                 }}
+                style={{height: state.height + "px"}}
+                ref={contentRef}
             >
                 {childs()}
+            </div>
+            <div
+                class={styles.Edge}
+                onMouseDown={startResize}
+            >
             </div>
         </div>
     );

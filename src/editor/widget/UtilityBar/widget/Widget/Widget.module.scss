@@ -1,8 +1,14 @@
 .Widget {
-    gap: 8px;
     background-color: white;
     border-radius: 8px;
     overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    &:not(:last-child) {
+        margin-bottom: 8px;
+    }
 
     >.Header {
         padding: 8px;
@@ -18,31 +24,23 @@
 
     .Content {
         padding: 8px;
+        overflow: scroll;
+        flex-grow: 1;
     }
 
     &.Collapsed {
-        .Content {
+
+        .Content,
+        .Edge {
             display: none;
         }
     }
 
-    .Button {
-        width: 42px;
-        height: 42px;
-
-        border-radius: 8px;
-
-        .Icon {
-            width: 16px;
-            height: 16px;
-        }
-
-        .Label {
-            display: block;
-        }
-
-        &.Pressed {
-            border: 1px solid black;
-        }
+    .Edge {
+        width: 100%;
+        height: 6px;
+        background: red;
+        cursor: ns-resize;
+        background-color: var(--gray-98);
     }
 }

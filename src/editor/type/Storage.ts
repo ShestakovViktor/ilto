@@ -1,5 +1,8 @@
 export type Storage = {
     widget: {
-        [key: string]: {collapsed: boolean};
+        [key: string]: {
+            collapsed: boolean;
+            height: number;
+        };
     };
 };
