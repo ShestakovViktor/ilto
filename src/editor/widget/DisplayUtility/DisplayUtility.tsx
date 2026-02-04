@@ -18,7 +18,11 @@ import {PropBrowser} from "@src/asset/widget";
 
 i18next.addResourceBundle("en", "entity", {AppearanceSection: en}, true, true);
 
-export function DisplayUtility(): JSX.Element {
+type Props = {
+    uid: string;
+};
+
+export function DisplayUtility(props: Props): JSX.Element {
     const {session} = useEditorContext();
     const {database} = useSharedContext();
     const {path} = useViewerContext();
@@ -114,7 +118,7 @@ export function DisplayUtility(): JSX.Element {
     return (
         <Widget
             class={styles.DisplayUtility}
-            uid="cqsa"
+            uid={props.uid}
             title="Display"
         >
             <Show when={isVisual(entityMemo())}>

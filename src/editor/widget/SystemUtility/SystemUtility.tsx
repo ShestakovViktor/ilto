@@ -18,7 +18,11 @@ import {TOOLKIT_MODE} from "@src/editor/enum";
 
 i18next.addResourceBundle("en", "editor", {SystemKit: en}, true, true);
 
-export function SystemUtility(): JSX.Element {
+type Props = {
+    uid: string;
+};
+
+export function SystemUtility(props: Props): JSX.Element {
     const {archiver, browser, linker, database} = useSharedContext();
     const {setSession} = useEditorContext();
     // const {notification} = useEditorContext();
@@ -58,7 +62,7 @@ export function SystemUtility(): JSX.Element {
     }
 
     return (
-        <Widget uid="qwfe" title="System">
+        <Widget uid={props.uid} title="System">
             <Section uid="mwef" title="Create">
                 <List>
                     <ListItem onClick={handleInit}>

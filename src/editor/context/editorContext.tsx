@@ -42,8 +42,10 @@ export function EditorProvider(props: Props): JSX.Element {
         notification: [],
     });
 
+    const data = localStorage.getItem("storage");
+
     const [storage, setStorage] = createStore<Storage>(
-        JSON.parse(localStorage.getItem("storage") || "") || {widget: {}}
+        data ? JSON.parse(data) : {widget: {}}
     );
 
     createEffect(on(

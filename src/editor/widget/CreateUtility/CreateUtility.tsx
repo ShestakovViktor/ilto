@@ -15,7 +15,11 @@ import {
     Widget,
 } from "@src/editor/widget/UtilityBar/widget/Widget";
 
-export function CreateUtility(): JSX.Element {
+type Props = {
+    uid: string;
+};
+
+export function CreateUtility(props: Props): JSX.Element {
     const editorContext = useEditorContext();
     const viewerContext = useViewerContext();
     const [pressed, setPressed] = createSignal(0);
@@ -84,7 +88,7 @@ export function CreateUtility(): JSX.Element {
         <Widget
             title="Create entity"
             class={styles.Widget}
-            uid={"efjw"}
+            uid={props.uid}
         >
             <For each={buttons}>
                 {(button, index) =>

@@ -10,7 +10,11 @@ import {Widget, Section} from "@src/editor/widget/UtilityBar/widget";
 
 i18next.addResourceBundle("en", "tool", {Entity: en}, true, true);
 
-export function EntityUtility(): JSX.Element {
+type Props = {
+    uid: string;
+};
+
+export function EntityUtility(props: Props): JSX.Element {
     const editorContext = useEditorContext();
     const {database} = useSharedContext();
 
@@ -80,7 +84,7 @@ export function EntityUtility(): JSX.Element {
     };
 
     return (
-        <Widget uid="dvaq" title="Entity">
+        <Widget uid={props.uid} title="Entity">
             <Section uid="vadf" title="system">
                 <Field>
                     <label for="id">{labels.id}</label>

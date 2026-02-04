@@ -7,7 +7,11 @@ import {useEditorContext} from "@src/editor/context";
 import {Layer} from "@src/entity/type";
 import {Type} from "@src/shared/type";
 
-export function LayerUtility(): JSXElement {
+type Props = {
+    uid: string;
+};
+
+export function LayerUtility(props: Props): JSXElement {
     const {database} = useSharedContext();
     const {session, setSession} = useEditorContext();
 
@@ -18,7 +22,7 @@ export function LayerUtility(): JSXElement {
         .filter<Layer>({entityTypeId: layerType.id});
 
     return (
-        <Widget uid="qvda" title="Layers">
+        <Widget uid={props.uid} title="Layers">
             <div class={styles.Layers}>
                 <For each={layers}>
                     {layer =>

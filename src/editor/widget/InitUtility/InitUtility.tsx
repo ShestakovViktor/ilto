@@ -9,7 +9,11 @@ import {Widget} from "../UtilityBar/widget/Widget";
 
 i18next.addResourceBundle("en", "editor", {InitTool: en}, true, true);
 
-export function InitUtility(): JSX.Element {
+type Props = {
+    uid: string;
+};
+
+export function InitUtility(props: Props): JSX.Element {
     const {database} = useSharedContext();
 
     function projectCreate(event: SubmitEvent): void {
@@ -28,7 +32,7 @@ export function InitUtility(): JSX.Element {
     }
 
     return (
-        <Widget uid="wlaf" title="Init">
+        <Widget uid={props.uid} title="Init">
             <form
                 class={styles.InitTool}
                 onSubmit={projectCreate}

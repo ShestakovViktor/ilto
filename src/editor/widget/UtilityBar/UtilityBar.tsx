@@ -1,9 +1,8 @@
 import * as styles from "./UtilityBar.module.scss";
-import {Component, createMemo, For, JSX, Show} from "solid-js";
+import {createMemo, JSX, Show} from "solid-js";
 import {useEditorContext} from "@src/editor/context";
 import {TOOLKIT_MODE} from "@src/editor/enum";
 import {ExploreUtility} from "@src/editor/widget";
-import {Dynamic} from "solid-js/web";
 import {
     CreateUtility,
     DisplayUtility,
@@ -15,7 +14,7 @@ import {
 
 type Toolkit = {
     namespace: string;
-    utility: Component[];
+    utility: JSX.Element[];
 };
 
 export function UtilityBar(): JSX.Element {
@@ -24,23 +23,27 @@ export function UtilityBar(): JSX.Element {
     const kits: {[key: string]: Toolkit} = {
         [TOOLKIT_MODE.SYSTEM]: {
             namespace: "SystemToolkit",
-            utility: [SystemUtility],
+            utility: [<SystemUtility uid="fvqw"/>],
         },
         [TOOLKIT_MODE.INIT]: {
             namespace: "InitToolkit",
-            utility: [InitUtility],
+            utility: [<InitUtility uid="lwnm"/>],
         },
         [TOOLKIT_MODE.EXPLORE]: {
             namespace: "ExploreToolkit",
-            utility: [ExploreUtility, EntityUtility, DisplayUtility],
+            utility: [
+                <ExploreUtility uid="bmds"/>,
+                <EntityUtility uid="lbnr"/>,
+                <DisplayUtility uid="modf"/>,
+            ],
         },
         [TOOLKIT_MODE.EDIT]: {
             namespace: "EditUtilities",
             utility: [
-                CreateUtility,
-                LayerUtility,
-                EntityUtility,
-                DisplayUtility,
+                <CreateUtility uid="fwgb"/>,
+                <LayerUtility uid="pbdv"/>,
+                <EntityUtility uid="cvdf"/>,
+                <DisplayUtility uid="basd"/>,
             ],
         },
     };
@@ -50,9 +53,7 @@ export function UtilityBar(): JSX.Element {
     return (
         <div class={styles.UtilityBar}>
             <Show when={kit()} keyed>
-                <For each={kit().utility}>
-                    {utility => <Dynamic component={utility}/>}
-                </For>
+                {kit().utility}
             </Show>
         </div>
     );
