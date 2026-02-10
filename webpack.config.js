@@ -1,7 +1,11 @@
 import path from "path";
 import url from "url";
 import {merge} from "webpack-merge";
-import {WebpackHtmlPlugin, WebpackTscPlugin} from "./webpack.plugin.js";
+import {
+    WebpackHtmlPlugin,
+    WebpackTscPlugin,
+    WebpackCopyPlugin,
+} from "./webpack.plugin.js";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,6 +23,12 @@ export default (env) => {
                 publicPath: "./",
                 clean: true,
             },
+            plugins: [
+                new WebpackCopyPlugin(
+                    path.resolve(__dirname, "./public/demo.ilto"),
+                    path.resolve(__dirname, "./build/demo.ilto")
+                ),
+            ],
         }
         : {
             mode: "development",
@@ -27,7 +37,7 @@ export default (env) => {
                 port: 3000,
                 hot: true,
                 compress: true,
-                static: ["./build"],
+                static: ["./public"],
             },
             plugins: [
                 new WebpackTscPlugin(),

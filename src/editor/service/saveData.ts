@@ -12,5 +12,5 @@ export async function saveData(
     const dataClone = JSON.parse(JSON.stringify(data));
     const blobs = await linker.unloadBlobs(dataClone);
     const archive = await archiver.archive(blobs);
-    await browser.putBlob("save.ilto", archive);
+    await browser.putLocalBlob("save.ilto", archive);
 }

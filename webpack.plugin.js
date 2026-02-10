@@ -101,3 +101,20 @@ export class WebpackHtmlPlugin {
         return await fs.readFile("./res/html/template.html", "utf8");
     }
 }
+
+export class WebpackCopyPlugin {
+    constructor(source, destination) {
+        this.source = source;
+        this.destination = destination;
+    }
+
+    apply(compiler) {
+        compiler.hooks.afterEmit.tapAsync(
+            "webpack-copy-plugin",
+            async (_, callback) => {
+                await fs.copyFile(this.source, this.destination);
+                callback();
+            }
+        );
+    }
+}

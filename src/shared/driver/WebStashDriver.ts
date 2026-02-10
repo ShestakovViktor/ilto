@@ -32,19 +32,21 @@ export class WebStashDriver {
         });
     }
 
-    async getBlob(
-        name: string
-    ): Promise<Blob> {
+    async getRemoteBlob(path: string): Promise<Blob> {
+        const response = await fetch(path);
+        const blob = await response.blob();
+
+        return blob;
+    }
+
+    async getLocalBlob(name: string): Promise<Blob> {
         const root = await navigator.storage.getDirectory();
         const dataFileHandle = await root.getFileHandle(name);
         const blob = await dataFileHandle.getFile();
         return blob;
     }
 
-    async putBlob(
-        name: string,
-        file: Blob
-    ): Promise<void> {
+    async putLocalBlob(name: string, file: Blob): Promise<void> {
         // const persistent = await navigator.storage.persist();
         // if (persistent) {
         //     console.log("Storage will not be cleared except by explicit user action");
@@ -54,7 +56,6 @@ export class WebStashDriver {
         // }
 
         const root = await navigator.storage.getDirectory();
-
         const dataFileHandle = await root.getFileHandle(name, {create: true});
         const dataFileWritableStream = await dataFileHandle.createWritable();
         await dataFileWritableStream.write(file);
