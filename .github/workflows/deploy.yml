@@ -1,7 +1,7 @@
 name: Deploy to Pages
 on:
   push:
-    branches: ["main"]
+    branches: ["dev"]
   workflow_dispatch:
 
 permissions:
@@ -23,8 +23,7 @@ jobs:
         node-version: "18"
         cache: "npm"
     - run: npm install
-    - run: npm run editor-build
-    - run: npm run viewer-build
+    - run: npm run build
     - uses: actions/configure-pages@main
     - uses: actions/upload-pages-artifact@main
       with:
