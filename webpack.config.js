@@ -14,9 +14,6 @@ export default (env) => {
     const conditional = env.WEBPACK_BUILD
         ? {
             mode: "production",
-            externals: {
-                "jszip": "JSZip",
-            },
             output: {
                 filename: "[name].js",
                 path: path.resolve(__dirname, "./build"),
