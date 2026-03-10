@@ -69,7 +69,7 @@ export class ViewManager {
 
     private updateId?: number;
 
-    private intertia = 5;
+    private inertia = 5;
 
     constructor(private setState: SetStoreFunction<{
         scale: number;
@@ -282,7 +282,7 @@ export class ViewManager {
         this.x = {
             curr: this.x.curr,
             init: this.x.init,
-            dest: this.x.init + (this.x.dest - this.x.init) * this.intertia,
+            dest: this.x.init + (this.x.dest - this.x.init) * this.inertia,
             ease: this.outEasing,
             time,
             span,
@@ -291,9 +291,9 @@ export class ViewManager {
         this.handleBounds(this.x, this.frame.w, this.canvas.w * this.s.curr);
 
         this.y = {
-            curr: this.x.curr,
+            curr: this.y.curr,
             init: this.y.init,
-            dest: this.y.init + (this.y.dest - this.y.init) * this.intertia,
+            dest: this.y.init + (this.y.dest - this.y.init) * this.inertia,
             ease: this.outEasing,
             time,
             span,
