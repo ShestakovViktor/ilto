@@ -1,5 +1,5 @@
 import * as styles from "./LayerUtility.module.scss";
-import {For, JSXElement} from "solid-js";
+import {createMemo, For, JSXElement, on} from "solid-js";
 import {Widget} from "@src/editor/widget/UtilityBar/widget";
 import {useSharedContext} from "@src/shared/context";
 import {ENTITY_TYPE} from "@src/entity/enum";
@@ -18,13 +18,15 @@ export function LayerUtility(props: Props): JSXElement {
     const [layerType] = database.data.entityType
         .filter<Type>({name: ENTITY_TYPE.LAYER});
 
-    const layers = database.data.entity
-        .filter<Layer>({entityTypeId: layerType.id});
+    const layers = createMemo(on(database.reloaded, () =>
+        database.data.entity
+            .filter<Layer>({entityTypeId: layerType.id})
+    ));
 
     return (
         <Widget uid={props.uid} title="Layers">
             <div class={styles.Layers}>
-                <For each={layers}>
+                <For each={layers()}>
                     {layer =>
                         <div
                             class={styles.Layer}
