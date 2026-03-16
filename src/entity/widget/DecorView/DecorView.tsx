@@ -6,8 +6,7 @@ import {useViewerContext} from "@src/viewer/context";
 import {useSharedContext} from "@src/shared/context";
 import {Icon} from "@src/shared/view";
 import {Decor} from "@src/entity/type";
-import {Motion} from "@src/asset/type";
-import {Prop} from "@src/asset/type";
+import {Asset} from "@src/asset/type";
 
 type Props = {
     entity: Accessor<Decor>;
@@ -29,7 +28,7 @@ export function DecorView(props: Props): JSX.Element {
 
         if (!propId) return undefined;
 
-        const prop = database.data.asset.select<Prop>(propId);
+        const prop = database.data.asset.select<Asset>(propId);
 
         if (!prop) return undefined;
 
@@ -43,11 +42,11 @@ export function DecorView(props: Props): JSX.Element {
 
         if (!motionId) return undefined;
 
-        const motion = database.data.asset.select<Motion>(motionId);
+        const motion = database.data.asset.select<Asset>(motionId);
 
         if (!motion) return undefined;
 
-        return motion.class;
+        return "REPLACE ME";
     });
 
     const classList = createMemo(() => {

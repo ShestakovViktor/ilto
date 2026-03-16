@@ -5,7 +5,7 @@ import {JSX} from "solid-js";
 import i18next from "i18next";
 import {AssetBrowser} from "@src/asset/widget";
 import {Modal, Dialog} from "@src/shared/view";
-import {ASSET_TYPE} from "@src/asset/enum";
+import {AssetKind} from "@src/asset/enum";
 import {useSharedContext} from "@src/shared/context";
 import {FigureForm} from "@src/asset/widget";
 
@@ -19,11 +19,6 @@ type Props = {
 export function FigureBrowser(props: Props): JSX.Element {
     const {database} = useSharedContext();
 
-    const [figureType] = database.data.assetType
-        .filter({name: ASSET_TYPE.FIGURE});
-
-    if (!figureType) throw new Error();
-
     const FigureFormDialog = new Modal();
     FigureFormDialog.render(
         <Dialog
@@ -36,7 +31,7 @@ export function FigureBrowser(props: Props): JSX.Element {
 
     return (
         <AssetBrowser
-            type={figureType.id}
+            type={AssetKind.Image}
             selected={props.selected}
             onCreate={() => {
                 FigureFormDialog.show();

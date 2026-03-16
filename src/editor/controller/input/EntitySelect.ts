@@ -1,5 +1,5 @@
 import {MOUSE} from "@src/shared/enum";
-import {ActionManager, InputMode} from "@src/editor/controller";
+import {ActionManager, InputHandler} from "@src/editor/controller";
 import {Entity, Spatial} from "@src/entity/type";
 import {MoveEntityAction} from "@src/entity/controller/action";
 import {Database} from "@src/shared/controller";
@@ -7,7 +7,7 @@ import {SetStoreFunction} from "solid-js/store";
 import {Session} from "@src/editor/type";
 import {ViewerState} from "@src/viewer/type";
 
-export class EntitySelect extends InputMode {
+export class EntitySelect extends InputHandler {
     private element?: HTMLElement;
 
     private entity?: Entity & Spatial;

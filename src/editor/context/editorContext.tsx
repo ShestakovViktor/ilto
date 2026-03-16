@@ -1,6 +1,6 @@
 import {JSX, createContext, createEffect, on, useContext} from "solid-js";
 import {createStore} from "solid-js/store";
-import {INPUT_MODE, TOOLKIT_MODE} from "@src/editor/enum";
+import {InputMode, ToolkitMode} from "@src/editor/enum";
 import {EditorContext, Session, Storage} from "@src/editor/type";
 import {useSharedContext} from "@src/shared/context";
 import {useViewerContext} from "@src/viewer/context";
@@ -37,8 +37,8 @@ export function EditorProvider(props: Props): JSX.Element {
     const [session, setSession] = createStore<Session>({
         selected: undefined,
         layer: undefined,
-        toolkit: TOOLKIT_MODE.SYSTEM,
-        inputMode: INPUT_MODE.ETITY_SELECT,
+        toolkit: ToolkitMode.System,
+        inputMode: InputMode.EntitySelect,
         notification: [],
     });
 
@@ -65,28 +65,28 @@ export function EditorProvider(props: Props): JSX.Element {
     ]);
 
     const inputManager = new InputManager({
-        [INPUT_MODE.DEFAULT_VIEW]: new DefaultView(),
-        [INPUT_MODE.ETITY_SELECT]: new EntitySelect(
+        [InputMode.DefaultView]: new DefaultView(),
+        [InputMode.EntitySelect]: new EntitySelect(
             database,
             viewer,
             setSession,
             actionManager
         ),
-        [INPUT_MODE.MARKER_CREATE]: new MarkerCreate(
+        [InputMode.MarkerCreate]: new MarkerCreate(
             viewer,
             session,
             setSession,
             actionManager,
             database
         ),
-        [INPUT_MODE.DECOR_CREATE]: new DecorCreate(
+        [InputMode.DecorCreate]: new DecorCreate(
             viewer,
             session,
             setSession,
             actionManager,
             database
         ),
-        [INPUT_MODE.AREA_CREATE]: new AreaCreate(
+        [InputMode.AreaCreate]: new AreaCreate(
             viewer,
             session,
             setSession,

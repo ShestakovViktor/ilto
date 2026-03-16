@@ -1,15 +1,15 @@
 import {Session} from "@src/editor/type";
-import {InputMode} from "@src/editor/controller";
-import {INPUT_MODE} from "@src/editor/enum";
+import {InputHandler} from "@src/editor/controller";
+import {InputMode} from "@src/editor/enum";
 
 export class InputManager {
-    active: InputMode;
+    active: InputHandler;
 
-    constructor(private modes: {[key in Session["inputMode"]]: InputMode}) {
+    constructor(private modes: {[key in Session["inputMode"]]: InputHandler}) {
         this.active = this.modes.DefaultView;
     }
 
-    setMode(mode: typeof INPUT_MODE[keyof typeof INPUT_MODE]) {
+    setMode(mode: InputMode) {
         this.active = this.modes[mode];
     }
 }

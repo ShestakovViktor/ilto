@@ -13,7 +13,7 @@ import {JSXElement, createMemo, createSignal} from "solid-js";
 import {useSharedContext} from "@src/shared/context";
 import {Entity, Parent} from "@src/entity/type";
 import {Button, Icon} from "@src/shared/view";
-import {ENTITY_TYPE} from "@src/entity/enum";
+import {EntityKind} from "@src/entity/enum";
 import {useEditorContext} from "@src/editor/context";
 
 type Props = {
@@ -58,31 +58,27 @@ export function EntityNode(props: Props): JSXElement {
             : undefined;
     });
 
-    const entityType = database.data.entityType
-        .select(entityMemo().entityTypeId);
-
-    const icons = {
-        [ENTITY_TYPE.LAYER]: {
+    const icons: {[key: string]: {label: string; icon: string}} = {
+        [EntityKind.Layer]: {
             label: "layer",
             icon: LayerIconSvg,
         },
-        [ENTITY_TYPE.TILE]: {
+        [EntityKind.Tile]: {
             label: "tile",
             icon: TileIconSvg,
         },
-        [ENTITY_TYPE.MARKER]: {
+        [EntityKind.Marker]: {
             label: "marker",
             icon: MarkerIconSvg,
         },
-        [ENTITY_TYPE.FOOTNOTE]: {
+        [EntityKind.Footnote]: {
             label: "footnote",
             icon: FootnoteIconSvg,
         },
     };
 
-    const boop = entityType
-        ? icons[entityType.name]
-        : {
+    const boop = icons[entityMemo().kind]
+        || {
             label: "undefined",
             icon: TrashIconSvg,
         };

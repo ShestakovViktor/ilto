@@ -4,11 +4,11 @@ import {Portal} from "solid-js/web";
 import {useViewerContext} from "@src/viewer/context";
 import {useSharedContext} from "@src/shared/context";
 import {EntityView} from "@src/entity/widget";
-import {ASSET_TYPE} from "@src/asset/enum";
-import {CONFIG_OPTION} from "@src/editor/enum";
-import {Parameter, Type} from "@src/shared/type";
-import {Motion} from "@src/asset/type";
+import {AssetKind} from "@src/asset/enum";
+import {ConfigOption} from "@src/editor/enum";
+import {Parameter} from "@src/shared/type";
 import {Layer} from "@src/entity/type";
+import {Asset} from "@src/asset/type";
 
 export function Viewer(): JSX.Element {
     const {database} = useSharedContext();
@@ -21,22 +21,17 @@ export function Viewer(): JSX.Element {
         database.data.entity.select<Layer>(1)
     ));
 
-    const motions = createMemo(on(database.reloaded, () => {
-        const [motionType] = database.data.assetType
-            .filter<Type>({name: ASSET_TYPE.MOTION});
-
-        if (!motionType) throw new Error();
-
+    const keyframes = createMemo(on(database.reloaded, () => {
         return database.data.asset
-            .filter<Motion>({assetTypeId: ASSET_TYPE.MOTION});
+            .filter<Asset>({kind: AssetKind.Keyframe});
     }));
 
     const style = createMemo(on(database.reloaded, () => {
         const [widthOption] = database.data.config
-            .filter<Parameter>({name: CONFIG_OPTION.WIDTH});
+            .filter<Parameter>({name: ConfigOption.Width});
 
         const [heightOption] = database.data.config
-            .filter<Parameter>({name: CONFIG_OPTION.HEIGHT});
+            .filter<Parameter>({name: ConfigOption.Height});
 
         if (!widthOption || !heightOption) throw new Error();
 
@@ -59,10 +54,10 @@ export function Viewer(): JSX.Element {
                 }
                 </Show>
             </div>
-            <For each={motions()}>
-                {(motion) =>
+            <For each={keyframes()}>
+                {(keyframe) =>
                     <Portal mount={document.querySelector("head")!}>
-                        <link href={path + motion.path} rel="stylesheet"/>
+                        <link href={path + keyframe.path} rel="stylesheet"/>
                     </Portal>
                 }
             </For>

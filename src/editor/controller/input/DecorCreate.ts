@@ -1,14 +1,12 @@
-import {ENTITY_TYPE} from "@src/entity/enum";
-import {ActionManager, InputMode} from "@src/editor/controller";
+import {EntityKind} from "@src/entity/enum";
+import {ActionManager, InputHandler} from "@src/editor/controller";
 import {Layer, Decor} from "@src/entity/type";
-import {Type} from "@src/shared/type";
 import {Session} from "@src/editor/type";
 import {ViewerState} from "@src/viewer/type";
 import {SetStoreFunction} from "solid-js/store";
 import {Database} from "@src/shared/controller";
 
-export class DecorCreate extends InputMode {
-    private decorType: Type;
+export class DecorCreate extends InputHandler {
 
     constructor(
         private viewer: ViewerState,
@@ -18,12 +16,6 @@ export class DecorCreate extends InputMode {
         private database: Database
     ) {
         super();
-        const [decorType] = this.database.data.entityType
-            .filter({name: ENTITY_TYPE.DECOR});
-
-        if (!decorType) throw new Error();
-
-        this.decorType = decorType;
     }
 
     onMouseDown(event: MouseEvent): void {
@@ -45,7 +37,7 @@ export class DecorCreate extends InputMode {
         if (!parent) throw new Error();
 
         const decor = this.database.data.entity.create<Decor>({
-            entityTypeId: this.decorType.id,
+            kind: EntityKind.Decor,
             x,
             y,
             width: 64,

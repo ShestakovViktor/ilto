@@ -1,11 +1,11 @@
 import {JSX} from "solid-js";
 import en from "./string/en.json";
 import {FileField, NameField} from "@src/asset/widget";
-import {ASSET_TYPE} from "@src/asset/enum";
-import {Prop} from "@src/asset/type";
+import {AssetKind} from "@src/asset/enum";
 import {useSharedContext} from "@src/shared/context";
 import i18next from "i18next";
 import {AssetForm} from "@src/asset/widget/AssetForm";
+import {Asset} from "@src/asset/type";
 
 i18next.addResourceBundle("en", "prop", {PropForm: en}, true, true);
 
@@ -17,9 +17,6 @@ type Props = {
 export function PropForm(props: Props): JSX.Element {
     const {database} = useSharedContext();
 
-    const [propType] = database.data.assetType
-        .filter({name: ASSET_TYPE.PROP});
-
     function handleSubmit(event: SubmitEvent): void {
         event.preventDefault();
         const form = event.target as HTMLFormElement;
@@ -28,11 +25,9 @@ export function PropForm(props: Props): JSX.Element {
 
         const file = formData.get("file") as File;
 
-        if (!propType) throw new Error();
-
-        const asset = database.data.asset.create<Prop>({
-            assetTypeId: propType.id,
-            media: file.type,
+        const asset = database.data.asset.create<Asset>({
+            kind: AssetKind.Image,
+            mime: file.type,
             name: file.name,
             size: file.size,
             path: URL.createObjectURL(file),

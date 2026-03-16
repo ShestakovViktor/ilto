@@ -1,5 +1,5 @@
 import {Action, LogManager} from "@src/editor/controller";
-import {LOG_LEVEL} from "@src/editor/enum";
+import {LogLevel} from "@src/editor/enum";
 
 export class ActionManager {
 
@@ -20,7 +20,7 @@ export class ActionManager {
         const result = action.submit();
 
         this.logManager.log(
-            LOG_LEVEL.INFO,
+            LogLevel.Info,
             action.getLogMessage(),
             action.getLogData()
         );
@@ -33,7 +33,7 @@ export class ActionManager {
         this.cursor++;
 
         this.logManager.log(
-            LOG_LEVEL.INFO,
+            LogLevel.Info,
             action.getLogMessage(),
             action.getLogData()
         );

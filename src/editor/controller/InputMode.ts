@@ -1,4 +1,4 @@
-export abstract class InputMode {
+export abstract class InputHandler {
     abstract onMouseDown(event: MouseEvent): void;
 
     abstract onMouseMove(event: MouseEvent): void;

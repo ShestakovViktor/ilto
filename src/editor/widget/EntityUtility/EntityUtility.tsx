@@ -61,8 +61,8 @@ export function EntityUtility(props: Props): JSX.Element {
             "tool:Entity.idLabel",
             {postProcess: ["capitalize"]}
         ),
-        entityTypeId: i18next.t(
-            "tool:Entity.entityTypeIdLabel",
+        kind: i18next.t(
+            "tool:Entity.kindLabel",
             {postProcess: ["capitalize"]}
         ),
         x: i18next.t(
@@ -95,10 +95,10 @@ export function EntityUtility(props: Props): JSX.Element {
                     />
                 </Field>
                 <Field>
-                    <label for="entityTypeId">{labels.entityTypeId}</label>
+                    <label for="kind">{labels.kind}</label>
                     <Input
-                        name="entityTypeId"
-                        value={String(entityMemo()?.entityTypeId)}
+                        name="kind"
+                        value={String(entityMemo()?.kind)}
                         readonly
                     />
                 </Field>

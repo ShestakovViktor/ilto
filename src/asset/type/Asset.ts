@@ -1,10 +1,11 @@
+import {AssetKind} from "@src/asset/enum";
+
 export type Asset = {
     id: number;
-    assetTypeId: number | null;
-
+    kind: AssetKind;
     size: number;
+    mime: string;
+
     name: string;
     path: string;
-    // data: string;
-    media: string;
 };

@@ -2,10 +2,9 @@ import * as styles from "./LayerUtility.module.scss";
 import {createMemo, For, JSXElement, on} from "solid-js";
 import {Widget} from "@src/editor/widget/UtilityBar/widget";
 import {useSharedContext} from "@src/shared/context";
-import {ENTITY_TYPE} from "@src/entity/enum";
+import {EntityKind} from "@src/entity/enum";
 import {useEditorContext} from "@src/editor/context";
 import {Layer} from "@src/entity/type";
-import {Type} from "@src/shared/type";
 
 type Props = {
     uid: string;
@@ -15,12 +14,9 @@ export function LayerUtility(props: Props): JSXElement {
     const {database} = useSharedContext();
     const {session, setSession} = useEditorContext();
 
-    const [layerType] = database.data.entityType
-        .filter<Type>({name: ENTITY_TYPE.LAYER});
-
     const layers = createMemo(on(database.reloaded, () =>
         database.data.entity
-            .filter<Layer>({entityTypeId: layerType.id})
+            .filter<Layer>({kind: EntityKind.Layer})
     ));
 
     return (

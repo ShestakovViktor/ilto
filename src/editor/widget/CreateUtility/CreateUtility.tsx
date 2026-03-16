@@ -8,7 +8,7 @@ import PolygonIconSvg from "@res/svg/small/polygon.svg";
 import {Button} from "@src/editor/widget/UtilityBar/widget";
 import {createSignal, For, JSX, onMount} from "solid-js";
 import {useEditorContext} from "@src/editor/context";
-import {INPUT_MODE} from "@src/editor/enum";
+import {InputMode} from "@src/editor/enum";
 import {useViewerContext} from "@src/viewer/context";
 import {VIEWER_MODE} from "@src/viewer/enum";
 import {
@@ -30,7 +30,7 @@ export function CreateUtility(props: Props): JSX.Element {
             onClick(): void {
                 editorContext.setSession({
                     selected: undefined,
-                    inputMode: INPUT_MODE.DEFAULT_VIEW,
+                    inputMode: InputMode.DefaultView,
                 });
 
                 viewerContext.setViewer({mode: VIEWER_MODE.PRODUCTION});
@@ -40,7 +40,7 @@ export function CreateUtility(props: Props): JSX.Element {
             icon: CursorIconSvg,
             onClick(): void {
                 editorContext.setSession({
-                    inputMode: INPUT_MODE.ETITY_SELECT,
+                    inputMode: InputMode.EntitySelect,
                 });
 
                 viewerContext.setViewer({mode: VIEWER_MODE.DEVELOPMENT});
@@ -50,7 +50,7 @@ export function CreateUtility(props: Props): JSX.Element {
             icon: MarkerIconSvg,
             onClick(): void {
                 editorContext.setSession({
-                    inputMode: INPUT_MODE.MARKER_CREATE,
+                    inputMode: InputMode.MarkerCreate,
                 });
 
                 viewerContext.setViewer({mode: VIEWER_MODE.DEVELOPMENT});
@@ -60,7 +60,7 @@ export function CreateUtility(props: Props): JSX.Element {
             icon: DecorIconSvg,
             onClick(): void {
                 editorContext.setSession({
-                    inputMode: INPUT_MODE.DECOR_CREATE,
+                    inputMode: InputMode.DecorCreate,
                 });
 
                 viewerContext.setViewer({mode: VIEWER_MODE.DEVELOPMENT});
@@ -71,7 +71,7 @@ export function CreateUtility(props: Props): JSX.Element {
             icon: PolygonIconSvg,
             onClick(): void {
                 editorContext.setSession({
-                    inputMode: INPUT_MODE.AREA_CREATE,
+                    inputMode: InputMode.AreaCreate,
                 });
 
                 viewerContext.setViewer({mode: VIEWER_MODE.DEVELOPMENT});

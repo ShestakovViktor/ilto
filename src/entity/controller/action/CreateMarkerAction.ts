@@ -1,9 +1,8 @@
-import {ENTITY_TYPE} from "@src/entity/enum";
+import {EntityKind} from "@src/entity/enum";
 import {Footnote} from "@src/entity/type";
 import {Layer} from "@src/entity/type";
 import {Parent, Marker} from "@src/entity/type";
 import {Action} from "@src/editor/controller";
-import {Type} from "@src/shared/type";
 import {Session} from "@src/editor/type";
 import {Database} from "@src/shared/controller";
 import {SetStoreFunction} from "solid-js/store";
@@ -15,10 +14,6 @@ export class CreateMarkerAction extends Action<Marker> {
 
     private footnoteId?: number;
 
-    private markerType: Type;
-
-    private footnoteType: Type;
-
     constructor(
         private database: Database,
         private editor: Session,
@@ -27,18 +22,6 @@ export class CreateMarkerAction extends Action<Marker> {
         private y: number
     ) {
         super();
-
-        const [markerType] = this.database.data.entityType
-            .filter({name: ENTITY_TYPE.MARKER});
-
-        const [footnoteType] = this.database.data.entityType
-            .filter({name: ENTITY_TYPE.FOOTNOTE});
-
-        if (!markerType || !footnoteType) throw new Error();
-
-        this.markerType = markerType;
-
-        this.footnoteType = footnoteType;
     }
 
     getLogMessage(): string {
@@ -61,12 +44,12 @@ export class CreateMarkerAction extends Action<Marker> {
         if (!parent) throw new Error();
 
         const footnote = this.database.data.entity.create<Footnote>({
-            entityTypeId: this.footnoteType.id,
+            kind: EntityKind.Footnote,
             text: "",
         });
 
         const marker = this.database.data.entity.create<Marker>({
-            entityTypeId: this.markerType.id,
+            kind: EntityKind.Marker,
             x: this.x,
             y: this.y,
             width: 64,

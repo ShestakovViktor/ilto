@@ -1,1 +1,1 @@
-export * from "./ASSET_TYPE";
+export * from "./AssetKind";

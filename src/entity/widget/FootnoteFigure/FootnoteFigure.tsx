@@ -3,7 +3,6 @@ import en from "./string/en.json";
 import {createMemo, JSX} from "solid-js";
 import i18next from "i18next";
 import {useSharedContext} from "@src/shared/context";
-import {Figure as Fig} from "@src/asset/type";
 import {useViewerContext} from "@src/viewer/context";
 
 i18next.addResourceBundle("en", "prop", {"PropSelect": en}, true, true);
@@ -22,7 +21,7 @@ export function FootnoteFigure(props: Props): JSX.Element {
 
         if (!figureId) return undefined;
 
-        const figure = sharedContext.database.data.asset.select<Fig>(figureId);
+        const figure = sharedContext.database.data.asset.select(figureId);
 
         if (!figure) return undefined;
 

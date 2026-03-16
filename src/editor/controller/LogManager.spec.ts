@@ -1,5 +1,5 @@
 import {LogManager} from "@src/editor/controller";
-import {LOG_LEVEL} from "../enum";
+import {LogLevel} from "../enum";
 
 describe("Log Manager", () => {
     let logManager: LogManager;
@@ -9,7 +9,7 @@ describe("Log Manager", () => {
     });
 
     it("should log something", () => {
-        logManager.log(LOG_LEVEL.WARNING, "Warning");
+        logManager.log(LogLevel.Warning, "Warning");
 
         const logs = logManager.logs();
         expect(logs.length).toBe(1);

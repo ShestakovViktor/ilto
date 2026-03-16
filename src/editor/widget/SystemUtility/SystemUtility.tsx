@@ -14,7 +14,7 @@ import {
 } from "@src/editor/widget/UtilityBar/widget";
 import {restoreData} from "@src/editor/service";
 import {useEditorContext} from "@src/editor/context";
-import {TOOLKIT_MODE} from "@src/editor/enum";
+import {ToolkitMode} from "@src/editor/enum";
 import {loadDemo} from "@src/editor/service/loadDemo";
 
 i18next.addResourceBundle("en", "editor", {SystemKit: en}, true, true);
@@ -47,7 +47,7 @@ export function SystemUtility(props: Props): JSX.Element {
     // }
 
     function handleInit(): void {
-        setSession({toolkit: TOOLKIT_MODE.INIT});
+        setSession({toolkit: ToolkitMode.Init});
     }
 
     function handleSave(): void {

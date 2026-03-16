@@ -26,7 +26,7 @@ export class WebBlobDriver {
     private async getAssetBlob (asset: Asset): Promise<[string, Blob]> {
         const response = await fetch(asset.path);
         const blob = await response.blob();
-        const ext = typeToExtension(asset.media);
+        const ext = typeToExtension(asset.mime);
         const path = `asset/${asset.id}.${ext}`;
 
         asset.path = path;

@@ -6,9 +6,9 @@ import {
     FileField,
     NameField,
 } from "@src/asset/widget";
-import {ASSET_TYPE} from "@src/asset/enum";
+import {AssetKind} from "@src/asset/enum";
 import {useSharedContext} from "@src/shared/context";
-import {Figure} from "@src/asset/type";
+import {Asset} from "@src/asset/type";
 import {AssetForm} from "@src/asset/widget/AssetForm";
 
 i18next.addResourceBundle("en", "figure", {FigureForm: en}, true, true);
@@ -21,9 +21,6 @@ type Props = {
 export function FigureForm(props: Props): JSX.Element {
     const {database} = useSharedContext();
 
-    const [figureType] = database.data.assetType
-        .filter({name: ASSET_TYPE.FIGURE});
-
     function handleSubmit(event: SubmitEvent): void {
         event.preventDefault();
 
@@ -33,11 +30,9 @@ export function FigureForm(props: Props): JSX.Element {
 
         const file = formData.get("file") as File;
 
-        if (!figureType) throw new Error();
-
-        const asset = database.data.asset.create<Figure>({
-            assetTypeId: figureType.id,
-            media: file.type,
+        const asset = database.data.asset.create<Asset>({
+            kind: AssetKind.Image,
+            mime: file.type,
             name: file.name,
             size: file.size,
             path: URL.createObjectURL(file),

@@ -1,4 +1,4 @@
-import {INPUT_MODE, TOOLKIT_MODE} from "@src/editor/enum";
+import {InputMode, ToolkitMode} from "@src/editor/enum";
 import {Entity, Parent} from "@src/entity/type";
 import {NotificationRecord} from "@src/editor/type";
 
@@ -7,9 +7,9 @@ export type Session = {
 
     layer: Parent | undefined;
 
-    toolkit: typeof TOOLKIT_MODE[keyof typeof TOOLKIT_MODE];
+    toolkit: ToolkitMode;
 
-    inputMode: typeof INPUT_MODE[keyof typeof INPUT_MODE];
+    inputMode: InputMode;
 
     notification: NotificationRecord[];
 };

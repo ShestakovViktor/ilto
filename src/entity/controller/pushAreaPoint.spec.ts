@@ -1,6 +1,7 @@
 import assert from "assert";
 import {pushAreaPoint} from "./pushAreaPoint";
 import {Area} from "@src/entity/type";
+import {EntityKind} from "@src/entity/enum";
 
 describe("Invoker", () => {
     let area: Area;
@@ -8,7 +9,7 @@ describe("Invoker", () => {
     beforeEach(() => {
         area = {
             id: 2,
-            entityTypeId: 1,
+            kind: EntityKind.Area,
             x: 10,
             y: 10,
             width: 0,

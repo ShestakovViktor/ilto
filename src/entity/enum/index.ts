@@ -1,2 +1,2 @@
-export * from "./ENTITY_TYPE";
-export * from "./DISPLAY_OPTION";
+export * from "./EntityKind";
+export * from "./DisplayOption";

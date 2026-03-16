@@ -3,9 +3,8 @@ import * as styles from "./PropBrowser.module.scss";
 
 import {createMemo, For, JSX} from "solid-js";
 import i18next from "i18next";
-import {AssetBrowser} from "@src/asset/widget";
 import {Modal, Dialog} from "@src/shared/view";
-import {ASSET_TYPE} from "@src/asset/enum";
+import {AssetKind} from "@src/asset/enum";
 import {PropForm} from "@src/asset/widget/PropForm";
 import {useSharedContext} from "@src/shared/context";
 import {Asset} from "@src/asset/type";
@@ -20,14 +19,9 @@ type Props = {
 export function PropBrowser(props: Props): JSX.Element {
     const {database} = useSharedContext();
 
-    const [propType] = database.data.assetType
-        .filter({name: ASSET_TYPE.PROP});
-
     const assets = createMemo(() => database.data.asset
-        .filter<Asset>({assetTypeId: propType.id})
+        .filter<Asset>({kind: AssetKind.Prop})
     );
-
-    if (!propType) throw new Error();
 
     const propFormDialog = new Modal();
     propFormDialog.render(

@@ -1,11 +1,11 @@
-import {ActionManager, InputMode} from "@src/editor/controller";
+import {ActionManager, InputHandler} from "@src/editor/controller";
 import {Session} from "@src/editor/type";
 import {CreateMarkerAction} from "@src/entity/controller/action";
 import {Database} from "@src/shared/controller";
 import {ViewerState} from "@src/viewer/type";
 import {SetStoreFunction} from "solid-js/store";
 
-export class MarkerCreate extends InputMode {
+export class MarkerCreate extends InputHandler {
     constructor(
         private viewer: ViewerState,
         private editor: Session,

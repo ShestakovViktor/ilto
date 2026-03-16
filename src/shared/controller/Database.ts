@@ -1,11 +1,9 @@
 import {Entity} from "@src/entity/type";
-import {Schema, Type, Attribute} from "@src/shared/type";
+import {Schema, Attribute} from "@src/shared/type";
 import {Collection} from "@src/shared/controller";
 import {Asset} from "@src/asset/type";
 import {Accessor, Setter, createSignal} from "solid-js";
-import {ASSET_TYPE} from "@src/asset/enum";
-import {SYSTEM_OPTION, CONFIG_OPTION} from "@src/editor/enum";
-import {ENTITY_TYPE, DISPLAY_OPTION} from "@src/entity/enum";
+import {SystemOption, ConfigOption} from "@src/editor/enum";
 
 type Data<T extends {[key: string]: {[key: string]: {id: number}}}> = {
     [K in keyof T]: Collection<T[K][string]>;
@@ -40,10 +38,7 @@ export class Database {
         return {
             system: new Collection<Attribute>(data.system),
             config: new Collection<Attribute>(data.config),
-            displayOption: new Collection<Type>(data.displayOption),
-            entityType: new Collection<Type>(data.entityType),
             entity: new Collection<Entity>(data.entity),
-            assetType: new Collection<Type>(data.assetType),
             asset: new Collection<Asset>(data.asset),
         };
     }
@@ -52,10 +47,7 @@ export class Database {
         return {
             system: this.data.system.unwrap(),
             config: this.data.config.unwrap(),
-            displayOption: this.data.displayOption.unwrap(),
-            entityType: this.data.entityType.unwrap(),
             entity: this.data.entity.unwrap(),
-            assetType: this.data.assetType.unwrap(),
             asset: this.data.asset.unwrap(),
         };
     }
@@ -63,35 +55,15 @@ export class Database {
     private initData(): Schema {
         return {
             system: {
-                1: {id: 1, name: SYSTEM_OPTION.PACKAGE, string: "0.0.1"},
-                2: {id: 2, name: SYSTEM_OPTION.SCHEMA, number: 1},
+                1: {id: 1, name: SystemOption.Package, string: "0.0.1"},
+                2: {id: 2, name: SystemOption.Schema, number: 1},
             },
             config: {
-                1: {id: 1, name: CONFIG_OPTION.NAME, string: ""},
-                2: {id: 2, name: CONFIG_OPTION.WIDTH, number: 0},
-                3: {id: 3, name: CONFIG_OPTION.HEIGHT, number: 0},
-                4: {id: 4, name: CONFIG_OPTION.MIN_SCALE, number: 0.5},
-                5: {id: 5, name: CONFIG_OPTION.MAX_SCALE, number: 2},
-            },
-            entityType: {
-                1: {id: 1, name: ENTITY_TYPE.ENTITY},
-                2: {id: 2, name: ENTITY_TYPE.LAYER},
-                3: {id: 3, name: ENTITY_TYPE.TILE},
-                4: {id: 4, name: ENTITY_TYPE.FOOTNOTE},
-                5: {id: 5, name: ENTITY_TYPE.MARKER},
-                6: {id: 6, name: ENTITY_TYPE.DECOR},
-                7: {id: 7, name: ENTITY_TYPE.AREA},
-            },
-            assetType: {
-                1: {id: 1, name: ASSET_TYPE.ASSET},
-                2: {id: 2, name: ASSET_TYPE.IMAGE},
-                3: {id: 3, name: ASSET_TYPE.PROP},
-                4: {id: 4, name: ASSET_TYPE.FIGURE},
-                5: {id: 5, name: ASSET_TYPE.MOTION},
-            },
-            displayOption: {
-                1: {id: 1, name: DISPLAY_OPTION.MOVABLE},
-                2: {id: 2, name: DISPLAY_OPTION.SCALABLE},
+                1: {id: 1, name: ConfigOption.Name, string: ""},
+                2: {id: 2, name: ConfigOption.Width, number: 0},
+                3: {id: 3, name: ConfigOption.Height, number: 0},
+                4: {id: 4, name: ConfigOption.MinScale, number: 0.5},
+                5: {id: 5, name: ConfigOption.MaxScale, number: 2},
             },
             entity: {},
             asset: {},

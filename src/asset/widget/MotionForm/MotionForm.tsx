@@ -7,10 +7,10 @@ import {
     FileField,
     NameField,
 } from "@src/asset/widget";
-import {ASSET_TYPE} from "@src/asset/enum";
-import {Motion} from "@src/asset/type";
+import {AssetKind} from "@src/asset/enum";
 import {useSharedContext} from "@src/shared/context";
 import {AssetForm} from "@src/asset/widget/AssetForm";
+import {Asset} from "@src/asset/type";
 
 i18next.addResourceBundle("en", "motion", {MotionCreateDialog: en}, true, true);
 
@@ -22,9 +22,6 @@ type Props = {
 export function MotionForm(props: Props): JSX.Element {
     const {database} = useSharedContext();
 
-    const [motionType] = database.data.assetType
-        .filter({name: ASSET_TYPE.MOTION});
-
     function handleSubmit(event: SubmitEvent): void {
         event.preventDefault();
         const form = event.target as HTMLFormElement;
@@ -32,17 +29,15 @@ export function MotionForm(props: Props): JSX.Element {
         const formData = new FormData(form);
 
         const file = formData.get("file") as File;
-        const cssClass = formData.get("class") as string;
+        // const cssClass = formData.get("class") as string;
 
-        if (!motionType) throw new Error();
-
-        const asset = database.data.asset.create<Motion>({
-            assetTypeId: motionType.id,
-            media: file.type,
+        const asset = database.data.asset.create<Asset>({
+            kind: AssetKind.Keyframe,
+            mime: file.type,
             name: file.name,
             size: file.size,
             path: URL.createObjectURL(file),
-            class: cssClass,
+            // class: cssClass,
         });
 
         if (props.onSubmit) props.onSubmit(asset.id);

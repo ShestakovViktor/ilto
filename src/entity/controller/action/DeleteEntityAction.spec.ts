@@ -1,6 +1,7 @@
 import {Collection} from "@src/shared/controller";
 import {DeleteEntityAction} from "@src/entity/controller/action";
 import {Entity, Parent} from "@src/entity/type";
+import {EntityKind} from "@src/entity/enum";
 
 describe("Delete Entity Action", () => {
     let collection: Collection<Entity | Parent>;
@@ -10,10 +11,10 @@ describe("Delete Entity Action", () => {
     let child: Entity;
 
     beforeEach(() => {
-        parent = {id: 1, childIds: [2, 3], entityTypeId: 1};
-        item = {id: 2, childIds: [4], entityTypeId: 1};
-        gaper = {id: 3, entityTypeId: 1};
-        child = {id: 4, entityTypeId: 1};
+        parent = {id: 1, childIds: [2, 3], kind: EntityKind.Layer};
+        item = {id: 2, childIds: [4], kind: EntityKind.Tile};
+        gaper = {id: 3, kind: EntityKind.Footnote};
+        child = {id: 4, kind: EntityKind.Marker};
 
         collection = new Collection<Entity | Parent>({});
 
@@ -54,8 +55,8 @@ describe("Delete Entity Action", () => {
         expect(action.getLogData()).toStrictEqual({
             parentId: 1,
             entityId: 2,
-            entity: {id: 2, childIds: [4], entityTypeId: 1},
-            related: [{id: 4, entityTypeId: 1}],
+            entity: {id: 2, childIds: [4], kind: EntityKind.Tile},
+            related: [{id: 4, kind: EntityKind.Tile}],
         });
     });
 });

@@ -12,7 +12,7 @@ import {useSharedContext} from "@src/shared/context";
 import {Icon} from "@src/shared/view";
 import {useViewerContext} from "@src/viewer/context";
 import {Marker} from "@src/entity/type";
-import {Prop} from "@src/asset/type";
+import {Asset} from "@src/asset/type";
 
 type Props = {
     entity: Accessor<Marker>;
@@ -20,7 +20,7 @@ type Props = {
 
 export function MarkerWidget(props: Props): JSX.Element {
     const {database} = useSharedContext();
-    const {viewer, path} = useViewerContext();
+    const {path} = useViewerContext();
 
     let element!: HTMLDivElement;
 
@@ -44,7 +44,7 @@ export function MarkerWidget(props: Props): JSX.Element {
 
         if (!propId) return undefined;
 
-        const prop = database.data.asset.select<Prop>(propId);
+        const prop = database.data.asset.select<Asset>(propId);
 
         if (!prop) return undefined;
 

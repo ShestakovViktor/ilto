@@ -2,7 +2,7 @@ import {createMemo, JSX, ValidComponent} from "solid-js";
 import {TileView, MarkerWidget} from "@src/entity/widget";
 import {LayerView} from "@src/entity/widget";
 import {Dynamic} from "solid-js/web";
-import {ENTITY_TYPE} from "@src/entity/enum";
+import {EntityKind} from "@src/entity/enum";
 import {DecorView} from "@src/entity/widget";
 import {AreaView} from "@src/entity/widget";
 import {FootnoteView} from "@src/entity/widget";
@@ -23,27 +23,18 @@ export function EntityView(props: Props): JSX.Element {
         return entity;
     });
 
-    const [layerType] = database.data.entityType
-        .filter({name: ENTITY_TYPE.LAYER});
-
-    const [tileType] = database.data.entityType
-        .filter({name: ENTITY_TYPE.TILE});
-
-    const [markerType] = database.data.entityType
-        .filter({name: ENTITY_TYPE.MARKER});
-
     const entities: {[key: string]: ValidComponent} = {
-        [layerType.id]: LayerView,
-        [tileType.id]: TileView,
-        [ENTITY_TYPE.FOOTNOTE]: FootnoteView,
-        [markerType.id]: MarkerWidget,
-        [ENTITY_TYPE.DECOR]: DecorView,
-        [ENTITY_TYPE.AREA]: AreaView,
+        [EntityKind.Layer]: LayerView,
+        [EntityKind.Tile]: TileView,
+        [EntityKind.Footnote]: FootnoteView,
+        [EntityKind.Marker]: MarkerWidget,
+        [EntityKind.Decor]: DecorView,
+        [EntityKind.Area]: AreaView,
     };
 
     return (
         <Dynamic
-            component={entities[entity().entityTypeId]}
+            component={entities[entity().kind]}
             entity={entity}
             ref={props.ref}
             onMouseLeave={props.onMouseLeave}

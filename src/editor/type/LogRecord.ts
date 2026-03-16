@@ -1,8 +1,8 @@
-import {LOG_LEVEL} from "@src/editor/enum";
+import {LogLevel} from "@src/editor/enum";
 
 export type LogRecord = {
     id: string;
-    level: typeof LOG_LEVEL[keyof typeof LOG_LEVEL];
+    level: typeof LogLevel[keyof typeof LogLevel];
     timestamp: number;
     message: string;
     params?: {[key: string]: unknown};

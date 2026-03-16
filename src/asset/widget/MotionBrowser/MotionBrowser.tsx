@@ -5,7 +5,7 @@ import {JSX} from "solid-js";
 import i18next from "i18next";
 import {AssetBrowser} from "@src/asset/widget";
 import {Modal, Dialog} from "@src/shared/view";
-import {ASSET_TYPE} from "@src/asset/enum";
+import {AssetKind} from "@src/asset/enum";
 import {useSharedContext} from "@src/shared/context";
 import {MotionForm} from "@src/asset/widget";
 
@@ -18,11 +18,6 @@ type Props = {
 
 export function MotionBrowser(props: Props): JSX.Element {
     const {database} = useSharedContext();
-
-    const [motionType] = database.data.assetType
-        .filter({name: ASSET_TYPE.MOTION});
-
-    if (!motionType) throw new Error();
 
     const motionFormDialog = new Modal();
     motionFormDialog.render(
@@ -38,7 +33,7 @@ export function MotionBrowser(props: Props): JSX.Element {
 
     return (
         <AssetBrowser
-            type={motionType.id}
+            type={AssetKind.Keyframe}
             selected={props.selected}
             onCreate={() => {
                 motionFormDialog.show();

@@ -9,7 +9,6 @@ import {JSX, Show, createMemo} from "solid-js";
 // import {MotionBrowser} from "@src/asset/widget";
 import {Entity, Visual} from "@src/entity/type";
 // import {Prop, Motion} from "@src/asset/type";
-import {Prop} from "@src/asset/type";
 import {useViewerContext} from "@src/viewer/context";
 import {useEditorContext} from "@src/editor/context";
 import {useSharedContext} from "@src/shared/context";
@@ -44,7 +43,7 @@ export function DisplayUtility(props: Props): JSX.Element {
 
         if (!propId) return undefined;
 
-        const prop = database.data.asset.select<Prop>(propId);
+        const prop = database.data.asset.select(propId);
 
         if (!prop) return undefined;
 

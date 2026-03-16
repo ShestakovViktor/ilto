@@ -8,11 +8,12 @@ import i18next from "i18next";
 import {Button} from "@src/shared/view";
 import {useSharedContext} from "@src/shared/context";
 import {Asset} from "@src/asset/type";
+import {AssetKind} from "@src/asset/enum";
 
 i18next.addResourceBundle("en", "asset", {"AssetBrowser": en}, true, true);
 
 type Props = {
-    type?: number;
+    type?: AssetKind;
     multiple?: boolean;
     selected?: number[];
     onCreate?: () => void;
@@ -90,7 +91,7 @@ export function AssetBrowser(props: Props): JSX.Element {
                                 >
                                     <td>{asset.id}</td>
                                     <td>{asset.name}</td>
-                                    <td>{asset.media}</td>
+                                    <td>{asset.mime}</td>
                                     <td>{Math.floor(asset.size / 1024)}</td>
                                     <td>
                                         <Show when={props.onDelete}>

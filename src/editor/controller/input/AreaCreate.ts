@@ -1,21 +1,16 @@
 import {MOUSE} from "@src/shared/enum";
 import {pushAreaPoint} from "@src/entity/controller/pushAreaPoint";
-import {ActionManager, InputMode} from "@src/editor/controller";
+import {ActionManager, InputHandler} from "@src/editor/controller";
 import {Area} from "@src/entity/type/Area";
 import {Parent} from "@src/entity/type";
 import {Footnote} from "@src/entity/type/Footnote";
-import {ENTITY_TYPE} from "@src/entity/enum";
-import {Type} from "@src/shared/type";
+import {EntityKind} from "@src/entity/enum";
 import {Session} from "@src/editor/type";
 import {ViewerState} from "@src/viewer/type";
 import {SetStoreFunction} from "solid-js/store";
 import {Database} from "@src/shared/controller";
 
-export class AreaCreate extends InputMode {
-    private areaType: Type;
-
-    private footnoteType: Type;
-
+export class AreaCreate extends InputHandler {
     constructor(
         private viewer: ViewerState,
         private editor: Session,
@@ -24,17 +19,6 @@ export class AreaCreate extends InputMode {
         private database: Database
     ) {
         super();
-        const [areaType] = this.database.data.entityType
-            .filter({name: ENTITY_TYPE.AREA});
-
-        const [footnoteType] = this.database.data.entityType
-            .filter({name: ENTITY_TYPE.FOOTNOTE});
-
-        if (!areaType || !footnoteType) throw new Error();
-
-        this.areaType = areaType;
-
-        this.footnoteType = footnoteType;
     }
 
     initArea(x: number, y: number): Area {
@@ -42,7 +26,7 @@ export class AreaCreate extends InputMode {
         if (!parent) throw new Error();
 
         const area = this.database.data.entity.create<Area>({
-            entityTypeId: this.areaType.id,
+            kind: EntityKind.Area,
             x,
             y,
             width: 0,
@@ -57,11 +41,14 @@ export class AreaCreate extends InputMode {
         );
 
         const footnote = this.database.data.entity.create<Footnote>({
-            entityTypeId: this.footnoteType.id,
+            kind: EntityKind.Footnote,
             text: "",
         });
 
-        this.database.data.entity.update<Area>(area.id, {footnoteId: footnote.id});
+        this.database.data.entity.update<Area>(
+            area.id,
+            {footnoteId: footnote.id}
+        );
 
         return area;
     }
@@ -77,7 +64,7 @@ export class AreaCreate extends InputMode {
 
             const selected = this.editor.selected;
 
-            if (!selected || selected.entityTypeId != this.areaType.id) {
+            if (!selected || selected.kind != EntityKind.Area) {
                 this.setEditor({selected: this.initArea(x, y)});
             }
             else {

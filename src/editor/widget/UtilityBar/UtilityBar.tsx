@@ -1,7 +1,7 @@
 import * as styles from "./UtilityBar.module.scss";
 import {createMemo, JSX, Show} from "solid-js";
 import {useEditorContext} from "@src/editor/context";
-import {TOOLKIT_MODE} from "@src/editor/enum";
+import {ToolkitMode} from "@src/editor/enum";
 import {ExploreUtility} from "@src/editor/widget";
 import {
     CreateUtility,
@@ -21,15 +21,15 @@ export function UtilityBar(): JSX.Element {
     const {session} = useEditorContext();
 
     const kits: {[key: string]: Toolkit} = {
-        [TOOLKIT_MODE.SYSTEM]: {
+        [ToolkitMode.System]: {
             namespace: "SystemToolkit",
             utility: [<SystemUtility uid="fvqw"/>],
         },
-        [TOOLKIT_MODE.INIT]: {
+        [ToolkitMode.Init]: {
             namespace: "InitToolkit",
             utility: [<InitUtility uid="lwnm"/>],
         },
-        [TOOLKIT_MODE.EXPLORE]: {
+        [ToolkitMode.Explore]: {
             namespace: "ExploreToolkit",
             utility: [
                 <ExploreUtility uid="bmds"/>,
@@ -37,7 +37,7 @@ export function UtilityBar(): JSX.Element {
                 <DisplayUtility uid="modf"/>,
             ],
         },
-        [TOOLKIT_MODE.EDIT]: {
+        [ToolkitMode.Edit]: {
             namespace: "EditUtilities",
             utility: [
                 <CreateUtility uid="fwgb"/>,
