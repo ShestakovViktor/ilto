@@ -4,15 +4,18 @@ import {createStore} from "solid-js/store";
 import {ViewerState} from "@src/viewer/type";
 import {VIEWER_MODE} from "@src/viewer/enum";
 import {ViewManager} from "../controller";
+import {Storage} from "@src/storage/controller";
 
 type Props = {
     children: JSX.Element | JSX.Element[];
     path?: string;
+    storage: Storage;
 };
 
 export const viewerContext = createContext<ViewerContext | undefined>();
 
 export function ViewerProvider(props: Props): JSX.Element {
+    const {storage} = props;
     const [viewer, setViewer] = createStore<ViewerState>({
         mode: VIEWER_MODE.PRODUCTION,
         scale: 1,
@@ -21,6 +24,7 @@ export function ViewerProvider(props: Props): JSX.Element {
     const viewManager = new ViewManager(setViewer);
 
     const value = {
+        storage,
         viewer,
         setViewer,
         viewManager,

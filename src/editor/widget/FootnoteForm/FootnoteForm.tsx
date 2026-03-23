@@ -5,7 +5,7 @@ import i18next from "i18next";
 
 import {JSX, Accessor} from "solid-js";
 import {TextField} from "@src/editor/widget/UtilityBar/widget";
-import {Button, Dialog, Form, Modal, Toolbar} from "@src/shared/view";
+import {Button, Dialog, Form, Modal, Toolbar} from "@src/utility/view";
 import {Footnote} from "@src/entity/type";
 import {FigureBrowser} from "@src/asset/widget";
 

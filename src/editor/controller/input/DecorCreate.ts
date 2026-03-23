@@ -4,7 +4,7 @@ import {Layer, Decor} from "@src/entity/type";
 import {Session} from "@src/editor/type";
 import {ViewerState} from "@src/viewer/type";
 import {SetStoreFunction} from "solid-js/store";
-import {Database} from "@src/shared/controller";
+import {Storage} from "@src/storage/controller";
 
 export class DecorCreate extends InputHandler {
 
@@ -13,7 +13,7 @@ export class DecorCreate extends InputHandler {
         private editor: Session,
         private setEditor: SetStoreFunction<Session>,
         private actionManager: ActionManager,
-        private database: Database
+        private storage: Storage
     ) {
         super();
     }
@@ -36,17 +36,18 @@ export class DecorCreate extends InputHandler {
 
         if (!parent) throw new Error();
 
-        const decor = this.database.data.entity.create<Decor>({
+        const decor = this.storage.data.entity.create<Decor>({
             kind: EntityKind.Decor,
             x,
             y,
             width: 64,
             height: 64,
+            prop: [],
             propId: null,
             motionId: null,
         });
 
-        this.database.data.entity.update<Layer>(
+        this.storage.data.entity.update<Layer>(
             parent.id,
             {childIds: [...parent.childIds, decor.id]}
         );

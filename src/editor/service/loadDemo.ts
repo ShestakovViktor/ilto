@@ -1,9 +1,9 @@
-import {Database} from "@src/shared/controller";
-import {WebBlobDriver, WebStashDriver} from "@src/shared/driver";
-import {ArchiveDriver} from "@src/shared/interface";
+import {Storage} from "@src/storage/controller";
+import {WebBlobDriver, WebStashDriver} from "@src/utility/driver";
+import {ArchiveDriver} from "@src/utility/interface";
 
 export async function loadDemo(
-    database: Database,
+    storage: Storage,
     blober: WebBlobDriver,
     archiver: ArchiveDriver,
     browser: WebStashDriver
@@ -12,5 +12,5 @@ export async function loadDemo(
     const files = await archiver.extract(archive);
     const data = await blober.loadBlobs(files);
 
-    database.setData(data);
+    storage.setData(data);
 }

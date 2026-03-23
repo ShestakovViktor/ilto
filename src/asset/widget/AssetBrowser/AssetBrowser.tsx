@@ -5,10 +5,10 @@ import en from "./string/en.json";
 
 import {For, JSX, Show, createEffect, createMemo, createSignal} from "solid-js";
 import i18next from "i18next";
-import {Button} from "@src/shared/view";
-import {useSharedContext} from "@src/shared/context";
+import {Button} from "@src/utility/view";
 import {Asset} from "@src/asset/type";
 import {AssetKind} from "@src/asset/enum";
+import {useEditorContext} from "@src/editor/context";
 
 i18next.addResourceBundle("en", "asset", {"AssetBrowser": en}, true, true);
 
@@ -22,13 +22,13 @@ type Props = {
 };
 
 export function AssetBrowser(props: Props): JSX.Element {
-    const sharedContext = useSharedContext();
+    const {storage} = useEditorContext();
 
     const assets = createMemo(() => {
         return props.type
-            ? sharedContext.database.data.asset
+            ? storage.data.asset
                 .selectByParams<Asset>({assetTypeId: props.type})
-            : sharedContext.database.data.asset
+            : storage.data.asset
                 .selectAll<Asset>();
     });
 

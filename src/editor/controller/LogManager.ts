@@ -1,5 +1,5 @@
 import {LogRecord} from "@src/editor/type";
-import {uuid} from "@src/shared/service/uuid";
+import {uuid} from "@src/utility/service/uuid";
 import {LogLevel} from "@src/editor/enum";
 
 export class LogManager {

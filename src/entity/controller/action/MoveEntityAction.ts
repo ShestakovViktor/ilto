@@ -1,10 +1,10 @@
 import {Action} from "@src/editor/controller";
-import {Entity, Spatial} from "@src/entity/type";
-import {Database} from "@src/shared/controller";
+import {Entity, isSpatial, Spatial} from "@src/entity/type";
+import {Storage} from "@src/storage/controller";
 
 export class MoveEntityAction extends Action<void> {
     constructor(
-        private database: Database,
+        private storage: Storage,
         private entityId: number,
         private shiftX: number,
         private shiftY: number
@@ -25,24 +25,22 @@ export class MoveEntityAction extends Action<void> {
     }
 
     submit(): void {
-        const entity = this.database.data.entity
-            .select<Entity & Spatial>(this.entityId);
+        const entity = this.storage.data.entity.select(this.entityId);
 
-        if (!entity) throw new Error();
+        if (!entity || !isSpatial(entity)) throw new Error();
 
-        this.database.data.entity.update<Entity & Spatial>(
+        this.storage.data.entity.update<Entity & Spatial>(
             this.entityId,
             {x: entity.x + this.shiftX, y: entity.y + this.shiftY}
         );
     }
 
     revert(): void {
-        const entity = this.database.data.entity
-            .select<Entity & Spatial>(this.entityId);
+        const entity = this.storage.data.entity.select(this.entityId);
 
-        if (!entity) throw new Error();
+        if (!entity || !isSpatial(entity)) throw new Error();
 
-        this.database.data.entity.update<Entity & Spatial>(
+        this.storage.data.entity.update<Entity & Spatial>(
             this.entityId,
             {
                 x: entity.x - this.shiftX,

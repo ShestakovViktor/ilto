@@ -5,7 +5,6 @@ export type Asset = {
     kind: AssetKind;
     size: number;
     mime: string;
-
-    name: string;
     path: string;
+    name: string;
 };

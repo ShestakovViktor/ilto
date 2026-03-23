@@ -4,17 +4,17 @@ import EditIconSvg from "@res/svg/medium/edit.svg";
 import TreeIconSvg from "@res/svg/medium/tree.svg";
 
 import {For, JSX} from "solid-js";
-import {Button} from "@src/shared/view";
-import {ToolkitMode} from "@src/editor/enum";
+import {Button} from "@src/utility/view";
+import {ToolMode} from "@src/editor/enum";
 import {useEditorContext} from "@src/editor/context";
 
 export function ToolBar(): JSX.Element {
     const editorContext = useEditorContext();
 
     const buttons = [
-        {icon: FileIconSvg, mode: ToolkitMode.System},
-        {icon: TreeIconSvg, mode: ToolkitMode.Explore},
-        {icon: EditIconSvg, mode: ToolkitMode.Edit},
+        {icon: FileIconSvg, mode: ToolMode.System},
+        {icon: TreeIconSvg, mode: ToolMode.Explore},
+        {icon: EditIconSvg, mode: ToolMode.Create},
     ];
 
     return (

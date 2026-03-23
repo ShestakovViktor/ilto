@@ -8,9 +8,9 @@ import {
     NameField,
 } from "@src/asset/widget";
 import {AssetKind} from "@src/asset/enum";
-import {useSharedContext} from "@src/shared/context";
 import {AssetForm} from "@src/asset/widget/AssetForm";
 import {Asset} from "@src/asset/type";
+import {useEditorContext} from "@src/editor/context";
 
 i18next.addResourceBundle("en", "motion", {MotionCreateDialog: en}, true, true);
 
@@ -20,7 +20,7 @@ type Props = {
 };
 
 export function MotionForm(props: Props): JSX.Element {
-    const {database} = useSharedContext();
+    const {storage} = useEditorContext();
 
     function handleSubmit(event: SubmitEvent): void {
         event.preventDefault();
@@ -31,7 +31,7 @@ export function MotionForm(props: Props): JSX.Element {
         const file = formData.get("file") as File;
         // const cssClass = formData.get("class") as string;
 
-        const asset = database.data.asset.create<Asset>({
+        const asset = storage.data.asset.create<Asset>({
             kind: AssetKind.Keyframe,
             mime: file.type,
             name: file.name,

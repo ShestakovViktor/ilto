@@ -6,17 +6,20 @@ import {render} from "solid-js/web";
 import {Editor} from "@src/editor/widget";
 import {EditorProvider} from "@src/editor/context";
 import {ViewerProvider} from "@src/viewer/context";
-import {SharedProvider} from "@src/shared/context";
+import {UtilityProvider} from "@src/utility/context";
+import {Storage} from "@src/storage/controller";
 
 const container = document.querySelector("#editor");
 if (!container) throw new Error("There is no container element");
 
+const storage = new Storage();
+
 render(() =>
-    <SharedProvider>
-        <ViewerProvider>
-            <EditorProvider>
+    <UtilityProvider>
+        <ViewerProvider storage={storage}>
+            <EditorProvider storage={storage}>
                 <Editor/>
             </EditorProvider>
         </ViewerProvider>
-    </SharedProvider>
+    </UtilityProvider>
 , container);

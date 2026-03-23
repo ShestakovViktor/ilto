@@ -7,9 +7,9 @@ import {
     NameField,
 } from "@src/asset/widget";
 import {AssetKind} from "@src/asset/enum";
-import {useSharedContext} from "@src/shared/context";
 import {Asset} from "@src/asset/type";
 import {AssetForm} from "@src/asset/widget/AssetForm";
+import {useEditorContext} from "@src/editor/context";
 
 i18next.addResourceBundle("en", "figure", {FigureForm: en}, true, true);
 
@@ -19,7 +19,7 @@ type Props = {
 };
 
 export function FigureForm(props: Props): JSX.Element {
-    const {database} = useSharedContext();
+    const {storage} = useEditorContext();
 
     function handleSubmit(event: SubmitEvent): void {
         event.preventDefault();
@@ -30,7 +30,7 @@ export function FigureForm(props: Props): JSX.Element {
 
         const file = formData.get("file") as File;
 
-        const asset = database.data.asset.create<Asset>({
+        const asset = storage.data.asset.create<Asset>({
             kind: AssetKind.Image,
             mime: file.type,
             name: file.name,

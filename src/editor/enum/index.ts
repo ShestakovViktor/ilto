@@ -1,5 +1,5 @@
 export * from "./InputMode";
-export * from "./ToolkitMode";
+export * from "./ToolMode";
 export * from "./LogLevel";
 export * from "./ConfigOption";
 export * from "./SystemOption";

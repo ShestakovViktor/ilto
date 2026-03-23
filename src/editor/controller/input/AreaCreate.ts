@@ -1,14 +1,14 @@
-import {MOUSE} from "@src/shared/enum";
+import {MOUSE} from "@src/utility/enum";
 import {pushAreaPoint} from "@src/entity/controller/pushAreaPoint";
 import {ActionManager, InputHandler} from "@src/editor/controller";
 import {Area} from "@src/entity/type/Area";
-import {Parent} from "@src/entity/type";
+import {Entity, Parent} from "@src/entity/type";
 import {Footnote} from "@src/entity/type/Footnote";
 import {EntityKind} from "@src/entity/enum";
 import {Session} from "@src/editor/type";
 import {ViewerState} from "@src/viewer/type";
 import {SetStoreFunction} from "solid-js/store";
-import {Database} from "@src/shared/controller";
+import {Storage} from "@src/storage/controller";
 
 export class AreaCreate extends InputHandler {
     constructor(
@@ -16,7 +16,7 @@ export class AreaCreate extends InputHandler {
         private editor: Session,
         private setEditor: SetStoreFunction<Session>,
         private actionManager: ActionManager,
-        private database: Database
+        private storage: Storage
     ) {
         super();
     }
@@ -25,27 +25,29 @@ export class AreaCreate extends InputHandler {
         const parent = this.editor.layer;
         if (!parent) throw new Error();
 
-        const area = this.database.data.entity.create<Area>({
+        const area = this.storage.data.entity.create<Area>({
             kind: EntityKind.Area,
             x,
             y,
             width: 0,
             height: 0,
             points: [{x: 0, y: 0}],
+            prop: [],
             footnoteId: null,
         });
 
-        this.database.data.entity.update<Parent>(
+        this.storage.data.entity.update<Entity & Parent>(
             parent.id,
             {childIds: [...parent.childIds, area.id]}
         );
 
-        const footnote = this.database.data.entity.create<Footnote>({
+        const footnote = this.storage.data.entity.create<Footnote>({
             kind: EntityKind.Footnote,
             text: "",
+            prop: [],
         });
 
-        this.database.data.entity.update<Area>(
+        this.storage.data.entity.update<Area>(
             area.id,
             {footnoteId: footnote.id}
         );
@@ -72,7 +74,7 @@ export class AreaCreate extends InputHandler {
 
                 const res = pushAreaPoint(area, click);
 
-                this.database.data.entity.update<Area>(area.id, res);
+                this.storage.data.entity.update<Area>(area.id, res);
             }
 
             // editorContext.setState({toolkit: {items: [TOOLKIT_MODE.ENTITY_FORM]}});

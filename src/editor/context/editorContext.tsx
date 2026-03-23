@@ -1,8 +1,8 @@
 import {JSX, createContext, createEffect, on, useContext} from "solid-js";
 import {createStore} from "solid-js/store";
-import {InputMode, ToolkitMode} from "@src/editor/enum";
-import {EditorContext, Session, Storage} from "@src/editor/type";
-import {useSharedContext} from "@src/shared/context";
+import {InputMode, ToolMode} from "@src/editor/enum";
+import {EditorContext, Session, Cache} from "@src/editor/type";
+import {useUtilityContext} from "@src/utility/context";
 import {useViewerContext} from "@src/viewer/context";
 import {
     LogManager,
@@ -17,40 +17,44 @@ import {
     DefaultView,
     EntitySelect,
     MarkerCreate,
+    ImageCreate,
 } from "@src/editor/controller/input";
 import {
     RedoHotkey,
     UndoHotkey,
     SaveHotkey,
 } from "@src/editor/controller/hotkey";
+import {Storage} from "@src/storage/controller";
 
 type Props = {
     children: JSX.Element | JSX.Element[];
+    storage: Storage;
 };
 
 export const editorContext = createContext<EditorContext | undefined>();
 
 export function EditorProvider(props: Props): JSX.Element {
-    const {database, linker, browser, archiver} = useSharedContext();
+    const {storage} = props;
+    const {linker, browser, archiver} = useUtilityContext();
     const {viewer} = useViewerContext();
 
     const [session, setSession] = createStore<Session>({
         selected: undefined,
         layer: undefined,
-        toolkit: ToolkitMode.System,
+        toolkit: ToolMode.System,
         inputMode: InputMode.EntitySelect,
         notification: [],
     });
 
-    const data = localStorage.getItem("storage");
+    const data = localStorage.getItem("cache");
 
-    const [storage, setStorage] = createStore<Storage>(
+    const [cache, setCache] = createStore<Cache>(
         data ? JSON.parse(data) : {widget: {}}
     );
 
     createEffect(on(
-        () => JSON.stringify(storage),
-        (s) => localStorage.setItem("storage", s))
+        () => JSON.stringify(cache),
+        (s) => localStorage.setItem("cache", s))
     );
 
     const logManager = new LogManager();
@@ -61,37 +65,44 @@ export function EditorProvider(props: Props): JSX.Element {
     const hotkeyManager = new HotkeyManager([
         new RedoHotkey(actionManager),
         new UndoHotkey(actionManager),
-        new SaveHotkey(database, linker, archiver, browser),
+        new SaveHotkey(storage, linker, archiver, browser),
     ]);
 
     const inputManager = new InputManager({
         [InputMode.DefaultView]: new DefaultView(),
         [InputMode.EntitySelect]: new EntitySelect(
-            database,
+            storage,
             viewer,
             setSession,
             actionManager
+        ),
+        [InputMode.ImageCreate]: new ImageCreate(
+            viewer,
+            session,
+            setSession,
+            actionManager,
+            storage
         ),
         [InputMode.MarkerCreate]: new MarkerCreate(
             viewer,
             session,
             setSession,
             actionManager,
-            database
+            storage
         ),
         [InputMode.DecorCreate]: new DecorCreate(
             viewer,
             session,
             setSession,
             actionManager,
-            database
+            storage
         ),
         [InputMode.AreaCreate]: new AreaCreate(
             viewer,
             session,
             setSession,
             actionManager,
-            database
+            storage
         ),
     });
 
@@ -103,8 +114,10 @@ export function EditorProvider(props: Props): JSX.Element {
         session,
         setSession,
 
+        cache,
+        setCache,
+
         storage,
-        setStorage,
 
         log: logManager,
         input: inputManager,

@@ -1,5 +1,5 @@
 import {Session, NotificationRecord} from "@src/editor/type";
-import {uuid} from "@src/shared/service/uuid";
+import {uuid} from "@src/utility/service/uuid";
 import {SetStoreFunction} from "solid-js/store";
 
 export class NotifManager {

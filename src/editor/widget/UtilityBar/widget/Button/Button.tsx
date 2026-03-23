@@ -1,4 +1,4 @@
-import {Button as SharedButton} from "@src/shared/view";
+import {Button as SharedButton} from "@src/utility/view";
 import * as styles from "./Button.module.scss";
 
 type Props = {

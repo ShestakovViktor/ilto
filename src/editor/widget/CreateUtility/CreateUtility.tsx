@@ -4,7 +4,7 @@ import CursorIconSvg from "@res/svg/small/cursor.svg";
 import MarkerIconSvg from "@res/svg/small/marker.svg";
 import DecorIconSvg from "@res/svg/small/decor.svg";
 import PolygonIconSvg from "@res/svg/small/polygon.svg";
-
+import ImageIconSvg from "@res/svg/small/image.svg";
 import {Button} from "@src/editor/widget/UtilityBar/widget";
 import {createSignal, For, JSX, onMount} from "solid-js";
 import {useEditorContext} from "@src/editor/context";
@@ -41,6 +41,16 @@ export function CreateUtility(props: Props): JSX.Element {
             onClick(): void {
                 editorContext.setSession({
                     inputMode: InputMode.EntitySelect,
+                });
+
+                viewerContext.setViewer({mode: VIEWER_MODE.DEVELOPMENT});
+            },
+        },
+        {
+            icon: ImageIconSvg,
+            onClick(): void {
+                editorContext.setSession({
+                    inputMode: InputMode.ImageCreate,
                 });
 
                 viewerContext.setViewer({mode: VIEWER_MODE.DEVELOPMENT});

@@ -1,8 +1,11 @@
 import {Hotkey} from "@src/editor/controller";
 import {saveData} from "@src/editor/service";
-import {Database} from "@src/shared/controller";
-import {WebBlobDriver, WebStashDriver} from "@src/shared/driver";
-import {ArchiveDriver} from "@src/shared/interface";
+import {Storage} from "@src/storage/controller";
+import {
+    WebBlobDriver,
+    WebStashDriver,
+} from "@src/utility/driver";
+import {ArchiveDriver} from "@src/utility/interface";
 
 export class SaveHotkey extends Hotkey {
     protected code = "KeyS";
@@ -10,7 +13,7 @@ export class SaveHotkey extends Hotkey {
     protected ctrlKey = true;
 
     constructor(
-        private database: Database,
+        private storage: Storage,
         private linker: WebBlobDriver,
         private archiver: ArchiveDriver,
         private browser: WebStashDriver
@@ -19,6 +22,6 @@ export class SaveHotkey extends Hotkey {
     }
 
     async handle(): Promise<void> {
-        await saveData(this.database, this.linker, this.archiver, this.browser);
+        await saveData(this.storage, this.linker, this.archiver, this.browser);
     }
 }

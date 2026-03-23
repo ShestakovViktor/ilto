@@ -1,10 +1,10 @@
 import {EntityKind} from "@src/entity/enum";
-import {Footnote} from "@src/entity/type";
+import {Entity, Footnote} from "@src/entity/type";
 import {Layer} from "@src/entity/type";
 import {Parent, Marker} from "@src/entity/type";
 import {Action} from "@src/editor/controller";
 import {Session} from "@src/editor/type";
-import {Database} from "@src/shared/controller";
+import {Storage} from "@src/storage/controller";
 import {SetStoreFunction} from "solid-js/store";
 
 export class CreateMarkerAction extends Action<Marker> {
@@ -15,9 +15,9 @@ export class CreateMarkerAction extends Action<Marker> {
     private footnoteId?: number;
 
     constructor(
-        private database: Database,
-        private editor: Session,
-        private setEditor: SetStoreFunction<Session>,
+        private storage: Storage,
+        private session: Session,
+        private setSession: SetStoreFunction<Session>,
         private x: number,
         private y: number
     ) {
@@ -39,26 +39,28 @@ export class CreateMarkerAction extends Action<Marker> {
     }
 
     submit(): Marker {
-        const parent = this.editor.layer;
+        const parent = this.session.layer;
 
         if (!parent) throw new Error();
 
-        const footnote = this.database.data.entity.create<Footnote>({
+        const footnote = this.storage.data.entity.create<Footnote>({
             kind: EntityKind.Footnote,
             text: "",
+            prop: [],
         });
 
-        const marker = this.database.data.entity.create<Marker>({
+        const marker = this.storage.data.entity.create<Marker>({
             kind: EntityKind.Marker,
             x: this.x,
             y: this.y,
             width: 64,
             height: 64,
+            prop: [],
             propId: null,
             childIds: [footnote.id],
         });
 
-        this.database.data.entity.update<Layer>(
+        this.storage.data.entity.update<Layer>(
             parent.id,
             {childIds: [...parent.childIds, marker.id]}
         );
@@ -71,25 +73,25 @@ export class CreateMarkerAction extends Action<Marker> {
     }
 
     revert(): void {
-        this.setEditor({selected: undefined});
+        this.setSession({selected: undefined});
 
         if (this.parentId && this.markerId) {
-            const parent = this.database.data.entity
-                .select<Parent>(this.parentId);
+            const parent = this.storage.data.entity
+                .select<Entity & Parent>(this.parentId);
             if (!parent) throw new Error();
 
-            this.database.data.entity.update<Parent>(this.parentId, {
+            this.storage.data.entity.update<Entity & Parent>(this.parentId, {
                 childIds: parent.childIds
                     .filter(childId => childId != this.markerId),
             });
         }
 
         if (this.footnoteId) {
-            this.database.data.entity.delete(this.footnoteId);
+            this.storage.data.entity.delete(this.footnoteId);
         }
 
         if (this.markerId) {
-            this.database.data.entity.delete(this.markerId);
+            this.storage.data.entity.delete(this.markerId);
         }
     }
 }

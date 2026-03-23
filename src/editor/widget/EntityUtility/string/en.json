@@ -1,7 +1,7 @@
 {
     "delete": "delete",
     "idLabel": "id",
-    "kindLabel": "Type id",
+    "kindLabel": "Kind",
     "xLabel": "x",
     "yLabel": "y",
     "widthLabel": "width",

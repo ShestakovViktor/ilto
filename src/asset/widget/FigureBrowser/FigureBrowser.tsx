@@ -4,10 +4,10 @@ import * as styles from "./FigureBrowser.module.scss";
 import {JSX} from "solid-js";
 import i18next from "i18next";
 import {AssetBrowser} from "@src/asset/widget";
-import {Modal, Dialog} from "@src/shared/view";
+import {Modal, Dialog} from "@src/utility/view";
 import {AssetKind} from "@src/asset/enum";
-import {useSharedContext} from "@src/shared/context";
 import {FigureForm} from "@src/asset/widget";
+import {useEditorContext} from "@src/editor/context";
 
 i18next.addResourceBundle("en", "prop", {"PropSelect": en}, true, true);
 
@@ -17,7 +17,7 @@ type Props = {
 };
 
 export function FigureBrowser(props: Props): JSX.Element {
-    const {database} = useSharedContext();
+    const {storage} = useEditorContext();
 
     const FigureFormDialog = new Modal();
     FigureFormDialog.render(
@@ -38,7 +38,7 @@ export function FigureBrowser(props: Props): JSX.Element {
             }}
             onDelete={(ids) => {
                 ids.forEach((id) => {
-                    database.data.asset.delete(id);
+                    storage.data.asset.delete(id);
                 });
             }}
             onSelect={props.onSelect}

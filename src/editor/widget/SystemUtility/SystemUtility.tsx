@@ -2,8 +2,6 @@ import i18next from "i18next";
 
 import {JSX} from "solid-js";
 import en from "./string/en.json";
-import {useSharedContext} from "@src/shared/context";
-// import {useEditorContext} from "@src/editor/context";
 import {downloadData, saveData} from "@src/editor/service";
 
 import {
@@ -14,8 +12,9 @@ import {
 } from "@src/editor/widget/UtilityBar/widget";
 import {restoreData} from "@src/editor/service";
 import {useEditorContext} from "@src/editor/context";
-import {ToolkitMode} from "@src/editor/enum";
+import {ToolMode} from "@src/editor/enum";
 import {loadDemo} from "@src/editor/service/loadDemo";
+import {useUtilityContext} from "@src/utility/context";
 
 i18next.addResourceBundle("en", "editor", {SystemKit: en}, true, true);
 
@@ -24,8 +23,8 @@ type Props = {
 };
 
 export function SystemUtility(props: Props): JSX.Element {
-    const {archiver, browser, linker, database} = useSharedContext();
-    const {setSession} = useEditorContext();
+    const {archiver, browser, linker} = useUtilityContext();
+    const {storage, setSession} = useEditorContext();
     // const {notification} = useEditorContext();
 
     // async function handleProjectUpload(): Promise<void> {
@@ -35,35 +34,35 @@ export function SystemUtility(props: Props): JSX.Element {
     // }
 
     // async function handleExport(): Promise<void> {
-    //     const data = database.extract();
+    //     const data = storage.extract();
     //     const archive = await archiveData(archiver, data);
     //     browser.downloadFile(archive, "test.ilto");
     // }
 
     // async function handleCompile(): Promise<void> {
-    //     const data = database.extract();
+    //     const data = storage.extract();
     //     const archive = await compileData(archiver, data);
     //     browser.downloadFile(archive, "test.ilto");
     // }
 
     function handleInit(): void {
-        setSession({toolkit: ToolkitMode.Init});
+        setSession({toolkit: ToolMode.Init});
     }
 
     function handleSave(): void {
-        saveData(database, linker, archiver, browser);
+        saveData(storage, linker, archiver, browser);
     }
 
     function handleRestore(): void {
-        restoreData(database, linker, archiver, browser);
+        restoreData(storage, linker, archiver, browser);
     }
 
     function handleLoadDemo(): void {
-        loadDemo(database, linker, archiver, browser);
+        loadDemo(storage, linker, archiver, browser);
     }
 
     function handleDownload(): void {
-        downloadData(database, linker, archiver, browser);
+        downloadData(storage, linker, archiver, browser);
     }
 
     return (

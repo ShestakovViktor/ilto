@@ -10,7 +10,7 @@ type Props = {
 };
 
 export function Widget(props: Props): JSX.Element {
-    const {storage, setStorage} = useEditorContext();
+    const {cache: storage, setCache: setStorage} = useEditorContext();
 
     let contentRef!: HTMLDivElement;
 

@@ -2,7 +2,7 @@ import en from "./string/en.json";
 
 import {JSX} from "solid-js";
 import i18next from "i18next";
-import {Form} from "@src/shared/view";
+import {Form} from "@src/utility/view";
 
 i18next.addResourceBundle("en", "asset", {AssetForm: en}, true, true);
 

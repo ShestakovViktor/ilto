@@ -1,22 +1,22 @@
-import {Collection} from "@src/shared/controller";
+import {Collection} from "@src/storage/controller";
 import {DeleteEntityAction} from "@src/entity/controller/action";
 import {Entity, Parent} from "@src/entity/type";
 import {EntityKind} from "@src/entity/enum";
 
 describe("Delete Entity Action", () => {
-    let collection: Collection<Entity | Parent>;
-    let parent: Parent;
-    let item: Parent;
+    let collection: Collection<Entity | Entity & Parent>;
+    let parent: Entity & Parent;
+    let item: Entity & Parent;
     let gaper: Entity;
     let child: Entity;
 
     beforeEach(() => {
-        parent = {id: 1, childIds: [2, 3], kind: EntityKind.Layer};
-        item = {id: 2, childIds: [4], kind: EntityKind.Tile};
-        gaper = {id: 3, kind: EntityKind.Footnote};
-        child = {id: 4, kind: EntityKind.Marker};
+        parent = {id: 1, childIds: [2, 3], kind: EntityKind.Layer, prop: []};
+        item = {id: 2, childIds: [4], kind: EntityKind.Tile, prop: []};
+        gaper = {id: 3, kind: EntityKind.Footnote, prop: []};
+        child = {id: 4, kind: EntityKind.Marker, prop: []};
 
-        collection = new Collection<Entity | Parent>({});
+        collection = new Collection<Entity | Entity & Parent>({});
 
         collection.insert(parent);
         collection.insert(item);

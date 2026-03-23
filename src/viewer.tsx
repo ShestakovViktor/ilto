@@ -3,9 +3,9 @@ import "@res/style/colors.scss";
 import "@res/style/global.scss";
 
 import {render} from "solid-js/web";
+import {Storage} from "@src/storage/controller";
 import {Viewer} from "@src/viewer/widget";
 import {ViewerProvider} from "@src/viewer/context";
-import {SharedProvider} from "@src/shared/context";
 
 (async(): Promise<void> => {
     const container = document.querySelector("#viewer[data-src]");
@@ -20,13 +20,13 @@ import {SharedProvider} from "@src/shared/context";
 
     const data = await response.json();
 
+    const storage = new Storage(data);
+
     render(() => {
         return (
-            <SharedProvider data={data}>
-                <ViewerProvider path={path}>
-                    <Viewer/>
-                </ViewerProvider>
-            </SharedProvider>
+            <ViewerProvider storage={storage} path={path}>
+                <Viewer/>
+            </ViewerProvider>
         );
     }, container);
 })();

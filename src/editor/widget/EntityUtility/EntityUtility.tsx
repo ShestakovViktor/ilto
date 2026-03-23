@@ -3,9 +3,8 @@ import i18next from "i18next";
 
 import {JSX, Show, createMemo} from "solid-js";
 import {useEditorContext} from "@src/editor/context";
-import {Field, Input} from "@src/shared/view";
+import {Field, Input} from "@src/utility/view";
 import {Entity, isSize, isSpatial, Size, Spatial} from "@src/entity/type";
-import {useSharedContext} from "@src/shared/context";
 import {Widget, Section} from "@src/editor/widget/UtilityBar/widget";
 
 i18next.addResourceBundle("en", "tool", {Entity: en}, true, true);
@@ -15,11 +14,10 @@ type Props = {
 };
 
 export function EntityUtility(props: Props): JSX.Element {
-    const editorContext = useEditorContext();
-    const {database} = useSharedContext();
+    const {storage, session} = useEditorContext();
 
     const entityMemo = createMemo(
-        () => editorContext.session.selected || {} as Entity
+        () => session.selected || {} as Entity
     );
 
     const spatialMemo = createMemo(() => {
@@ -34,26 +32,34 @@ export function EntityUtility(props: Props): JSX.Element {
 
     function handleXChange(event: Event): void {
         const target = event.target as HTMLInputElement;
-        database.data.entity
-            .update<Spatial>(entityMemo().id, {x: Number(target.value)});
+        storage.data.entity.update<Entity & Spatial>(
+            entityMemo().id,
+            {x: Number(target.value)}
+        );
     }
 
     function handleYChange(event: Event): void {
         const target = event.target as HTMLInputElement;
-        database.data.entity
-            .update<Spatial>(entityMemo().id, {y: Number(target.value)});
+        storage.data.entity.update<Entity & Spatial>(
+            entityMemo().id,
+            {y: Number(target.value)}
+        );
     }
 
     function handleWidthChange(event: Event): void {
         const target = event.target as HTMLInputElement;
-        database.data.entity
-            .update<Size>(entityMemo().id, {width: Number(target.value)});
+        storage.data.entity.update<Entity & Size>(
+            entityMemo().id,
+            {width: Number(target.value)}
+        );
     }
 
     function handleHeightChange(event: Event): void {
         const target = event.target as HTMLInputElement;
-        database.data.entity
-            .update<Size>(entityMemo().id, {height: Number(target.value)});
+        storage.data.entity.update<Entity & Size>(
+            entityMemo().id,
+            {height: Number(target.value)}
+        );
     }
 
     const labels = {

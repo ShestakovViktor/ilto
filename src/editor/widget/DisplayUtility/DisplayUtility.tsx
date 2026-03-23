@@ -4,14 +4,13 @@ import * as styles from "./DisplayUtility.module.scss";
 import ImageIconSvg from "@res/svg/small/image.svg";
 // import MotionIconSvg from "@res/svg/small/motion.svg";
 
-import {/*Dialog,*/ Icon, Modal} from "@src/shared/view";
+import {/*Dialog,*/ Icon, Modal} from "@src/utility/view";
 import {JSX, Show, createMemo} from "solid-js";
 // import {MotionBrowser} from "@src/asset/widget";
 import {Entity, Visual} from "@src/entity/type";
 // import {Prop, Motion} from "@src/asset/type";
 import {useViewerContext} from "@src/viewer/context";
 import {useEditorContext} from "@src/editor/context";
-import {useSharedContext} from "@src/shared/context";
 import {Section, Widget} from "@src/editor/widget/UtilityBar/widget";
 import {PropBrowser} from "@src/asset/widget";
 
@@ -22,8 +21,7 @@ type Props = {
 };
 
 export function DisplayUtility(props: Props): JSX.Element {
-    const {session} = useEditorContext();
-    const {database} = useSharedContext();
+    const {storage, session} = useEditorContext();
     const {path} = useViewerContext();
 
     const entityMemo = createMemo(
@@ -43,7 +41,7 @@ export function DisplayUtility(props: Props): JSX.Element {
 
         if (!propId) return undefined;
 
-        const prop = database.data.asset.select(propId);
+        const prop = storage.data.asset.select(propId);
 
         if (!prop) return undefined;
 
@@ -62,7 +60,7 @@ export function DisplayUtility(props: Props): JSX.Element {
         <PropBrowser
             // selected={selectedProp()}
             onSelect={(ids: number[]) => {
-                database.data.entity
+                storage.data.entity
                     .update<Entity & {propId: number}>(
                         entityMemo().id,
                         {propId: ids[0]}
@@ -77,7 +75,7 @@ export function DisplayUtility(props: Props): JSX.Element {
 
     //     if (!motionId) return undefined;
 
-    //     const motion = database.data.asset
+    //     const motion = storage.data.asset
     //         .select<Motion>(motionId);
 
     //     if (!motion) return undefined;
@@ -103,7 +101,7 @@ export function DisplayUtility(props: Props): JSX.Element {
     //         <MotionBrowser
     //             selected={selectedMotion()}
     //             onSelect={(ids: number[]) => {
-    //                 database.data.entity
+    //                 storage.data.entity
     //                     .update<Entity & {motionId: number}>(
     //                         entityMemo().id,
     //                         {motionId: ids[0]}

@@ -1,14 +1,14 @@
-import {Database} from "@src/shared/controller";
-import {WebBlobDriver, WebStashDriver} from "@src/shared/driver";
-import {ArchiveDriver} from "@src/shared/interface";
+import {Storage} from "@src/storage/controller";
+import {WebBlobDriver, WebStashDriver} from "@src/utility/driver";
+import {ArchiveDriver} from "@src/utility/interface";
 
 export async function downloadData(
-    database: Database,
+    storage: Storage,
     linker: WebBlobDriver,
     archiver: ArchiveDriver,
     browser: WebStashDriver
 ): Promise<void> {
-    const data = database.extract();
+    const data = storage.extract();
     const dataClone = JSON.parse(JSON.stringify(data));
     const blobs = await linker.unloadBlobs(dataClone);
     const archive = await archiver.archive(blobs);

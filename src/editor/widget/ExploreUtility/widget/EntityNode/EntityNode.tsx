@@ -10,9 +10,8 @@ import TreeLeafOpenIconSvg from "@res/svg/small/tree-leaf-open.svg";
 import TreeLeafCloseIconSvg from "@res/svg/small/tree-leaf-close.svg";
 
 import {JSXElement, createMemo, createSignal} from "solid-js";
-import {useSharedContext} from "@src/shared/context";
 import {Entity, Parent} from "@src/entity/type";
-import {Button, Icon} from "@src/shared/view";
+import {Button, Icon} from "@src/utility/view";
 import {EntityKind} from "@src/entity/enum";
 import {useEditorContext} from "@src/editor/context";
 
@@ -22,31 +21,30 @@ type Props = {
 };
 
 export function EntityNode(props: Props): JSXElement {
-    const {database} = useSharedContext();
-    const editorContext = useEditorContext();
+    const {storage, session, setSession} = useEditorContext();
 
     const [isExpanded, setExpanded] = createSignal(false);
 
     const entityMemo = createMemo(() => {
-        const entity = database.data.entity.select(props.entityId);
+        const entity = storage.data.entity.select(props.entityId);
         if (!entity) throw new Error();
         return entity;
     });
 
     const isSelected = createMemo(() => {
-        return editorContext.session.selected?.id == props.entityId;
+        return session.selected?.id == props.entityId;
     });
 
     function expand(): void {
         setExpanded(!isExpanded());
     }
 
-    function isParent(entity: Entity): entity is Parent {
+    function isParent(entity: Entity): entity is Entity & Parent {
         return "childIds" in entity;
     }
 
     function onSelect(): void {
-        editorContext.setSession({
+        setSession({
             selected: entityMemo(),
         });
     }

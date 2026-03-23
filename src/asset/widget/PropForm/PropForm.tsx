@@ -2,10 +2,10 @@ import {JSX} from "solid-js";
 import en from "./string/en.json";
 import {FileField, NameField} from "@src/asset/widget";
 import {AssetKind} from "@src/asset/enum";
-import {useSharedContext} from "@src/shared/context";
 import i18next from "i18next";
 import {AssetForm} from "@src/asset/widget/AssetForm";
 import {Asset} from "@src/asset/type";
+import {useEditorContext} from "@src/editor/context";
 
 i18next.addResourceBundle("en", "prop", {PropForm: en}, true, true);
 
@@ -15,7 +15,7 @@ type Props = {
 };
 
 export function PropForm(props: Props): JSX.Element {
-    const {database} = useSharedContext();
+    const {storage} = useEditorContext();
 
     function handleSubmit(event: SubmitEvent): void {
         event.preventDefault();
@@ -25,7 +25,7 @@ export function PropForm(props: Props): JSX.Element {
 
         const file = formData.get("file") as File;
 
-        const asset = database.data.asset.create<Asset>({
+        const asset = storage.data.asset.create<Asset>({
             kind: AssetKind.Image,
             mime: file.type,
             name: file.name,

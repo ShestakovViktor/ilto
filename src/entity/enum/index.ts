@@ -1,2 +1,2 @@
 export * from "./EntityKind";
-export * from "./DisplayOption";
+export * from "./EntityProp";

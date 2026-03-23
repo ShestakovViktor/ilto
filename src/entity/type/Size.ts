@@ -1,10 +1,10 @@
-import {Entity} from "./Entity";
+import {Entity} from "@src/entity/type";
 
-export type Size = Entity & {
+export type Size = {
     width: number;
     height: number;
 };
 
-export function isSize(entity: Entity): entity is Size {
+export function isSize(entity: Entity): entity is Entity & Size {
     return "width" in entity && "height" in entity;
 }

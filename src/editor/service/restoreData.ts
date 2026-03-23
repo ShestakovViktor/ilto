@@ -1,16 +1,16 @@
-import {Database} from "@src/shared/controller";
-import {WebBlobDriver, WebStashDriver} from "@src/shared/driver";
-import {ArchiveDriver} from "@src/shared/interface";
+import {Storage} from "@src/storage/controller";
+import {WebBlobDriver, WebStashDriver} from "@src/utility/driver";
+import {ArchiveDriver} from "@src/utility/interface";
 
 export async function restoreData(
-    database: Database,
+    storage: Storage,
     linker: WebBlobDriver,
     archiver: ArchiveDriver,
-    browser: WebStashDriver
+    stash: WebStashDriver
 ): Promise<void> {
-    const archive = await browser.getLocalBlob("save.ilto");
+    const archive = await stash.getLocalBlob("save.ilto");
     const files = await archiver.extract(archive);
     const data = await linker.loadBlobs(files);
 
-    database.setData(data);
+    storage.setData(data);
 }

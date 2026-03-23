@@ -1,7 +1,7 @@
 import en from "./string/en.json";
 
 import i18next from "i18next";
-import {Field} from "@src/shared/view";
+import {Field} from "@src/utility/view";
 import {JSX} from "solid-js";
 
 i18next.addResourceBundle(

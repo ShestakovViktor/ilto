@@ -3,9 +3,9 @@ import * as styles from "./InitUtility.module.scss";
 import i18next from "i18next";
 import {JSX} from "solid-js";
 import {Field} from "../UtilityBar/widget/Field";
-import {useSharedContext} from "@src/shared/context";
 import {initProject} from "@src/editor/service";
 import {Widget} from "../UtilityBar/widget/Widget";
+import {useEditorContext} from "@src/editor/context";
 
 i18next.addResourceBundle("en", "editor", {InitTool: en}, true, true);
 
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export function InitUtility(props: Props): JSX.Element {
-    const {database} = useSharedContext();
+    const {storage} = useEditorContext();
 
     function projectCreate(event: SubmitEvent): void {
         event.preventDefault();
@@ -26,9 +26,8 @@ export function InitUtility(props: Props): JSX.Element {
         const name = String(formData.get("name"));
         const width = Number(formData.get("width"));
         const height = Number(formData.get("height"));
-        const background = formData.get("background") as File;
 
-        initProject(database, {name, width, height, background});
+        initProject(storage, {name, width, height});
     }
 
     return (
@@ -69,17 +68,6 @@ export function InitUtility(props: Props): JSX.Element {
                     name="height"
                     type="number"
                     required
-                />
-                <Field
-                    label={
-                        i18next.t(
-                            "editor:InitTool.backgroundField",
-                            {postProcess: ["capitalize"]}
-                        )
-                    }
-                    name="background"
-                    type="file"
-                    accept="image/*"
                 />
                 <input
                     type="submit"

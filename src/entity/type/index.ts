@@ -11,3 +11,4 @@ export * from "./Dynamic";
 export * from "./Visual";
 export * from "./Entity";
 export * from "./Entities";
+export * from "./Image";

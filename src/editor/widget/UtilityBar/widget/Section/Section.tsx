@@ -14,16 +14,16 @@ export function Section(props: Props): JSX.Element {
 
     const childs = children(() => props.children);
 
-    const {storage, setStorage} = useEditorContext();
+    const {cache, setCache} = useEditorContext();
 
-    if (!storage.widget[uid]) {
-        setStorage("widget", uid, () => ({collapsed: true}));
+    if (!cache.widget[uid]) {
+        setCache("widget", uid, () => ({collapsed: true}));
     }
 
-    const state = storage.widget[uid];
+    const state = cache.widget[uid];
 
     function toggleCollapsed() {
-        setStorage("widget", uid, "collapsed", (prev) => !prev);
+        setCache("widget", uid, "collapsed", (prev) => !prev);
     }
 
     return (

@@ -6,4 +6,4 @@ export * from "./Hotkey";
 export * from "./HotkeyManager";
 export * from "./NotifManager";
 export * from "./LogManager";
-export * from "./Media";
+export * from "./MimeMapper";

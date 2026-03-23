@@ -2,35 +2,33 @@ import * as styles from "./Viewer.module.scss";
 import {JSX, Show, For, on, createMemo, createEffect} from "solid-js";
 import {Portal} from "solid-js/web";
 import {useViewerContext} from "@src/viewer/context";
-import {useSharedContext} from "@src/shared/context";
-import {EntityView} from "@src/entity/widget";
+import {EntityView} from "@src/viewer/widget";
 import {AssetKind} from "@src/asset/enum";
 import {ConfigOption} from "@src/editor/enum";
-import {Parameter} from "@src/shared/type";
+import {Parameter} from "@src/storage/type";
 import {Layer} from "@src/entity/type";
 import {Asset} from "@src/asset/type";
 
 export function Viewer(): JSX.Element {
-    const {database} = useSharedContext();
-    const {viewManager, path} = useViewerContext();
+    const {storage, viewManager, path} = useViewerContext();
 
     let viewerRef!: HTMLDivElement;
     let canvasRef!: HTMLDivElement;
 
-    const root = createMemo(on(database.reloaded, () =>
-        database.data.entity.select<Layer>(1)
+    const root = createMemo(on(storage.reloaded, () =>
+        storage.data.entity.select<Layer>(1)
     ));
 
-    const keyframes = createMemo(on(database.reloaded, () => {
-        return database.data.asset
+    const keyframes = createMemo(on(storage.reloaded, () => {
+        return storage.data.asset
             .filter<Asset>({kind: AssetKind.Keyframe});
     }));
 
-    const style = createMemo(on(database.reloaded, () => {
-        const [widthOption] = database.data.config
+    const style = createMemo(on(storage.reloaded, () => {
+        const [widthOption] = storage.data.config
             .filter<Parameter>({name: ConfigOption.Width});
 
-        const [heightOption] = database.data.config
+        const [heightOption] = storage.data.config
             .filter<Parameter>({name: ConfigOption.Height});
 
         if (!widthOption || !heightOption) throw new Error();
@@ -41,7 +39,7 @@ export function Viewer(): JSX.Element {
         };
     }));
 
-    createEffect(on(database.reloaded, () => {
+    createEffect(on(storage.reloaded, () => {
         viewManager.setFrame(viewerRef);
         viewManager.setCanvas(canvasRef);
     }));

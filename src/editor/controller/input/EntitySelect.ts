@@ -1,8 +1,8 @@
-import {MOUSE} from "@src/shared/enum";
+import {MOUSE} from "@src/utility/enum";
 import {ActionManager, InputHandler} from "@src/editor/controller";
-import {Entity, Spatial} from "@src/entity/type";
+import {Entity, isSpatial, Spatial} from "@src/entity/type";
 import {MoveEntityAction} from "@src/entity/controller/action";
-import {Database} from "@src/shared/controller";
+import {Storage} from "@src/storage/controller";
 import {SetStoreFunction} from "solid-js/store";
 import {Session} from "@src/editor/type";
 import {ViewerState} from "@src/viewer/type";
@@ -21,7 +21,7 @@ export class EntitySelect extends InputHandler {
     private allowedTypes: number[];
 
     constructor(
-        private database: Database,
+        private storage: Storage,
         private viewer: ViewerState,
         private setEditorState: SetStoreFunction<Session>,
         private actionManager: ActionManager
@@ -59,10 +59,14 @@ export class EntitySelect extends InputHandler {
         return {x: rect.x, y: rect.y};
     }
 
-    getEntity(element: HTMLElement): Entity & Spatial | undefined {
-        return this.database.data.entity.select<Entity & Spatial>(
+    getEntity(element: HTMLElement): Entity & Spatial {
+        const entity = this.storage.data.entity.select(
             Number(element.getAttribute("data-entity-id"))
         );
+
+        if (!entity || !isSpatial(entity)) throw new Error();
+
+        return entity;
     }
 
     getOffset(element: HTMLElement, event: MouseEvent): {x: number; y: number} {
@@ -88,7 +92,6 @@ export class EntitySelect extends InputHandler {
         if (!this.parent) throw new Error();
 
         this.entity = this.getEntity(this.element);
-        if (!this.entity) throw new Error();
 
         this.offset = this.getOffset(this.element, event);
 
@@ -102,7 +105,7 @@ export class EntitySelect extends InputHandler {
     onMouseMove(event: MouseEvent): void {
         if (!this.entity || !this.parent || !this.offset) return;
 
-        this.database.data.entity.update<Spatial>(this.entity?.id, {
+        this.storage.data.entity.update<Entity & Spatial>(this.entity?.id, {
             x: Math.round(
                 (event.x - this.parent.x - this.offset.x)
                                 / this.viewer.scale
@@ -120,7 +123,7 @@ export class EntitySelect extends InputHandler {
         if (this.entity && this.origin) {
             this.actionManager.append(
                 new MoveEntityAction(
-                    this.database,
+                    this.storage,
                     this.entity.id,
                     this.entity.x - this.origin.x,
                     this.entity.y - this.origin.y

@@ -1,7 +1,7 @@
 import {ActionManager, InputHandler} from "@src/editor/controller";
 import {Session} from "@src/editor/type";
 import {CreateMarkerAction} from "@src/entity/controller/action";
-import {Database} from "@src/shared/controller";
+import {Storage} from "@src/storage/controller";
 import {ViewerState} from "@src/viewer/type";
 import {SetStoreFunction} from "solid-js/store";
 
@@ -11,7 +11,7 @@ export class MarkerCreate extends InputHandler {
         private editor: Session,
         private setEditor: SetStoreFunction<Session>,
         private actionManager: ActionManager,
-        private database: Database
+        private storage: Storage
 
     ) {
         super();
@@ -28,7 +28,7 @@ export class MarkerCreate extends InputHandler {
 
         const marker = this.actionManager.execute(
             new CreateMarkerAction(
-                this.database,
+                this.storage,
                 this.editor,
                 this.setEditor,
                 x,
