@@ -6,5 +6,6 @@ export * from "./FootnoteFigure";
 export * from "./DecorView";
 export * from "./TileView";
 export * from "./MarkerWidget";
+export * from "./ImageView";
 export * from "./EntityView";
 export * from "./Viewer";

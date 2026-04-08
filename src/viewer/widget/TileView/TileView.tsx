@@ -1,6 +1,6 @@
 import * as styles from "./TileView.module.scss";
 import {Accessor, JSX, createMemo} from "solid-js";
-import {Tile} from "@src/entity/type";
+import {Tile} from "@src/core/type";
 import {useViewerContext} from "@src/viewer/context";
 
 type Props = {

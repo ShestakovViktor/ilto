@@ -3,7 +3,7 @@ import {JSX, createSignal, createMemo, Show, Accessor} from "solid-js";
 import {useViewerContext} from "@src/viewer/context";
 import {EntityView} from "@src/viewer/widget";
 import {VIEWER_MODE} from "@src/viewer/enum";
-import {Area} from "@src/entity/type";
+import {Area} from "@src/core/type";
 
 type Props = {
     entity: Accessor<Area>;

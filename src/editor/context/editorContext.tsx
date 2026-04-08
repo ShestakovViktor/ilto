@@ -2,23 +2,17 @@ import {JSX, createContext, createEffect, on, useContext} from "solid-js";
 import {createStore} from "solid-js/store";
 import {InputMode, ToolMode} from "@src/editor/enum";
 import {EditorContext, Session, Cache} from "@src/editor/type";
-import {useUtilityContext} from "@src/utility/context";
+import {useCoreContext} from "@src/core/context";
 import {useViewerContext} from "@src/viewer/context";
 import {
-    LogManager,
-    InputManager,
-    HotkeyManager,
-    ActionManager,
-    NotifManager,
+    Log,
+    Mouse,
+    Key,
+    Engine,
+    Notif,
+    Modal,
+    Uid,
 } from "@src/editor/controller";
-import {
-    AreaCreate,
-    DecorCreate,
-    DefaultView,
-    EntitySelect,
-    MarkerCreate,
-    ImageCreate,
-} from "@src/editor/controller/input";
 import {
     RedoHotkey,
     UndoHotkey,
@@ -35,14 +29,14 @@ export const editorContext = createContext<EditorContext | undefined>();
 
 export function EditorProvider(props: Props): JSX.Element {
     const {storage} = props;
-    const {linker, browser, archiver} = useUtilityContext();
+    const {linker, browser, archiver} = useCoreContext();
     const {viewer} = useViewerContext();
 
     const [session, setSession] = createStore<Session>({
         selected: undefined,
         layer: undefined,
         toolkit: ToolMode.System,
-        inputMode: InputMode.EntitySelect,
+        inputMode: InputMode.DefaultView,
         notification: [],
     });
 
@@ -57,57 +51,27 @@ export function EditorProvider(props: Props): JSX.Element {
         (s) => localStorage.setItem("cache", s))
     );
 
-    const logManager = new LogManager();
-
-    const actionManager = new ActionManager(logManager);
-    const notificationManager = new NotifManager(session, setSession);
-
-    const hotkeyManager = new HotkeyManager([
-        new RedoHotkey(actionManager),
-        new UndoHotkey(actionManager),
+    const uid = new Uid();
+    const notif = new Notif(uid, session, setSession);
+    const modal = new Modal(uid);
+    const log = new Log(uid);
+    const engine = new Engine(log);
+    const key = new Key([
+        new RedoHotkey(engine),
+        new UndoHotkey(engine),
         new SaveHotkey(storage, linker, archiver, browser),
     ]);
-
-    const inputManager = new InputManager({
-        [InputMode.DefaultView]: new DefaultView(),
-        [InputMode.EntitySelect]: new EntitySelect(
-            storage,
-            viewer,
-            setSession,
-            actionManager
-        ),
-        [InputMode.ImageCreate]: new ImageCreate(
-            viewer,
-            session,
-            setSession,
-            actionManager,
-            storage
-        ),
-        [InputMode.MarkerCreate]: new MarkerCreate(
-            viewer,
-            session,
-            setSession,
-            actionManager,
-            storage
-        ),
-        [InputMode.DecorCreate]: new DecorCreate(
-            viewer,
-            session,
-            setSession,
-            actionManager,
-            storage
-        ),
-        [InputMode.AreaCreate]: new AreaCreate(
-            viewer,
-            session,
-            setSession,
-            actionManager,
-            storage
-        ),
-    });
+    const mouse = new Mouse(
+        storage,
+        viewer,
+        session,
+        setSession,
+        engine,
+        modal
+    );
 
     createEffect(() => {
-        inputManager.setMode(session.inputMode);
+        mouse.setMode(session.inputMode);
     });
 
     const value = {
@@ -119,11 +83,13 @@ export function EditorProvider(props: Props): JSX.Element {
 
         storage,
 
-        log: logManager,
-        input: inputManager,
-        hotkey: hotkeyManager,
-        action: actionManager,
-        notif: notificationManager,
+        log,
+        mouse,
+        key,
+        engine,
+        notif,
+        modal,
+        uid,
     };
 
     return (

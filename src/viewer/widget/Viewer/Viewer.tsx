@@ -3,14 +3,14 @@ import {JSX, Show, For, on, createMemo, createEffect} from "solid-js";
 import {Portal} from "solid-js/web";
 import {useViewerContext} from "@src/viewer/context";
 import {EntityView} from "@src/viewer/widget";
-import {AssetKind} from "@src/asset/enum";
+import {AssetKind} from "@src/core/enum";
 import {ConfigOption} from "@src/editor/enum";
 import {Parameter} from "@src/storage/type";
-import {Layer} from "@src/entity/type";
-import {Asset} from "@src/asset/type";
+import {Layer} from "@src/core/type";
+import {Asset} from "@src/core/type";
 
 export function Viewer(): JSX.Element {
-    const {storage, viewManager, path} = useViewerContext();
+    const {storage, viewport, viewer, path} = useViewerContext();
 
     let viewerRef!: HTMLDivElement;
     let canvasRef!: HTMLDivElement;
@@ -24,32 +24,45 @@ export function Viewer(): JSX.Element {
             .filter<Asset>({kind: AssetKind.Keyframe});
     }));
 
-    const style = createMemo(on(storage.reloaded, () => {
+    const width = createMemo(on(storage.reloaded, () => {
         const [widthOption] = storage.data.config
             .filter<Parameter>({name: ConfigOption.Width});
+        if (!widthOption) throw new Error();
 
+        return widthOption.number;
+    }));
+
+    const height = createMemo(on(storage.reloaded, () => {
         const [heightOption] = storage.data.config
             .filter<Parameter>({name: ConfigOption.Height});
 
-        if (!widthOption || !heightOption) throw new Error();
+        if (!heightOption) throw new Error();
 
-        return {
-            width: widthOption.number + "px",
-            height: heightOption.number + "px",
-        };
+        return heightOption.number;
     }));
 
     createEffect(on(storage.reloaded, () => {
-        viewManager.setFrame(viewerRef);
-        viewManager.setCanvas(canvasRef);
+        viewport.setFrame(viewerRef);
+        viewport.setCanvas(canvasRef);
     }));
 
     return (
         <div class={styles.Viewer} ref={viewerRef} draggable="false">
-            <div class={styles.Canvas} ref={canvasRef} style={style()}>
-                <Show when={root()}>{root =>
-                    <EntityView entityId={root().id}/>
-                }
+            <div
+                class={styles.Canvas}
+                ref={canvasRef}
+                style={{
+                    "--scale": viewer.scale,
+                    "--x": `${viewer.x}px`,
+                    "--y": `${viewer.y}px`,
+                    "--w": `${width()}px`,
+                    "--h": `${height()}px`,
+                }}
+            >
+                <Show when={root()}>
+                    {(root) =>
+                        <EntityView entityId={root().id}/>
+                    }
                 </Show>
             </div>
             <For each={keyframes()}>

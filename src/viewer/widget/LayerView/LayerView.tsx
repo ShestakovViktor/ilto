@@ -1,7 +1,7 @@
 import {Accessor, For, JSX} from "solid-js";
 import * as styles from "./LayerView.module.scss";
 import {EntityView} from "@src/viewer/widget";
-import {Layer} from "@src/entity/type";
+import {Layer} from "@src/core/type";
 
 type Props = {
     entity: Accessor<Layer>;

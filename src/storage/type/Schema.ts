@@ -1,6 +1,6 @@
 import {Attribute} from "@src/storage/type";
-import {Entity} from "@src/entity/type";
-import {Asset} from "@src/asset/type";
+import {Entity} from "@src/core/type";
+import {Asset} from "@src/core/type";
 
 export type Schema = {
     system: {[key: string]: Attribute};

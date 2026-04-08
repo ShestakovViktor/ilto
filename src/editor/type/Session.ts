@@ -1,5 +1,5 @@
 import {InputMode, ToolMode} from "@src/editor/enum";
-import {Entity, Parent} from "@src/entity/type";
+import {Entity, Parent} from "@src/core/type";
 import {NotificationRecord} from "@src/editor/type";
 
 export type Session = {

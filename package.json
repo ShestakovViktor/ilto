@@ -36,7 +36,6 @@
         "html-loader": "^5.1.0",
         "html-webpack-plugin": "^5.6.3",
         "jest": "^30.0.4",
-        "mocha": "^11.7.1",
         "sass": "^1.89.2",
         "sass-loader": "^16.0.5",
         "style-loader": "^4.0.0",

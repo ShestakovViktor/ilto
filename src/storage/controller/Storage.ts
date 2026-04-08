@@ -1,7 +1,7 @@
-import {Entity} from "@src/entity/type";
+import {Entity} from "@src/core/type";
 import {Schema, Attribute} from "@src/storage/type";
 import {Collection} from "@src/storage/controller";
-import {Asset} from "@src/asset/type";
+import {Asset} from "@src/core/type";
 import {Accessor, Setter, createSignal} from "solid-js";
 import {SystemOption, ConfigOption} from "@src/editor/enum";
 

@@ -3,9 +3,9 @@ import ImageIconSvg from "@res/svg/small/image.svg";
 import {Accessor, JSX, Show, createMemo} from "solid-js";
 import {useViewerContext} from "@src/viewer/context";
 
-import {Icon} from "@src/utility/view";
-import {Decor} from "@src/entity/type";
-import {Asset} from "@src/asset/type";
+import {Icon} from "@src/core/widget";
+import {Decor} from "@src/core/type";
+import {Asset} from "@src/core/type";
 
 type Props = {
     entity: Accessor<Decor>;

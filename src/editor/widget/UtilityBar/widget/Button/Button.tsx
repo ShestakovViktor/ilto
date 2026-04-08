@@ -1,4 +1,4 @@
-import {Button as SharedButton} from "@src/utility/view";
+import {Button as UnstyledButton} from "@src/core/widget";
 import * as styles from "./Button.module.scss";
 
 type Props = {
@@ -17,7 +17,7 @@ export function Button(props: Props) {
     };
 
     return (
-        <SharedButton
+        <UnstyledButton
             label={props.label}
             icon={props.icon}
             pressed={props.pressed}

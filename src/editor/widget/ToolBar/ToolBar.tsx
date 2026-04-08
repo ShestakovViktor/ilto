@@ -4,18 +4,23 @@ import EditIconSvg from "@res/svg/medium/edit.svg";
 import TreeIconSvg from "@res/svg/medium/tree.svg";
 
 import {For, JSX} from "solid-js";
-import {Button} from "@src/utility/view";
+import {Button} from "@src/core/widget";
 import {ToolMode} from "@src/editor/enum";
 import {useEditorContext} from "@src/editor/context";
 
 export function ToolBar(): JSX.Element {
-    const editorContext = useEditorContext();
+    const {session, setSession} = useEditorContext();
 
-    const buttons = [
-        {icon: FileIconSvg, mode: ToolMode.System},
-        {icon: TreeIconSvg, mode: ToolMode.Explore},
-        {icon: EditIconSvg, mode: ToolMode.Create},
-    ];
+    const buttons = [{
+        icon: FileIconSvg,
+        toolMode: ToolMode.System,
+    }, {
+        icon: TreeIconSvg,
+        toolMode: ToolMode.Explore,
+    }, {
+        icon: EditIconSvg,
+        toolMode: ToolMode.Create,
+    }];
 
     return (
         <div class={styles.ToolKit}>
@@ -27,11 +32,11 @@ export function ToolBar(): JSX.Element {
                             Icon: styles.Icon,
                             Pressed: styles.Pressed,
                         }}
-                        pressed={editorContext.session.toolkit == button.mode}
+                        pressed={session.toolkit == button.toolMode}
                         icon={button.icon}
                         onClick={() => {
-                            editorContext.setSession({
-                                toolkit: button.mode,
+                            setSession({
+                                toolkit: button.toolMode,
                             });
                         }}
                     />

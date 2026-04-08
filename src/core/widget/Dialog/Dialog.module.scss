@@ -1,0 +1,18 @@
+.Dialog {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+
+    .Header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .Body {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow: hidden;
+    }
+}

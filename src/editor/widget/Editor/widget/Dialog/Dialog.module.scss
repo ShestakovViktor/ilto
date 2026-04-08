@@ -1,0 +1,28 @@
+.Dialog {
+    border-radius: 8px;
+    border: 1px solid var(--gray-90);
+    box-shadow: 0px 4px 8px 0px hsla(0, 0%, 30%, 0.2);
+    padding: 8px;
+    gap: 16px;
+    background-color: var(--white);
+
+
+
+    .Header {
+        grid-area: Title;
+        color: var(--gray-60);
+        font-size: 12px;
+        white-space: nowrap;
+
+        .Button {
+            .Icon {
+                width: 8px;
+                height: 8px;
+            }
+        }
+    }
+
+    .Body {
+        padding: 2px;
+    }
+}

@@ -8,10 +8,10 @@ import {
     For,
 } from "solid-js";
 import {EntityView} from "@src/viewer/widget";
-import {Icon} from "@src/utility/view";
+import {Icon} from "@src/core/widget";
 import {useViewerContext} from "@src/viewer/context";
-import {Marker} from "@src/entity/type";
-import {Asset} from "@src/asset/type";
+import {Marker} from "@src/core/type";
+import {Asset} from "@src/core/type";
 
 type Props = {
     entity: Accessor<Marker>;

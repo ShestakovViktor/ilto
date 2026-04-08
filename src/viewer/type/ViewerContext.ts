@@ -1,5 +1,5 @@
 import {Store, SetStoreFunction} from "solid-js/store";
-import {ViewManager} from "../controller";
+import {Viewport} from "../controller";
 import {ViewerState} from "@src/viewer/type";
 import {Storage} from "@src/storage/controller";
 
@@ -7,7 +7,7 @@ export type ViewerContext = {
     viewer: Store<ViewerState>;
     setViewer: SetStoreFunction<ViewerState>;
 
-    viewManager: ViewManager;
+    viewport: Viewport;
     path: string;
 
     storage: Storage;

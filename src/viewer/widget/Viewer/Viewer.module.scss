@@ -15,6 +15,16 @@
     background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
 
     .Canvas {
+        --scale: 1;
+        --x: 0;
+        --y: 0;
+        --w: 0;
+        --h: 0;
+
+        transform: translate(var(--x), var(--y));
+        width: calc(var(--w) * var(--scale));
+        height: calc(var(--h) * var(--scale));
+
         transform-origin: top left;
         position: absolute;
 

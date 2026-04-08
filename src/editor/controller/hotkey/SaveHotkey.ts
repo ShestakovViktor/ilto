@@ -4,8 +4,8 @@ import {Storage} from "@src/storage/controller";
 import {
     WebBlobDriver,
     WebStashDriver,
-} from "@src/utility/driver";
-import {ArchiveDriver} from "@src/utility/interface";
+} from "@src/core/driver";
+import {ArchiveDriver} from "@src/core/interface";
 
 export class SaveHotkey extends Hotkey {
     protected code = "KeyS";

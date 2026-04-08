@@ -1,6 +1,6 @@
 import {Storage} from "@src/storage/controller";
-import {WebBlobDriver, WebStashDriver} from "@src/utility/driver";
-import {ArchiveDriver} from "@src/utility/interface";
+import {WebBlobDriver, WebStashDriver} from "@src/core/driver";
+import {ArchiveDriver} from "@src/core/interface";
 
 export async function saveData(
     storage: Storage,

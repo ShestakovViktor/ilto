@@ -1,0 +1,16 @@
+.Image {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    user-select: none;
+
+    transform: translate(calc(var(--x) * var(--scale)), calc(var(--y) * var(--scale)));
+    width: calc(var(--w) * var(--scale));
+    height: calc(var(--h) * var(--scale));
+
+    svg {
+        width: 100%;
+        height: 100%;
+    }
+}

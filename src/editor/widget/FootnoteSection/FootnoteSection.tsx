@@ -2,10 +2,10 @@ import en from "./string/en.json";
 import i18next from "i18next";
 import FootnoteIconSvg from "@res/svg/small/footnote.svg";
 
-import {Button, Modal, Section, Toolbar} from "@src/utility/view";
+import {Button, Modal, Section, Toolbar} from "@src/core/widget";
 import {Accessor, JSX} from "solid-js";
 import {FootnoteDialog} from "@src/viewer/widget";
-import {Entity} from "@src/entity/type";
+import {Entity} from "@src/core/type";
 
 i18next.addResourceBundle("en", "entity", {FootnoteSection: en}, true, true);
 

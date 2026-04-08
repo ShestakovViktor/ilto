@@ -1,8 +1,8 @@
 import {createMemo, JSX, ValidComponent} from "solid-js";
-import {TileView, MarkerWidget} from "@src/viewer/widget";
+import {TileView, MarkerWidget, ImageView} from "@src/viewer/widget";
 import {LayerView} from "@src/viewer/widget";
 import {Dynamic} from "solid-js/web";
-import {EntityKind} from "@src/entity/enum";
+import {EntityKind} from "@src/core/enum";
 import {DecorView} from "@src/viewer/widget";
 import {AreaView} from "@src/viewer/widget";
 import {FootnoteView} from "@src/viewer/widget";
@@ -24,6 +24,7 @@ export function EntityView(props: Props): JSX.Element {
     });
 
     const entities: {[key: string]: ValidComponent} = {
+        [EntityKind.Image]: ImageView,
         [EntityKind.Layer]: LayerView,
         [EntityKind.Tile]: TileView,
         [EntityKind.Footnote]: FootnoteView,

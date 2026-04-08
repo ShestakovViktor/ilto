@@ -1,11 +1,13 @@
 import {SetStoreFunction} from "solid-js/store";
 import {Session, Cache} from "@src/editor/type";
 import {
-    ActionManager,
-    HotkeyManager,
-    InputManager,
-    NotifManager,
-    LogManager,
+    Engine,
+    Key,
+    Mouse,
+    Notif,
+    Log,
+    Modal,
+    Uid,
 } from "@src/editor/controller";
 import {Storage} from "@src/storage/controller";
 
@@ -18,9 +20,11 @@ export type EditorContext = {
 
     storage: Storage;
 
-    log: LogManager;
-    input: InputManager;
-    action: ActionManager;
-    hotkey: HotkeyManager;
-    notif: NotifManager;
+    log: Log;
+    mouse: Mouse;
+    key: Key;
+    engine: Engine;
+    notif: Notif;
+    modal: Modal;
+    uid: Uid;
 };

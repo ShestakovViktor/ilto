@@ -1,6 +1,6 @@
 import {Storage} from "@src/storage/controller";
-import {EntityKind} from "@src/entity/enum";
-import {Layer} from "@src/entity/type";
+import {EntityKind} from "@src/core/enum";
+import {Layer} from "@src/core/type";
 
 export async function initProject(
     storage: Storage,

@@ -1,4 +1,4 @@
-import {ActionManager, Hotkey} from "@src/editor/controller";
+import {Engine, Hotkey} from "@src/editor/controller";
 
 export class RedoHotkey extends Hotkey {
     protected code = "KeyZ";
@@ -7,11 +7,11 @@ export class RedoHotkey extends Hotkey {
 
     protected shiftKey = true;
 
-    constructor(private actionManager: ActionManager) {
+    constructor(private engine: Engine) {
         super();
     }
 
     handle(): void {
-        this.actionManager.redo();
+        this.engine.redo();
     }
 }

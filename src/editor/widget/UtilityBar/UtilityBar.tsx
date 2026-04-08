@@ -1,76 +1,68 @@
 import * as styles from "./UtilityBar.module.scss";
-import {createMemo, JSX, Show} from "solid-js";
+import {createMemo, For, JSX, Show} from "solid-js";
 import {useEditorContext} from "@src/editor/context";
-import {InputMode, ToolMode} from "@src/editor/enum";
-import {ExploreUtility} from "@src/editor/widget";
+import {ToolMode} from "@src/editor/enum";
+import {CreateUtility, EntityUtility, ExploreUtility} from "@src/editor/widget/utility";
 import {
-    CreateUtility,
     DisplayUtility,
-    EntityUtility,
     InitUtility,
     LayerUtility,
     SystemUtility,
-} from "@src/editor/widget";
+} from "@src/editor/widget/utility";
+import {Dynamic} from "solid-js/web";
 
-type UtilityKit = {
-    toolMode: ToolMode;
-    inputMode: InputMode;
-    utility: JSX.Element[];
+type Utility = {
+    component: (props: {uid: string}) => JSX.Element;
+    uid: string;
 };
 
 export function UtilityBar(): JSX.Element {
-    const {session} = useEditorContext();
+    const {session, uid} = useEditorContext();
 
-    const kits: UtilityKit[] = [
-        {
-            toolMode: ToolMode.System,
-            inputMode: InputMode.DefaultView,
-            utility: [<SystemUtility uid="fvqw"/>],
-        },
-        {
-            toolMode: ToolMode.Init,
-            inputMode: InputMode.DefaultView,
-            utility: [<InitUtility uid="lwnm"/>],
-        },
-        {
-            toolMode: ToolMode.Explore,
-            inputMode: InputMode.DefaultView,
-            utility: [
-                <ExploreUtility uid="bmds"/>,
-                <EntityUtility uid="lbnr"/>,
-                <DisplayUtility uid="modf"/>,
-            ],
-        },
-        {
-            toolMode: ToolMode.Create,
-            inputMode: InputMode.DefaultView,
-            utility: [
-                <CreateUtility uid="fwgb"/>,
-            ],
-        },
-        {
-            toolMode: ToolMode.Create,
-            inputMode: InputMode.MarkerCreate,
-            utility: [
-                <CreateUtility uid="fggb"/>,
-                <LayerUtility uid="pbdv"/>,
-                <EntityUtility uid="cvdf"/>,
-                <DisplayUtility uid="basd"/>,
-            ],
-        },
-    ];
+    const kits = createMemo<{[key: string]: Utility[]}>(() => ({
+        [ToolMode.System]: [{
+            component: SystemUtility,
+            uid: uid.reg("dqvs"),
+        }],
+        [ToolMode.Init]: [{
+            component: InitUtility,
+            uid: uid.reg("abdg"),
+        }],
+        [ToolMode.Explore]: [{
+            component: ExploreUtility,
+            uid: uid.reg("dawf"),
+        }, {
+            component: DisplayUtility,
+            uid: uid.reg("badf"),
+        }],
+        [ToolMode.Create]: [{
+            component: CreateUtility,
+            uid: uid.reg("mvqe"),
+        }, {
+            component: LayerUtility,
+            uid: uid.reg("dsba"),
+        }, {
+            component: EntityUtility,
+            uid: uid.reg("pbdf"),
+        }, {
+            component: DisplayUtility,
+            uid: uid.reg("asfa"),
+        }],
+    }));
 
-    const kit = createMemo(() =>
-        kits.find(kit =>
-            kit.toolMode == session.toolkit
-            && kit.inputMode == session.inputMode
-        )
-    );
+    const kit = createMemo(() => kits()[session.toolkit]);
 
     return (
         <div class={styles.UtilityBar}>
             <Show when={kit()} keyed>
-                {(kit) => kit.utility}
+                <For each={kit()}>
+                    {(utility) =>
+                        <Dynamic
+                            component={utility.component}
+                            uid={utility.uid}
+                        />
+                    }
+                </For>
             </Show>
         </div>
     );

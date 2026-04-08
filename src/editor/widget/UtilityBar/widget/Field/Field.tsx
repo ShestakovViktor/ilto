@@ -1,39 +1,40 @@
 import {JSX} from "solid-js";
 import * as styles from "./Field.module.scss";
+import {Field as UnstlyledField} from "@src/core/widget";
 
 type Props = {
     label: string;
     name: string;
-    type: string;
+    type?: string;
     value?: string;
     accept?: string;
     step?: string;
     readonly?: boolean;
     required?: boolean;
-    onKeyDown?: () => void;
-    onChange?: () => void;
+    onKeyDown?: (event: KeyboardEvent) => void;
+    onChange?: (event: Event) => void;
 };
 
 export function Field(props: Props): JSX.Element {
+    const classList = {
+        Field: styles.Field,
+        Label: styles.Label,
+        Input: styles.Input,
+    };
+
     return (
-        <div class={styles.Field}>
-            <label
-                class={styles.Label}
-                for={props.name}
-            >
-                {props.label}
-            </label>
-            <input
-                class={styles.Input}
-                type={props.type}
-                name={props.name}
-                // value={props.value || undefined}
-                step={props.step}
-                onKeyDown={props.onKeyDown}
-                onChange={props.onChange}
-                readonly={props.readonly}
-                required={props.required}
-            />
-        </div>
+        <UnstlyledField
+            classList={classList}
+            label={props.label}
+            name={props.name}
+            type={props.type}
+            value={props.value}
+            accept={props.accept}
+            step={props.step}
+            readonly={props.readonly}
+            required={props.required}
+            onKeyDown={props.onKeyDown}
+            onChange={props.onChange}
+        />
     );
 }

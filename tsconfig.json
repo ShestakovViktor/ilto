@@ -2,12 +2,14 @@
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
         "allowImportingTsExtensions": true,
-        "downlevelIteration": true,
-        "baseUrl": "./",
         "checkJs": false,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "jsx": "react-jsx",
+        "types": [
+            "node",
+            "jest"
+        ],
         "jsxImportSource": "solid-js",
         "lib": [
             "ESNext",
@@ -23,16 +25,16 @@
         "outDir": "./build",
         "paths": {
             "@src": [
-                "src"
+                "./src"
             ],
             "@src/*": [
-                "src/*"
+                "./src/*"
             ],
             "@res": [
-                "res"
+                "./res"
             ],
             "@res/*": [
-                "res/*"
+                "./res/*"
             ],
         },
         "resolveJsonModule": true,

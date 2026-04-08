@@ -3,7 +3,7 @@ import {ViewerContext} from "@src/viewer/type";
 import {createStore} from "solid-js/store";
 import {ViewerState} from "@src/viewer/type";
 import {VIEWER_MODE} from "@src/viewer/enum";
-import {ViewManager} from "../controller";
+import {Viewport} from "../controller";
 import {Storage} from "@src/storage/controller";
 
 type Props = {
@@ -18,16 +18,18 @@ export function ViewerProvider(props: Props): JSX.Element {
     const {storage} = props;
     const [viewer, setViewer] = createStore<ViewerState>({
         mode: VIEWER_MODE.PRODUCTION,
+        x: 0,
+        y: 0,
         scale: 1,
     });
 
-    const viewManager = new ViewManager(setViewer);
+    const viewport = new Viewport(setViewer);
 
     const value = {
         storage,
         viewer,
         setViewer,
-        viewManager,
+        viewport,
         path: props.path || "",
     };
 

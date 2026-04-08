@@ -3,19 +3,17 @@ import * as styles from "./FootnoteForm.module.scss";
 import en from "./string/en.json";
 import i18next from "i18next";
 
-import {JSX, Accessor} from "solid-js";
-import {TextField} from "@src/editor/widget/UtilityBar/widget";
-import {Button, Dialog, Form, Modal, Toolbar} from "@src/utility/view";
-import {Footnote} from "@src/entity/type";
-import {FigureBrowser} from "@src/asset/widget";
+import {JSX} from "solid-js";
+import {Button, Dialog, Form, Modal, Toolbar} from "@src/core/widget";
+import {FigureBrowser} from "@src/editor/widget";
 
 i18next.addResourceBundle("en", "footnote", {FootnoteForm: en}, true, true);
 
-type Props = {
-    entity: Accessor<Footnote>;
-};
+// type Props = {
+//     entity: Accessor<Footnote>;
+// };
 
-export function FootnoteForm(props: Props): JSX.Element {
+export function FootnoteForm(): JSX.Element {
     let textArea: HTMLTextAreaElement | undefined;
 
     function handleSubmit(event: SubmitEvent): void {
@@ -62,7 +60,7 @@ export function FootnoteForm(props: Props): JSX.Element {
                     onClick={() => figureBrowserDialog.show()}
                 />
             </Toolbar>
-            <TextField ref={textArea} entity={props.entity}/>
+            {/* <TextField ref={textArea} entity={props.entity}/> */}
         </Form>
     );
 }

@@ -1,15 +1,15 @@
-import {ActionManager, Hotkey} from "@src/editor/controller";
+import {Engine, Hotkey} from "@src/editor/controller";
 
 export class UndoHotkey extends Hotkey {
     protected code = "KeyZ";
 
     protected ctrlKey = true;
 
-    constructor(private actionManager: ActionManager) {
+    constructor(private engine: Engine) {
         super();
     }
 
     handle(): void {
-        this.actionManager.undo();
+        this.engine.undo();
     }
 }

@@ -1,3 +1,4 @@
+import * as styles from "./WorkSpace.module.scss";
 import {JSX} from "solid-js";
 import {useEditorContext} from "@src/editor/context";
 
@@ -6,28 +7,15 @@ type Props = {
 };
 
 export function WorkSpace(props: Props): JSX.Element {
-    const {input} = useEditorContext();
+    const {mouse: input} = useEditorContext();
     // hotkey.setElement(workspace);
 
     return (
         <div
+            class={styles.WorkSpace}
             tabIndex={0}
-            ref={(el) => {
-                el.addEventListener(
-                    "mousedown",
-                    (event) => input.active.onMouseDown(event),
-                    {capture: true}
-                );
-                el.addEventListener(
-                    "mousemove",
-                    (event) => input.active.onMouseMove(event),
-                    {capture: true}
-                );
-                el.addEventListener(
-                    "mouseup",
-                    (event) => input.active.onMouseUp(event),
-                    {capture: true}
-                );
+            ref={(element) => {
+                input.setElement(element);
             }}
         >
             {props.children}

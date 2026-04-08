@@ -1,16 +1,21 @@
+import {useEditorContext} from "@src/editor/context";
 import * as styles from "./ModalLayer.module.scss";
-import {JSX} from "solid-js";
+import {For, JSX} from "solid-js";
+import {Dynamic} from "solid-js/web";
 
-type Props = {
-    children?: JSX.Element;
-};
+export function ModalLayer(): JSX.Element {
+    const {modal} = useEditorContext();
 
-export function ModalLayer(props: Props): JSX.Element {
     return (
-        <div id={"modal"} class={styles.ModalLayer}>
-            <div>
-                {props.children}
-            </div>
+        <div class={styles.ModalLayer}>
+            <For each={modal.getAll()}>
+                {(modal) =>
+                    <Dynamic
+                        component={modal.component}
+                        onClose={modal.onClose}
+                    />
+                }
+            </For>
         </div>
     );
 }
