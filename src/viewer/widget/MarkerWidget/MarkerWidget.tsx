@@ -32,8 +32,8 @@ export function MarkerWidget(props: Props): JSX.Element {
     const style = createMemo((): JSX.CSSProperties => {
         return {
             transform: "translate3d(-50%, -50%, 0)",
-            width: props.entity().width + "px",
-            height: props.entity().height + "px",
+            width: props.entity().w + "px",
+            height: props.entity().h + "px",
         };
     });
 

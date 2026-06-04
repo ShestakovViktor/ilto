@@ -1,5 +1,3 @@
-import {SetStoreFunction} from "solid-js/store";
-
 type Tween = {
     curr: number;
     init: number;
@@ -7,14 +5,6 @@ type Tween = {
     time: number;
     span: number;
     ease: (start: number, end: number, time: number) => number;
-};
-
-type Element = {
-    x: number;
-    y: number;
-    w: number;
-    h: number;
-    e: HTMLElement | undefined;
 };
 
 type Gesture = {
@@ -26,11 +16,11 @@ type Gesture = {
 };
 
 export class Viewport {
-    private frame: Element = {x: 0, y: 0, w: 0, h: 0, e: undefined};
+    private frame = {x: 0, y: 0, w: 0, h: 0};
 
-    private canvas: Element = {x: 0, y: 0, w: 0, h: 0, e: undefined};
+    private canvas = {x: 0, y: 0, w: 0, h: 0};
 
-    private x: Tween = {
+    x: Tween = {
         init: 0,
         curr: 0,
         dest: 0,
@@ -39,7 +29,7 @@ export class Viewport {
         ease: this.linearEasing,
     };
 
-    private y: Tween = {
+    y: Tween = {
         init: 0,
         curr: 0,
         dest: 0,
@@ -48,7 +38,7 @@ export class Viewport {
         ease: this.linearEasing,
     };
 
-    private s: Tween = {
+    s: Tween = {
         init: 1,
         curr: 1,
         dest: 1,
@@ -71,74 +61,54 @@ export class Viewport {
 
     private inertia = 5;
 
-    constructor(private setState: SetStoreFunction<{
-        x: number;
-        y: number;
-        scale: number;
-    }>) {}
+    private onUpdate: () => void = () => {};
 
-    setFrame(element: HTMLElement) {
-        if (element != this.frame.e) {
-            element.addEventListener("mousedown", (e) => this.handleMouseDown(e));
-            element.addEventListener("mousemove", (e) => this.handleMouseMove(e));
-            element.addEventListener("mouseup", () => this.handleMouseUp());
-            element.addEventListener("mouseleave", () => this.handleMouseUp());
-            element.addEventListener("wheel", (e) => this.handleMouseWheel(e));
-
-            element.addEventListener("touchstart", (e) => this.handleTouchStart(e));
-            element.addEventListener("touchmove", (e) => this.handleTouchMove(e));
-            element.addEventListener("touchend", () => this.handleTouchEnd());
-        }
-
-        const r = element.getBoundingClientRect();
-        this.frame = {x: r.x, y: r.y, w: r.width, h: r.height, e: element};
-
+    setFrame(rect: {x: number; y: number; w: number; h: number}) {
+        this.frame = rect;
     }
 
-    setCanvas(element: HTMLElement) {
-        const r = element.getBoundingClientRect();
-        this.canvas = {x: 0, y: 0, w: r.width, h: r.height, e: element};
+    setCanvas(rect: {x: number; y: number; w: number; h: number}) {
+        this.canvas = rect;
     }
 
-    private handleMouseDown(event: MouseEvent): void {
-        if (event.buttons != 1) return;
-
-        this.mouse = {x: event.clientX, y: event.clientY};
-
+    setUpdate(onUpdate: () => void) {
+        this.onUpdate = onUpdate;
     }
 
-    private handleMouseMove(event: MouseEvent): void {
-        if (event.buttons != 1) return;
+    handleMouseDown(event: {x: number; y: number; b: number}): void {
+        if (event.b != 1) return;
+        this.mouse = {...event};
+    }
 
-        const mouse = {x: event.clientX, y: event.clientY};
+    handleMouseMove(event: {x: number; y: number; b: number}): void {
+        if (event.b != 1) return;
 
         this.handleDrag(
-            mouse.x - this.mouse.x,
-            mouse.y - this.mouse.y,
+            event.x - this.mouse.x,
+            event.y - this.mouse.y,
             performance.now() - .5 * 200,
             200
         );
 
-        this.mouse = mouse;
+        this.mouse = event;
     }
 
-    private handleMouseUp(): void {
+    handleMouseUp(): void {
         this.handleEnd(performance.now(), 400);
     }
 
-    private handleMouseWheel(event: WheelEvent): void {
-        event.preventDefault();
+    handleMouseWheel(event: {x: number; y: number; d: number}): void {
         if (!this.frame || !this.canvas) return;
 
         const oldDelta = this.s.dest / this.s.curr;
 
-        const newDelta = Math.pow(Math.exp(0.2), event.deltaY > 0 ? -1 : 1);
+        const newDelta = Math.pow(Math.exp(0.2), event.d > 0 ? -1 : 1);
 
         this.handleZoom(
             oldDelta,
             newDelta,
-            event.clientX - this.frame.x,
-            event.clientY - this.frame.y,
+            event.x - this.frame.x,
+            event.y - this.frame.y,
             performance.now(),
             200
         );
@@ -257,7 +227,6 @@ export class Viewport {
         y: number,
         time: number,
         span: number
-
     ) {
         this.x = {
             curr: this.x.curr,
@@ -375,17 +344,13 @@ export class Viewport {
     }
 
     private update(): void {
-        const x = this.handle(this.x);
-        const y = this.handle(this.y);
-        const s = this.handle(this.s);
+        const deltaX = this.handle(this.x);
+        const deltaY = this.handle(this.y);
+        const deltaS = this.handle(this.s);
 
-        this.setState({
-            x: this.x.curr,
-            y: this.y.curr,
-            scale: this.s.curr,
-        });
+        this.onUpdate();
 
-        this.updateId = x != 1 || y != 1 || s != 1
+        this.updateId = deltaX != 1 || deltaY != 1 || deltaS != 1
             ? requestAnimationFrame(() => this.update()) : undefined;
     }
 }

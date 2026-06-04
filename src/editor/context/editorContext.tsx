@@ -1,7 +1,7 @@
-import {JSX, createContext, createEffect, on, useContext} from "solid-js";
+import {JSX, createContext, createEffect, useContext} from "solid-js";
 import {createStore} from "solid-js/store";
 import {InputMode, ToolMode} from "@src/editor/enum";
-import {EditorContext, Session, Cache} from "@src/editor/type";
+import {EditorContext, Session} from "@src/editor/type";
 import {useCoreContext} from "@src/core/context";
 import {useViewerContext} from "@src/viewer/context";
 import {
@@ -40,17 +40,6 @@ export function EditorProvider(props: Props): JSX.Element {
         notification: [],
     });
 
-    const data = localStorage.getItem("cache");
-
-    const [cache, setCache] = createStore<Cache>(
-        data ? JSON.parse(data) : {widget: {}}
-    );
-
-    createEffect(on(
-        () => JSON.stringify(cache),
-        (s) => localStorage.setItem("cache", s))
-    );
-
     const uid = new Uid();
     const notif = new Notif(uid, session, setSession);
     const modal = new Modal(uid);
@@ -77,9 +66,6 @@ export function EditorProvider(props: Props): JSX.Element {
     const value = {
         session,
         setSession,
-
-        cache,
-        setCache,
 
         storage,
 

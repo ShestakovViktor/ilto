@@ -23,17 +23,24 @@ export function ImageForm(props: Props): JSX.Element {
 
         const x = Number(formData.get("x"));
         const y = Number(formData.get("y"));
-        const width = Number(formData.get("width"));
-        const height = Number(formData.get("height"));
+        const w = Number(formData.get("width"));
+        const h = Number(formData.get("height"));
         const file = formData.get("background") as File;
 
         engine.exec(new Script(async (exec) => {
-            let files: {x: number; y: number; w: number; h: number; f: File}[] = [];
+            let files: {
+                x: number;
+                y: number;
+                w: number;
+                h: number;
+                f: File;
+            }[] = [];
+
             if (file.type == MimeType.Svg) {
-                files = [{x, y, w: width, h: height, f: await imager.prepareSvg(file)}];
+                files = [{x, y, w, h, f: await imager.prepareSvg(file)}];
             }
             else {
-                files = await imager.prepareImg(file, width, height, 32);
+                files = await imager.prepareImg(file, w, h, 128);
             }
 
             await Promise.all(files.map(async(graphics) => {
@@ -48,8 +55,8 @@ export function ImageForm(props: Props): JSX.Element {
                 const image = await exec(new CreateImageAction(storage, {
                     x: graphics.x,
                     y: graphics.y,
-                    width: graphics.w,
-                    height: graphics.h,
+                    w: graphics.w,
+                    h: graphics.h,
                     assetId: asset.id,
                 }));
 

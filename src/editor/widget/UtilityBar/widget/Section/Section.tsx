@@ -1,36 +1,34 @@
-import {useEditorContext} from "@src/editor/context";
+import {useScopeContext} from "@src/editor/context";
 import * as styles from "./Section.module.scss";
-import {JSX, children} from "solid-js";
+import {JSX, children, createSignal} from "solid-js";
+
+type Config = {
+    collapsed: boolean;
+};
 
 type Props = {
     children: JSX.Element | JSX.Element[];
     title: string;
-    uid: string;
     class?: string;
 };
 
 export function Section(props: Props): JSX.Element {
-    const {uid} = props;
+    const {data, setData} = useScopeContext<Config>();
+
+    const [collapsed, setCollapsed] = createSignal(data().collapsed);
 
     const childs = children(() => props.children);
 
-    const {cache, setCache} = useEditorContext();
-
-    if (!cache.widget[uid]) {
-        setCache("widget", uid, () => ({collapsed: true}));
-    }
-
-    const state = cache.widget[uid];
-
     function toggleCollapsed() {
-        setCache("widget", uid, "collapsed", (prev) => !prev);
+        setCollapsed(!collapsed());
+        setData({collapsed: collapsed()});
     }
 
     return (
         <div
             class={styles.Section}
             classList={{
-                [styles.Expand]: state.collapsed,
+                [styles.Expand]: collapsed(),
             }}
         >
             <div
@@ -43,7 +41,7 @@ export function Section(props: Props): JSX.Element {
                 <div
                     class={styles.Expand}
                 >
-                    {state.collapsed ? "-" : "+"}
+                    {collapsed() ? "-" : "+"}
                 </div>
             </div>
             <div

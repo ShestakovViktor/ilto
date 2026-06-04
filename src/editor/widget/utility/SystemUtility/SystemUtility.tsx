@@ -11,20 +11,17 @@ import {
     Widget,
 } from "@src/editor/widget/UtilityBar/widget";
 import {restoreData} from "@src/editor/service";
-import {useEditorContext} from "@src/editor/context";
+import {ScopeProvidor, useEditorContext} from "@src/editor/context";
 import {ToolMode} from "@src/editor/enum";
 import {loadDemo} from "@src/editor/service/loadDemo";
 import {useCoreContext} from "@src/core/context";
 
 i18next.addResourceBundle("en", "editor", {SystemKit: en}, true, true);
 
-type Props = {
-    uid: string;
-};
-
-export function SystemUtility(props: Props): JSX.Element {
+export function SystemUtility(): JSX.Element {
     const {archiver, browser, linker} = useCoreContext();
-    const {storage, setSession, uid} = useEditorContext();
+    const {storage, setSession} = useEditorContext();
+
     // const {notification} = useEditorContext();
 
     // async function handleProjectUpload(): Promise<void> {
@@ -66,38 +63,48 @@ export function SystemUtility(props: Props): JSX.Element {
     }
 
     return (
-        <Widget uid={uid.reg(`${props.uid}-vaer`)} title="System">
-            <Section uid={uid.reg(`${props.uid}-afqe`)} title="Create">
-                <List>
-                    <ListItem onClick={handleInit}>
-                        New project
-                    </ListItem>
-                </List>
-            </Section>
-            <Section uid={uid.reg(`${props.uid}-gsdf`)} title="Save">
-                <List>
-                    <ListItem onClick={handleSave}>
-                        Save
-                    </ListItem>
-                </List>
-            </Section>
-            <Section uid={uid.reg(`${props.uid}-sdba`)} title="Load">
-                <List>
-                    <ListItem onClick={handleRestore}>
-                        Load from memory
-                    </ListItem>
-                    <ListItem onClick={handleLoadDemo}>
-                        Load demo project
-                    </ListItem>
-                </List>
-            </Section>
-            <Section uid={uid.reg(`${props.uid}-qvca`)} title="Export">
-                <List>
-                    <ListItem onClick={handleDownload}>
-                        Download
-                    </ListItem>
-                </List>
-            </Section>
-        </Widget>
+        <ScopeProvidor value="SystemUtility">
+            <Widget title="System">
+                <ScopeProvidor value="CreateSection">
+                    <Section title="Create">
+                        <List>
+                            <ListItem onClick={handleInit}>
+                                New project
+                            </ListItem>
+                        </List>
+                    </Section>
+                </ScopeProvidor>
+                <ScopeProvidor value="SaveSection">
+                    <Section title="Save">
+                        <List>
+                            <ListItem onClick={handleSave}>
+                                Save
+                            </ListItem>
+                        </List>
+                    </Section>
+                </ScopeProvidor>
+                <ScopeProvidor value="LoadSection">
+                    <Section title="Load">
+                        <List>
+                            <ListItem onClick={handleRestore}>
+                                Load from memory
+                            </ListItem>
+                            <ListItem onClick={handleLoadDemo}>
+                                Load demo project
+                            </ListItem>
+                        </List>
+                    </Section>
+                </ScopeProvidor>
+                <ScopeProvidor value="ExportSection">
+                    <Section title="Export">
+                        <List>
+                            <ListItem onClick={handleDownload}>
+                                Download
+                            </ListItem>
+                        </List>
+                    </Section>
+                </ScopeProvidor>
+            </Widget>
+        </ScopeProvidor>
     );
 }

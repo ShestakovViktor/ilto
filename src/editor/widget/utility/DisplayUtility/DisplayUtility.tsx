@@ -10,17 +10,13 @@ import {JSX, Show, createMemo} from "solid-js";
 import {Entity, Visual} from "@src/core/type";
 // import {Prop, Motion} from "@src/core/type";
 import {useViewerContext} from "@src/viewer/context";
-import {useEditorContext} from "@src/editor/context";
+import {ScopeProvidor, useEditorContext} from "@src/editor/context";
 import {Section, Widget} from "@src/editor/widget/UtilityBar/widget";
 import {PropBrowser} from "@src/editor/widget";
 
 i18next.addResourceBundle("en", "entity", {AppearanceSection: en}, true, true);
 
-type Props = {
-    uid: string;
-};
-
-export function DisplayUtility(props: Props): JSX.Element {
+export function DisplayUtility(): JSX.Element {
     const {storage, session} = useEditorContext();
     const {path} = useViewerContext();
 
@@ -113,36 +109,39 @@ export function DisplayUtility(props: Props): JSX.Element {
     // );
 
     return (
-        <Widget
-            class={styles.DisplayUtility}
-            uid={props.uid}
-            title="Display"
-        >
-            <Show when={isVisual(entityMemo())}>
-                <Section uid="mwem" title="Prop">
-                    <Show
-                        when={propSrc()}
-                        fallback={(
-                            <Icon
-                                class={styles.Preview}
-                                //classList={classList()}
-                                svg={ImageIconSvg}
-                                onClick={() => propBrowserDialog.show()}
-                            />
-                        )}
-                    >
-                        <img
-                            class={styles.Preview}
-                            src={propSrc()}
-                            draggable={false}
-                            onPointerDown={() => {
-                                propBrowserDialog.show();
-                            }}
-                        />
-                    </Show>
-                </Section>
-            </Show>
-            {/* <div class={styles.Toolbar}>
+        <ScopeProvidor value="DisplayUtility">
+
+            <Widget
+                class={styles.DisplayUtility}
+                title="Display"
+            >
+                <Show when={isVisual(entityMemo())}>
+                    <ScopeProvidor value="PropSection">
+                        <Section title="Prop">
+                            <Show
+                                when={propSrc()}
+                                fallback={(
+                                    <Icon
+                                        class={styles.Preview}
+                                        //classList={classList()}
+                                        svg={ImageIconSvg}
+                                        onClick={() => propBrowserDialog.show()}
+                                    />
+                                )}
+                            >
+                                <img
+                                    class={styles.Preview}
+                                    src={propSrc()}
+                                    draggable={false}
+                                    onPointerDown={() => {
+                                        propBrowserDialog.show();
+                                    }}
+                                />
+                            </Show>
+                        </Section>
+                    </ScopeProvidor>
+                </Show>
+                {/* <div class={styles.Toolbar}>
                 <Button
                     icon={ImageIconSvg}
                     onClick={() => propBrowserDialog.show()}
@@ -155,6 +154,7 @@ export function DisplayUtility(props: Props): JSX.Element {
 
              */}
 
-        </Widget>
+            </Widget>
+        </ScopeProvidor>
     );
 }

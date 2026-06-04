@@ -7,8 +7,8 @@ export function pushAreaPoint(area: Area, point: {x: number; y: number}): {
     height: number;
     points: {x: number; y: number}[];
 } {
-    const minimum = {x: area.x - area.width / 2, y: area.y - area.height / 2};
-    const maximum = {x: area.x + area.width / 2, y: area.y + area.height / 2};
+    const minimum = {x: area.x - area.w / 2, y: area.y - area.h / 2};
+    const maximum = {x: area.x + area.w / 2, y: area.y + area.h / 2};
 
     const shift = {
         x: point.x < minimum.x ? point.x - minimum.x
@@ -33,8 +33,8 @@ export function pushAreaPoint(area: Area, point: {x: number; y: number}): {
     const newArea = {
         x: center.x,
         y: center.y,
-        width: area.width + Math.abs(shift.x),
-        height: area.height + Math.abs(shift.y),
+        width: area.w + Math.abs(shift.x),
+        height: area.h + Math.abs(shift.y),
         points,
     };
 

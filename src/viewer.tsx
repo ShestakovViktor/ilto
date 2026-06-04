@@ -6,6 +6,7 @@ import {render} from "solid-js/web";
 import {Storage} from "@src/storage/controller";
 import {Viewer} from "@src/viewer/widget";
 import {ViewerProvider} from "@src/viewer/context";
+import {Viewport, Canvas, Scene} from "@src/viewer/controller";
 
 (async(): Promise<void> => {
     const container = document.querySelector("#viewer[data-src]");
@@ -21,10 +22,16 @@ import {ViewerProvider} from "@src/viewer/context";
     const data = await response.json();
 
     const storage = new Storage(data);
+    const viewport = new Viewport();
+    const scene = new Scene();
+    const canvas = new Canvas(storage);
 
     render(() => {
         return (
-            <ViewerProvider storage={storage} path={path}>
+            <ViewerProvider
+                module={{storage, viewport, canvas, scene}}
+                path={path}
+            >
                 <Viewer/>
             </ViewerProvider>
         );

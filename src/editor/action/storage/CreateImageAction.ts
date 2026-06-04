@@ -11,8 +11,8 @@ export class CreateImageAction extends Action<Image> {
         private props: {
             x: number;
             y: number;
-            width: number;
-            height: number;
+            w: number;
+            h: number;
             assetId: number;
         }
     ) {

@@ -25,8 +25,8 @@ export function ImageView({entity}: Props): JSX.Element {
                     style={{
                         "--x": `${entity().x}px`,
                         "--y": `${entity().y}px`,
-                        "--w": `${entity().width}px`,
-                        "--h": `${entity().height}px`,
+                        "--w": `${entity().w}px`,
+                        "--h": `${entity().h}px`,
                     }}
                 >
                     <use href={path + asset().path + "#root"} />
@@ -38,8 +38,8 @@ export function ImageView({entity}: Props): JSX.Element {
                     style={{
                         "--x": `${entity().x}px`,
                         "--y": `${entity().y}px`,
-                        "--w": `${entity().width}px`,
-                        "--h": `${entity().height}px`,
+                        "--w": `${entity().w}px`,
+                        "--h": `${entity().h}px`,
                     }}
 
                     src={path + asset().path} draggable={false}

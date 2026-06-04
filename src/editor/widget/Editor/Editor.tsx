@@ -8,18 +8,21 @@ import {
     WorkSpace,
 } from "@src/editor/widget";
 import {Viewer} from "@src/viewer/widget";
+import {ScopeProvidor} from "@src/editor/context";
 
 export function Editor(): JSX.Element {
     return (
-        <div class={styles.Editor} tabIndex={0}>
-            <ToolBar/>
-            <UtilityBar/>
-            <WorkSpace>
-                <Viewer/>
-            </WorkSpace>
-            <StatusBar/>
-            <ModalLayer/>
-            {/* <Notification/> */}
-        </div>
+        <ScopeProvidor value="Editor">
+            <div class={styles.Editor} tabIndex={0}>
+                <ToolBar/>
+                <UtilityBar/>
+                <WorkSpace>
+                    <Viewer/>
+                </WorkSpace>
+                <StatusBar/>
+                <ModalLayer/>
+                {/* <Notification/> */}
+            </div>
+        </ScopeProvidor>
     );
 }

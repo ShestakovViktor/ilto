@@ -9,8 +9,8 @@ export function popAreaPoint(area: Area): void {
     const point = area.points.pop();
     if (!point) throw new Error();
 
-    const minimum = {x: area.x - area.width / 2, y: area.y - area.height / 2};
-    const maximum = {x: area.x + area.width / 2, y: area.y + area.height / 2};
+    const minimum = {x: area.x - area.w / 2, y: area.y - area.h / 2};
+    const maximum = {x: area.x + area.w / 2, y: area.y + area.h / 2};
 
     area.points.forEach((point) => {
         if (point.x < minimum.x) minimum.x = point.x;
@@ -20,8 +20,8 @@ export function popAreaPoint(area: Area): void {
         else if (point.y > maximum.y) maximum.y = point.y;
     });
 
-    area.width = maximum.x - minimum.x;
-    area.height = maximum.y - minimum.y;
+    area.w = maximum.x - minimum.x;
+    area.h = maximum.y - minimum.y;
     area.x = (minimum.x + maximum.x) / 2;
     area.y = (minimum.y + maximum.y) / 2;
 

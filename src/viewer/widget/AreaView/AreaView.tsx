@@ -28,16 +28,16 @@ export function AreaView(props: Props): JSX.Element {
 
     const style = createMemo((): JSX.CSSProperties => {
         return {
-            width: props.entity().width + factor() * 2 + "px",
-            height: props.entity().height + factor() * 2 + "px",
+            width: props.entity().w + factor() * 2 + "px",
+            height: props.entity().h + factor() * 2 + "px",
         };
     });
 
     const viewBox = createMemo((): string => {
-        const x = -props.entity().width / 2 - factor();
-        const y = -props.entity().height / 2 - factor();
-        const width = props.entity().width + factor() * 2;
-        const height = props.entity().height + factor() * 2;
+        const x = -props.entity().w / 2 - factor();
+        const y = -props.entity().h / 2 - factor();
+        const width = props.entity().w + factor() * 2;
+        const height = props.entity().h + factor() * 2;
 
         return `${x} ${y} ${width} ${height}`;
     });

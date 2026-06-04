@@ -1,6 +1,6 @@
 import * as styles from "./UtilityBar.module.scss";
 import {createMemo, For, JSX, Show} from "solid-js";
-import {useEditorContext} from "@src/editor/context";
+import {ScopeProvidor, useEditorContext} from "@src/editor/context";
 import {ToolMode} from "@src/editor/enum";
 import {CreateUtility, EntityUtility, ExploreUtility} from "@src/editor/widget/utility";
 import {
@@ -13,7 +13,7 @@ import {Dynamic} from "solid-js/web";
 
 type Utility = {
     component: (props: {uid: string}) => JSX.Element;
-    uid: string;
+    scope: string;
 };
 
 export function UtilityBar(): JSX.Element {
@@ -22,48 +22,50 @@ export function UtilityBar(): JSX.Element {
     const kits = createMemo<{[key: string]: Utility[]}>(() => ({
         [ToolMode.System]: [{
             component: SystemUtility,
-            uid: uid.reg("dqvs"),
+            scope: uid.reg("dqvs"),
         }],
         [ToolMode.Init]: [{
             component: InitUtility,
-            uid: uid.reg("abdg"),
+            scope: uid.reg("abdg"),
         }],
         [ToolMode.Explore]: [{
             component: ExploreUtility,
-            uid: uid.reg("dawf"),
+            scope: uid.reg("dawf"),
         }, {
             component: DisplayUtility,
-            uid: uid.reg("badf"),
+            scope: uid.reg("badf"),
         }],
         [ToolMode.Create]: [{
             component: CreateUtility,
-            uid: uid.reg("mvqe"),
+            scope: uid.reg("mvqe"),
         }, {
             component: LayerUtility,
-            uid: uid.reg("dsba"),
+            scope: uid.reg("dsba"),
         }, {
             component: EntityUtility,
-            uid: uid.reg("pbdf"),
+            scope: uid.reg("pbdf"),
         }, {
             component: DisplayUtility,
-            uid: uid.reg("asfa"),
+            scope: uid.reg("asfa"),
         }],
     }));
 
     const kit = createMemo(() => kits()[session.toolkit]);
 
     return (
-        <div class={styles.UtilityBar}>
-            <Show when={kit()} keyed>
-                <For each={kit()}>
-                    {(utility) =>
-                        <Dynamic
-                            component={utility.component}
-                            uid={utility.uid}
-                        />
-                    }
-                </For>
-            </Show>
-        </div>
+        <ScopeProvidor value="UtilityBar">
+            <div class={styles.UtilityBar}>
+                <Show when={kit()} keyed>
+                    <For each={kit()}>
+                        {(utility) =>
+                            <Dynamic
+                                component={utility.component}
+                                uid={utility.scope}
+                            />
+                        }
+                    </For>
+                </Show>
+            </div>
+        </ScopeProvidor>
     );
 }

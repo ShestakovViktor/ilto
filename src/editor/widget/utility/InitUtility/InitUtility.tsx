@@ -5,15 +5,11 @@ import {JSX} from "solid-js";
 import {Field} from "../../UtilityBar/widget/Field";
 import {initProject} from "@src/editor/service";
 import {Widget} from "../../UtilityBar/widget/Widget";
-import {useEditorContext} from "@src/editor/context";
+import {ScopeProvidor, useEditorContext} from "@src/editor/context";
 
 i18next.addResourceBundle("en", "editor", {InitTool: en}, true, true);
 
-type Props = {
-    uid: string;
-};
-
-export function InitUtility(props: Props): JSX.Element {
+export function InitUtility(): JSX.Element {
     const {storage} = useEditorContext();
 
     function projectCreate(event: SubmitEvent): void {
@@ -31,52 +27,54 @@ export function InitUtility(props: Props): JSX.Element {
     }
 
     return (
-        <Widget uid={props.uid} title="Init">
-            <form
-                class={styles.InitTool}
-                onSubmit={projectCreate}
-            >
-                <Field
-                    label={
-                        i18next.t(
-                            "editor:InitTool.nameField",
-                            {postProcess: ["capitalize"]}
-                        )
-                    }
-                    name="name"
-                    type="text"
-                    required
-                />
-                <Field
-                    label={
-                        i18next.t(
-                            "editor:InitTool.width",
-                            {postProcess: ["capitalize"]}
-                        )
-                    }
-                    name="width"
-                    type="number"
-                    required
-                />
-                <Field
-                    label={
-                        i18next.t(
-                            "editor:InitTool.height",
-                            {postProcess: ["capitalize"]}
-                        )
-                    }
-                    name="height"
-                    type="number"
-                    required
-                />
-                <input
-                    type="submit"
-                    value={i18next.t(
-                        "editor:InitTool.create",
-                        {postprocess: ["capitalize"]}
-                    )}
-                />
-            </form>
-        </Widget>
+        <ScopeProvidor value="InitUtility">
+            <Widget title="Init">
+                <form
+                    class={styles.InitTool}
+                    onSubmit={projectCreate}
+                >
+                    <Field
+                        label={
+                            i18next.t(
+                                "editor:InitTool.nameField",
+                                {postProcess: ["capitalize"]}
+                            )
+                        }
+                        name="name"
+                        type="text"
+                        required
+                    />
+                    <Field
+                        label={
+                            i18next.t(
+                                "editor:InitTool.width",
+                                {postProcess: ["capitalize"]}
+                            )
+                        }
+                        name="width"
+                        type="number"
+                        required
+                    />
+                    <Field
+                        label={
+                            i18next.t(
+                                "editor:InitTool.height",
+                                {postProcess: ["capitalize"]}
+                            )
+                        }
+                        name="height"
+                        type="number"
+                        required
+                    />
+                    <input
+                        type="submit"
+                        value={i18next.t(
+                            "editor:InitTool.create",
+                            {postprocess: ["capitalize"]}
+                        )}
+                    />
+                </form>
+            </Widget>
+        </ScopeProvidor>
     );
 }

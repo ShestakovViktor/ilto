@@ -1,41 +1,44 @@
 import * as styles from "./Widget.module.scss";
-import {JSX, children} from "solid-js";
-import {useEditorContext} from "@src/editor/context";
+import {JSX, children, createSignal} from "solid-js";
+import {useScopeContext} from "@src/editor/context";
+
+type Config = {
+    collapsed: boolean;
+    height: number;
+};
 
 type Props = {
     children: JSX.Element | JSX.Element[];
     title: string;
-    uid: string;
     class?: string;
 };
 
 export function Widget(props: Props): JSX.Element {
-    const {cache: storage, setCache: setStorage} = useEditorContext();
+    const {data: config, setData: setConfig} = useScopeContext<Config>();
 
     let contentRef!: HTMLDivElement;
 
     const childs = children(() => props.children);
 
-    const {uid} = props;
+    const [collapsed, setCollapsed] = createSignal(config().collapsed);
 
-    if (!storage.widget[uid]) {
-        setStorage("widget", uid, () => ({collapsed: true}));
-    }
-
-    const state = storage.widget[uid];
+    const [height, setHeight] = createSignal(config().height);
 
     function toggleCollapsed() {
-        setStorage("widget", uid, "collapsed", (prev) => !prev);
+        setCollapsed(!collapsed());
+        setConfig({collapsed: collapsed()});
     }
 
     function startResize(event: MouseEvent) {
         const y = event.y;
-        const h = state.height || contentRef.getBoundingClientRect().height;
+        const h = height() || contentRef
+            .getBoundingClientRect().height;
 
         function handleResize(event: MouseEvent) {
-
             if (event.button === 0 && y != undefined) {
-                setStorage("widget", uid, "height", h + (event.y - y));
+                const height = h + (event.y - y);
+                setHeight(height);
+                setConfig({height});
             }
         }
 
@@ -54,7 +57,7 @@ export function Widget(props: Props): JSX.Element {
         <div
             class={styles.Widget}
             classList={{
-                [styles.Collapsed]: state.collapsed,
+                [styles.Collapsed]: collapsed(),
             }}
         >
             <div
@@ -66,7 +69,7 @@ export function Widget(props: Props): JSX.Element {
                     {props.title}
                 </div>
                 <div class={styles.Collapsed}>
-                    {state.collapsed ? "+" : "-"}
+                    {collapsed() ? "+" : "-"}
                 </div>
             </div>
             <div
@@ -74,7 +77,7 @@ export function Widget(props: Props): JSX.Element {
                 classList={{
                     [props?.class ?? ""]: true,
                 }}
-                style={{height: state.height + "px"}}
+                style={{height: height() + "px"}}
                 ref={contentRef}
             >
                 {childs()}

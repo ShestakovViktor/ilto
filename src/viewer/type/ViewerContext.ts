@@ -1,5 +1,5 @@
 import {Store, SetStoreFunction} from "solid-js/store";
-import {Viewport} from "../controller";
+import {Canvas, Scene, Viewport} from "@src/viewer/controller";
 import {ViewerState} from "@src/viewer/type";
 import {Storage} from "@src/storage/controller";
 
@@ -8,6 +8,9 @@ export type ViewerContext = {
     setViewer: SetStoreFunction<ViewerState>;
 
     viewport: Viewport;
+    canvas: Canvas;
+    scene: Scene;
+
     path: string;
 
     storage: Storage;

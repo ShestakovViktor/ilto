@@ -6,13 +6,9 @@ import PolygonIconSvg from "@res/svg/small/polygon.svg";
 import {Widget, Button} from "@src/editor/widget/UtilityBar/widget";
 import {For, JSX} from "solid-js";
 import {InputMode} from "@src/editor/enum";
-import {useEditorContext} from "@src/editor/context";
+import {ScopeProvidor, useEditorContext} from "@src/editor/context";
 
-type Props = {
-    uid: string;
-};
-
-export function CreateUtility(props: Props): JSX.Element {
+export function CreateUtility(): JSX.Element {
     const {session, setSession} = useEditorContext();
     const buttons: {icon: string; input: InputMode}[] = [
         {icon: ImageIconSvg, input: InputMode.ImageCreate},
@@ -22,20 +18,21 @@ export function CreateUtility(props: Props): JSX.Element {
     ];
 
     return (
-        <Widget
-            title="Create entity"
-            class={styles.Widget}
-            uid={props.uid}
-        >
-            <For each={buttons}>
-                {(button) =>
-                    <Button
-                        pressed={session.inputMode == button.input}
-                        icon={button.icon}
-                        onClick={() => setSession({inputMode: button.input})}
-                    />
-                }
-            </For>
-        </Widget>
+        <ScopeProvidor value="CreateEntity">
+            <Widget
+                title="Create entity"
+                class={styles.Widget}
+            >
+                <For each={buttons}>
+                    {(button) =>
+                        <Button
+                            pressed={session.inputMode == button.input}
+                            icon={button.icon}
+                            onClick={() => setSession({inputMode: button.input})}
+                        />
+                    }
+                </For>
+            </Widget>
+        </ScopeProvidor>
     );
 }

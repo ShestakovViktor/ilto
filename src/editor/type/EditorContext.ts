@@ -1,5 +1,5 @@
 import {SetStoreFunction} from "solid-js/store";
-import {Session, Cache} from "@src/editor/type";
+import {Session} from "@src/editor/type";
 import {
     Engine,
     Key,
@@ -14,9 +14,6 @@ import {Storage} from "@src/storage/controller";
 export type EditorContext = {
     session: Session;
     setSession: SetStoreFunction<Session>;
-
-    cache: Cache;
-    setCache: SetStoreFunction<Cache>;
 
     storage: Storage;
 
