@@ -1,17 +1,14 @@
-import {Store, SetStoreFunction} from "solid-js/store";
-import {Canvas, Scene, Viewport} from "@src/viewer/controller";
-import {ViewerState} from "@src/viewer/type";
-import {Storage} from "@src/storage/controller";
+import type {Canvas, Loop, Input, Scene, Viewport} from "@src/viewer/controller";
+import type {ViewerState} from "@src/viewer/type";
+import type {Ref} from "vue";
 
 export type ViewerContext = {
-    viewer: Store<ViewerState>;
-    setViewer: SetStoreFunction<ViewerState>;
+	viewer: Ref<ViewerState>;
 
-    viewport: Viewport;
-    canvas: Canvas;
-    scene: Scene;
+	viewport: Viewport;
+	loop: Loop;
+	input: Input;
 
-    path: string;
-
-    storage: Storage;
+	canvas: Canvas;
+	scene: Scene;
 };

@@ -5,12 +5,10 @@
         "checkJs": false,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
-        "jsx": "react-jsx",
         "types": [
             "node",
-            "jest"
+            "jest",
         ],
-        "jsxImportSource": "solid-js",
         "lib": [
             "ESNext",
             "dom",
@@ -46,10 +44,10 @@
         "target": "esnext",
     },
     "include": [
-        "./src/**/*.ts",
-        "./src/**/*.tsx",
-        "./src/**/*.d.ts",
-        "./*.js",
+        "./**/*.js",
+        "./**/*.ts",
+        "./**/*.vue",
+        "src/core/context/coreModule.ts",
     ],
     "exclude": [
         "node_modules",

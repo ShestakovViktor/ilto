@@ -1,49 +1,51 @@
 import {AssetKind} from "@src/core/enum";
-import {Asset, Graphics} from "@src/core/type";
-import {Action} from "@src/editor/action";
-import {Storage} from "@src/storage/controller";
+import type {Asset, Graphics} from "@src/core/type";
+import {Action} from "@src/editor/controller";
+import type {Storage} from "@src/core/controller";
 
 export class CreateAssetAction extends Action<Asset> {
-    private assetId?: number;
+	name = "CreateAssetAction";
 
-    constructor(
-        private storage: Storage,
-        private props: {
-            size: number;
-            mime: string;
-            path: string;
-            name: string;
-            meta: {footnote: string};
-        }
-    ) {
-        super();
-    }
+	private assetId?: number;
 
-    getLogMessage(): string {
-        return "create image";
-    }
+	constructor(
+		private storage: Storage,
+		public payload: {
+			size: number;
+			mime: string;
+			path: string;
+			name: string;
+			meta: {footnote: string};
+		}
+	) {
+		super();
+	}
 
-    getLogData(): {[key: string]: unknown} {
-        return {
-            assetId: this.assetId,
-            props: this.props,
-        };
-    }
+	getLogMessage(): string {
+		return "create image";
+	}
 
-    exec(): Graphics {
-        const image = this.storage.data.asset.create<Graphics>({
-            kind: AssetKind.Graphics,
-            ...this.props,
-        });
+	getLogData(): Record<string, unknown> {
+		return {
+			assetId: this.assetId,
+			props: this.payload,
+		};
+	}
 
-        this.assetId = image.id;
+	exec(): Graphics {
+		const image = this.storage.asset.create<Graphics>({
+			kind: AssetKind.Graphics,
+			...this.payload,
+		});
 
-        return image;
-    }
+		this.assetId = image.id;
 
-    undo(): void {
-        if (this.assetId) {
-            this.storage.data.asset.delete(this.assetId);
-        }
-    }
+		return image;
+	}
+
+	undo(): void {
+		if (this.assetId) {
+			this.storage.asset.delete(this.assetId);
+		}
+	}
 }

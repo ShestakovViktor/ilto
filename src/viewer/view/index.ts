@@ -1,0 +1,11 @@
+// export * from "./LayerView";
+// export * from "./AreaView";
+// export * from "./FootnoteDialog";
+// export * from "./FootnoteView";
+// export * from "./FootnoteFigure";
+// export * from "./DecorView";
+// export * from "./MarkerWidget";
+// export * from "./ImageView";
+// export * from "./EntityView";
+export {default as TileView} from "./TileView.vue";
+export {default as Viewer} from "./Viewer.vue";

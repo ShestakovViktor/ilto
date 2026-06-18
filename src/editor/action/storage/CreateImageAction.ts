@@ -1,50 +1,52 @@
 import {EntityKind} from "@src/core/enum";
-import {Image} from "@src/core/type";
-import {Action} from "@src/editor/action";
-import {Storage} from "@src/storage/controller";
+import type {Image} from "@src/core/type";
+import {Action} from "@src/editor/controller";
+import type {Storage} from "@src/core/controller";
 
 export class CreateImageAction extends Action<Image> {
-    private imageId?: number;
+	name = "CreateImageAction";
 
-    constructor(
-        private storage: Storage,
-        private props: {
-            x: number;
-            y: number;
-            w: number;
-            h: number;
-            assetId: number;
-        }
-    ) {
-        super();
-    }
+	private imageId?: number;
 
-    getLogMessage(): string {
-        return "create image";
-    }
+	constructor(
+		private storage: Storage,
+		public payload: {
+			x: number;
+			y: number;
+			w: number;
+			h: number;
+			assetId: number;
+		}
+	) {
+		super();
+	}
 
-    getLogData(): {[key: string]: unknown} {
-        return {
-            imageId: this.imageId,
-            props: this.props,
-        };
-    }
+	getLogMessage(): string {
+		return "create image";
+	}
 
-    exec(): Image {
-        const image = this.storage.data.entity.create<Image>({
-            kind: EntityKind.Image,
-            prop: [],
-            ...this.props,
-        });
+	getLogData(): Record<string, unknown> {
+		return {
+			imageId: this.imageId,
+			props: this.payload,
+		};
+	}
 
-        this.imageId = image.id;
+	exec(): Image {
+		const image = this.storage.entity.create<Image>({
+			kind: EntityKind.Image,
+			prop: [],
+			...this.payload,
+		});
 
-        return image;
-    }
+		this.imageId = image.id;
 
-    undo(): void {
-        if (this.imageId) {
-            this.storage.data.entity.delete(this.imageId);
-        }
-    }
+		return image;
+	}
+
+	undo(): void {
+		if (this.imageId) {
+			this.storage.entity.delete(this.imageId);
+		}
+	}
 }

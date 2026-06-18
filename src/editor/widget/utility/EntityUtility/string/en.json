@@ -1,9 +1,0 @@
-{
-    "delete": "delete",
-    "idLabel": "id",
-    "kindLabel": "Kind",
-    "xLabel": "x",
-    "yLabel": "y",
-    "widthLabel": "width",
-    "heightLabel": "height"
-}

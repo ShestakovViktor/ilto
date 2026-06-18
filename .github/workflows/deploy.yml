@@ -20,10 +20,12 @@ jobs:
     - uses: actions/checkout@main
     - uses: actions/setup-node@main
       with:
-        node-version: "18"
+        node-version: "24"
         cache: "npm"
     - run: npm install
-    - run: npm run build
+    - run: npm run build 
+      env:
+        NODE_ENV: production
     - uses: actions/configure-pages@main
     - uses: actions/upload-pages-artifact@main
       with:

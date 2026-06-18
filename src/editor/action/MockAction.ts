@@ -1,28 +1,20 @@
-import {Action} from "@src/editor/action";
+import {Action} from "@src/editor/controller";
 
 export class MockAction extends Action<void> {
-    constructor(
-        private onSubmit: () => void,
-        private onRevert: () => void,
-        private logMessage: string,
-        private logData: {[key: string]: unknown}
-    ) {
-        super();
-    }
+	name = "MockAction";
 
-    async exec(): Promise<void> {
-        this.onSubmit();
-    }
+	constructor(
+		private onExec: () => void,
+		private onUndo: () => void
+	) {
+		super();
+	}
 
-    async undo(): Promise<void> {
-        this.onRevert();
-    }
+	exec(): void {
+		this.onExec();
+	}
 
-    getLogMessage(): string {
-        return this.logMessage;
-    }
-
-    getLogData(): {[key: string]: unknown} {
-        return this.logData;
-    }
+	undo(): void {
+		this.onUndo();
+	}
 }

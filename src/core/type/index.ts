@@ -17,3 +17,6 @@ export * from "./Entity";
 export * from "./Entities";
 export * from "./Image";
 export * from "./CoreContext";
+export * from "./Config";
+export * from "./System";
+export * from "./Schema";

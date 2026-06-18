@@ -1,22 +1,22 @@
-import {Hotkey} from "@src/editor/controller";
+import type {Hotkey} from "@src/editor/controller";
 
 export class Key {
-    constructor(private hotkey: Hotkey[]){}
+	constructor(private hotkey: Hotkey[]){}
 
-    setElement(editor: HTMLElement) {
-        editor.addEventListener("keydown", (event: KeyboardEvent) => {
-            const active = document.activeElement;
+	setElement(editor: HTMLElement): void {
+		editor.addEventListener("keydown", (event: KeyboardEvent) => {
+			const active = document.activeElement;
 
-            if (active?.tagName.toLowerCase() == "input") return;
-            if (active != editor && !editor.contains(active)) return;
+			if (active?.tagName.toLowerCase() == "input") return;
+			if (active != editor && !editor.contains(active)) return;
 
-            const action = this.hotkey.find(hotkey => hotkey.check(event));
+			const action = this.hotkey.find(hotkey => hotkey.check(event));
 
-            if (action) {
-                void action.handle();
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        });
-    }
+			if (action) {
+				void action.handle();
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		});
+	}
 }

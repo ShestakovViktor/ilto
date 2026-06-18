@@ -1,4 +1,4 @@
 export enum AssetKind {
-    Graphics = "graphics",
-    Keyframe = "keyframe",
+	Graphics = "graphics",
+	Keyframe = "keyframe",
 }

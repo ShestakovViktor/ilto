@@ -1,9 +1,12 @@
-import {ArchiveDriver, ImageDriver} from "@src/core/interface";
-import {WebBlobDriver, WebStashDriver} from "@src/core/driver";
+import type {ArchiverDriver, GraphicsDriver} from "@src/core/interface";
+import type {WebLinkerDriver, WebFetcherDriver} from "@src/core/driver";
+import type {Storage} from "@src/core/controller";
 
 export type CoreContext = {
-    archiver: ArchiveDriver;
-    browser: WebStashDriver;
-    linker: WebBlobDriver;
-    imager: ImageDriver;
+	archiver: ArchiverDriver;
+	fetcher: WebFetcherDriver;
+	linker: WebLinkerDriver;
+	graphics: GraphicsDriver;
+
+	storage: Storage;
 };

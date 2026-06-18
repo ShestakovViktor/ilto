@@ -1,73 +1,75 @@
-import {Engine, Mode, Modal} from "@src/editor/controller";
+import type {Engine, Mode} from "@src/editor/controller";
 import {InputMode} from "@src/editor/enum";
 import {
-    DefaultView,
-    EntitySelect,
-    EntityCreate,
+	DefaultView,
+	EntitySelect,
+	EntityCreate,
 } from "@src/editor/controller/mode";
-import {SetStoreFunction} from "solid-js/store";
-import {ViewerState} from "@src/viewer/type";
-import {Session} from "@src/editor/type";
-import {Storage} from "@src/storage/controller";
+import type {ViewerState} from "@src/viewer/type";
+import type {Storage} from "@src/core/controller";
+import type {Getter, Session, Setter} from "@src/editor/type";
+import type {GraphicsDriver} from "@src/core/interface";
+import type {Loop} from "@src/viewer/controller";
 
 export class Mouse {
-    private modes: {[key: string]: Mode};
+	private modes: Record<string, Mode>;
 
-    private active: Mode;
+	private active: Mode;
 
-    constructor(
-        storage: Storage,
-        viewer: ViewerState,
-        session: Session,
-        setSession: SetStoreFunction<Session>,
-        engine: Engine,
-        modalManager: Modal
-    ) {
+	constructor(
+		getViewer: Getter<ViewerState>,
+		setSession: Setter<Session>,
+		storage: Storage,
+		loop: Loop,
+		engine: Engine,
+		graphics: GraphicsDriver
+	) {
 
-        const defaultView = new DefaultView();
-        const entitySelect = new EntitySelect(
-            storage,
-            viewer,
-            setSession,
-            engine
-        );
-        const entityCreate = new EntityCreate(
-            viewer,
-            modalManager,
-            session,
-            setSession
-        );
+		const defaultView = new DefaultView();
+		const entitySelect = new EntitySelect(
+			getViewer,
+			storage,
+			engine
+		);
+		const entityCreate = new EntityCreate(
+			getViewer,
+			setSession,
+			graphics,
+			storage,
+			loop,
+			engine
+		);
 
-        this.modes = {
-            [InputMode.DefaultView]: defaultView,
-            [InputMode.EntitySelect]: entitySelect,
-            [InputMode.ImageCreate]: entityCreate,
-            [InputMode.MarkerCreate]: entityCreate,
-            [InputMode.DecorCreate]: entityCreate,
-        };
+		this.modes = {
+			[InputMode.DefaultView]: defaultView,
+			[InputMode.EntitySelect]: entitySelect,
+			[InputMode.ImageCreate]: entityCreate,
+			[InputMode.MarkerCreate]: entityCreate,
+			[InputMode.DecorCreate]: entityCreate,
+		};
 
-        this.active = this.modes.DefaultView;
-    }
+		this.active = this.modes.DefaultView;
+	}
 
-    setElement(element: HTMLElement) {
-        element.addEventListener(
-            "mousedown",
-            (event) => this.active.onMouseDown(event),
-            {capture: true}
-        );
-        element.addEventListener(
-            "mousemove",
-            (event) => this.active.onMouseMove(event),
-            {capture: true}
-        );
-        element.addEventListener(
-            "mouseup",
-            (event) => this.active.onMouseUp(event),
-            {capture: true}
-        );
-    }
+	setElement(element: HTMLElement): void {
+		element.addEventListener(
+			"mousedown",
+			(event) => this.active.onMouseDown(event),
+			{capture: true}
+		);
+		element.addEventListener(
+			"mousemove",
+			(event) => this.active.onMouseMove(event),
+			{capture: true}
+		);
+		element.addEventListener(
+			"mouseup",
+			(event) => this.active.onMouseUp(event),
+			{capture: true}
+		);
+	}
 
-    setMode(mode: InputMode) {
-        this.active = this.modes[mode];
-    }
+	setMode(mode: InputMode): void {
+		this.active = this.modes[mode];
+	}
 }

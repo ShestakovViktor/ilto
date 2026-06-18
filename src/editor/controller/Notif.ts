@@ -1,51 +1,50 @@
-import {Session, NotificationRecord} from "@src/editor/type";
-import {SetStoreFunction} from "solid-js/store";
+import {Getter, NotificationRecord, Session, Setter} from "@src/editor/type";
 import {Uid} from "@src/editor/controller";
 
 export class Notif {
-    private delay = 0;
+	private delay = 0;
 
-    private duration = 3000;
+	private duration = 3000;
 
-    constructor(
-        private uid: Uid,
-        private editor: Session,
-        private setEditor: SetStoreFunction<Session>
-    ) {}
+	constructor(
+		private uid: Uid,
+		private getSession: Getter<Session>,
+		private setSession: Setter<Session>
+	) {}
 
-    private addNotification(
-        notification: NotificationRecord
-    ): NotificationRecord {
-        this.setEditor({
-            notification: this.editor.notification
-                .concat(notification),
-        });
+	private addNotification(
+		notification: NotificationRecord
+	): NotificationRecord {
 
-        return this.editor.notification.at(-1)!;
-    }
+		this.setSession((prev) => ({
+			notification: prev.notification.push(notification),
+		}));
 
-    private delNotification(notifiaction: NotificationRecord): void {
-        this.setEditor({
-            notification: this.editor.notification
-                .filter(item => item.id != notifiaction.id),
-        });
-    }
+		return this.getSession().notification.at(-1)!;
+	}
 
-    show(props: {message: string; duration?: number; delay?: number}): void {
-        const notifiaction = {
-            id: this.uid.get(),
-            timestamp: Date.now(),
-            message: props.message,
-            delay: props.delay || this.delay,
-            duration: props.duration || this.duration,
-        };
+	private delNotification(notifiaction: NotificationRecord): void {
+		this.setSession((prev) => ({
+			notification: prev.notification
+				.filter(item => item.id != notifiaction.id),
+		}));
+	}
 
-        setTimeout(() => {
-            this.addNotification(notifiaction);
+	show(props: {message: string; duration?: number; delay?: number}): void {
+		const notifiaction = {
+			id: this.uid.get(),
+			timestamp: Date.now(),
+			message: props.message,
+			delay: props.delay || this.delay,
+			duration: props.duration || this.duration,
+		};
 
-            setTimeout(() => {
-                this.delNotification(notifiaction);
-            }, notifiaction.delay + notifiaction.duration);
-        }, notifiaction.delay);
-    }
+		setTimeout(() => {
+			this.addNotification(notifiaction);
+
+			setTimeout(() => {
+				this.delNotification(notifiaction);
+			}, notifiaction.delay + notifiaction.duration);
+		}, notifiaction.delay);
+	}
 }

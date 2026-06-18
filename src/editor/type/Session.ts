@@ -1,15 +1,19 @@
-import {InputMode, ToolMode} from "@src/editor/enum";
-import {Entity, Parent} from "@src/core/type";
-import {NotificationRecord} from "@src/editor/type";
+import type {InputMode, ActivityMode} from "@src/editor/enum";
+import type {Entity, Parent} from "@src/core/type";
+import type {ModalView, NotificationRecord} from "@src/editor/type";
 
 export type Session = {
-    selected: Entity | undefined;
+	selected: Entity | undefined;
 
-    layer: Entity & Parent | undefined;
+	layer: Entity & Parent | undefined;
 
-    toolkit: ToolMode;
+	activityMode: ActivityMode;
 
-    inputMode: InputMode;
+	activityHistory: ActivityMode[];
 
-    notification: NotificationRecord[];
+	inputMode: InputMode;
+
+	notification: NotificationRecord[];
+
+	modal: ModalView[];
 };

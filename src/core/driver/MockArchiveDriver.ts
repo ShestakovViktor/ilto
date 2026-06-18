@@ -1,36 +1,36 @@
-import {ArchiveDriver} from "@src/core/interface";
+import type {ArchiverDriver} from "@src/core/interface";
 
-export class MockArchiveDriver implements ArchiveDriver {
-    async archive(data: {[key: string]: Blob}): Promise<Blob> {
-        const result: {[key: string]: string} = {};
+export class MockArchiveDriver implements ArchiverDriver {
+	async archive(data: Record<string, Blob>): Promise<Blob> {
+		const result: Record<string, string> = {};
 
-        for (const key in data) {
-            const blob = data[key];
-            result[key] = btoa(await blob.text());
-        }
+		for (const key in data) {
+			const blob = data[key];
+			result[key] = btoa(await blob.text());
+		}
 
-        const resultString = JSON.stringify(result, null, 4);
+		const resultString = JSON.stringify(result, null, 4);
 
-        return new Promise(resolve => resolve(new Blob([resultString])));
-    }
+		return new Promise(resolve => resolve(new Blob([resultString])));
+	}
 
-    async extract(blob: Blob): Promise<{[key: string]: Blob}> {
-        const result: {[key: string]: Blob} = {};
+	async extract(blob: Blob): Promise<Record<string, Blob>> {
+		const result: Record<string, Blob> = {};
 
-        const dataString = JSON.parse(await blob.text());
+		const dataString = JSON.parse(await blob.text());
 
-        for (const path in dataString) {
-            const byteCharacters = atob(dataString[path]);
-            const byteArrays = [];
+		for (const path in dataString) {
+			const byteCharacters = atob(dataString[path]);
+			const byteArrays = [];
 
-            for (let i = 0; i < byteCharacters.length; i++) {
-                byteArrays.push(byteCharacters.charCodeAt(i));
-            }
+			for (let i = 0; i < byteCharacters.length; i++) {
+				byteArrays.push(byteCharacters.charCodeAt(i));
+			}
 
-            const byteArray = new Uint8Array(byteArrays);
-            result[path] = new Blob([byteArray], {type: ""});
-        }
+			const byteArray = new Uint8Array(byteArrays);
+			result[path] = new Blob([byteArray], {type: ""});
+		}
 
-        return new Promise(resolve => resolve(result));
-    }
+		return new Promise(resolve => resolve(result));
+	}
 }

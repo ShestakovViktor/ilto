@@ -1,51 +1,46 @@
-import {Action} from "@src/editor/action";
-import {Entity, isSpatial, Spatial} from "@src/core/type";
-import {Storage} from "@src/storage/controller";
+import {Action} from "@src/editor/controller";
+import {type Entity, isSpatial, type Spatial} from "@src/core/type";
+import type {Storage} from "@src/core/controller";
 
 export class MoveEntityAction extends Action<void> {
-    constructor(
-        private storage: Storage,
-        private entityId: number,
-        private shiftX: number,
-        private shiftY: number
-    ) {
-        super();
-    }
+	name = "MoveEntityAction";
 
-    getLogMessage(): string {
-        return "move entity";
-    }
+	constructor(
+		private storage: Storage,
+		public payload: {
+			entityId: number;
+			shiftX: number;
+			shiftY: number;
+		}
+	) {
+		super();
+	}
 
-    getLogData(): {[key: string]: unknown} {
-        return {
-            entityId: this.entityId,
-            shiftX: this.shiftX,
-            shiftY: this.shiftY,
-        };
-    }
+	exec(): void {
+		const entity = this.storage.entity.select(this.payload.entityId);
 
-    async exec(): Promise<void> {
-        const entity = this.storage.data.entity.select(this.entityId);
+		if (!entity || !isSpatial(entity)) throw new Error();
 
-        if (!entity || !isSpatial(entity)) throw new Error();
+		this.storage.entity.update<Entity & Spatial>(
+			this.payload.entityId,
+			{
+				x: entity.x + this.payload.shiftX,
+				y: entity.y + this.payload.shiftY,
+			}
+		);
+	}
 
-        this.storage.data.entity.update<Entity & Spatial>(
-            this.entityId,
-            {x: entity.x + this.shiftX, y: entity.y + this.shiftY}
-        );
-    }
+	undo(): void {
+		const entity = this.storage.entity.select(this.payload.entityId);
 
-    async undo(): Promise<void> {
-        const entity = this.storage.data.entity.select(this.entityId);
+		if (!entity || !isSpatial(entity)) throw new Error();
 
-        if (!entity || !isSpatial(entity)) throw new Error();
-
-        this.storage.data.entity.update<Entity & Spatial>(
-            this.entityId,
-            {
-                x: entity.x - this.shiftX,
-                y: entity.y - this.shiftY,
-            }
-        );
-    }
+		this.storage.entity.update<Entity & Spatial>(
+			this.payload.entityId,
+			{
+				x: entity.x - this.payload.shiftX,
+				y: entity.y - this.payload.shiftY,
+			}
+		);
+	}
 }

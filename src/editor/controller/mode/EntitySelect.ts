@@ -1,138 +1,134 @@
-import {Engine, Mode} from "@src/editor/controller";
-import {Entity, isSpatial, Spatial} from "@src/core/type";
+import {type Engine, Mode} from "@src/editor/controller";
+import {type Entity, isSpatial, type Spatial} from "@src/core/type";
 import {MoveEntityAction} from "@src/editor/action";
-import {Storage} from "@src/storage/controller";
-import {SetStoreFunction} from "solid-js/store";
-import {Session} from "@src/editor/type";
-import {ViewerState} from "@src/viewer/type";
+import type {Storage} from "@src/storage/controller";
+import type {ViewerState} from "@src/viewer/type";
+import type {Getter} from "@src/editor/type";
 
 export class EntitySelect extends Mode {
-    private element?: HTMLElement;
+	private element?: HTMLElement;
 
-    private entity?: Entity & Spatial;
+	private entity?: Entity & Spatial;
 
-    private parent?: {x: number; y: number};
+	private parent?: {x: number; y: number};
 
-    private offset?: {x: number; y: number};
+	private offset?: {x: number; y: number};
 
-    private origin?: {x: number; y: number};
+	private origin?: {x: number; y: number};
 
-    private allowedTypes: number[];
+	private allowedTypes: number[];
 
-    constructor(
-        private storage: Storage,
-        private viewer: ViewerState,
-        private setSession: SetStoreFunction<Session>,
-        private engine: Engine
-    ) {
-        super();
-        // const [markerType] = this.databse.data.entityType
-        //     .filter({name: ENTITY_TYPE.MARKER});
-        // const [decorType] = this.databse.data.entityType
-        //     .filter({name: ENTITY_TYPE.DECOR});
-        // const [areaType] = this.databse.data.entityType
-        //     .filter({name: ENTITY_TYPE.AREA});
+	constructor(
+		private getViewer: Getter<ViewerState>,
+		private storage: Storage,
+		private engine: Engine
+	) {
+		super();
+		// const [markerType] = this.databse.entityType
+		//     .filter({name: ENTITY_TYPE.MARKER});
+		// const [decorType] = this.databse.entityType
+		//     .filter({name: ENTITY_TYPE.DECOR});
+		// const [areaType] = this.databse.entityType
+		//     .filter({name: ENTITY_TYPE.AREA});
 
-        this.allowedTypes = [];
-    }
+		this.allowedTypes = [];
+	}
 
-    getElement(element: EventTarget | null): HTMLElement | undefined {
-        if (!(element instanceof HTMLElement)) return undefined;
+	getElement(element: EventTarget | null): HTMLElement | undefined {
+		if (!(element instanceof HTMLElement)) return undefined;
 
-        let current: HTMLElement | null = element;
+		let current: HTMLElement | null = element;
 
-        while (current) {
-            if (current.hasAttribute("data-entity-id")) return current;
-            current = current.parentElement;
-        }
+		while (current) {
+			if (current.hasAttribute("data-entity-id")) return current;
+			current = current.parentElement;
+		}
 
-        return undefined;
-    }
+		return undefined;
+	}
 
-    getParent(element: HTMLElement): {x: number; y: number} {
-        const parent = element.parentElement;
-        if (!parent) throw new Error();
+	getParent(element: HTMLElement): {x: number; y: number} {
+		const parent = element.parentElement;
+		if (!parent) throw new Error();
 
-        const rect = parent.getBoundingClientRect();
+		const rect = parent.getBoundingClientRect();
 
-        return {x: rect.x, y: rect.y};
-    }
+		return {x: rect.x, y: rect.y};
+	}
 
-    getEntity(element: HTMLElement): Entity & Spatial {
-        const entity = this.storage.data.entity.select(
-            Number(element.getAttribute("data-entity-id"))
-        );
+	getEntity(element: HTMLElement): Entity & Spatial {
+		const entity = this.storage.entity.select(
+			Number(element.getAttribute("data-entity-id"))
+		);
 
-        if (!entity || !isSpatial(entity)) throw new Error();
+		if (!entity || !isSpatial(entity)) throw new Error();
 
-        return entity;
-    }
+		return entity;
+	}
 
-    getOffset(element: HTMLElement, event: MouseEvent): {x: number; y: number} {
-        const rect = element.getBoundingClientRect();
+	getOffset(element: HTMLElement, event: MouseEvent): {x: number; y: number} {
+		const rect = element.getBoundingClientRect();
 
-        return {
-            x: event.x - rect.x,
-            y: event.y - rect.y,
-        };
-    }
+		return {
+			x: event.x - rect.x,
+			y: event.y - rect.y,
+		};
+	}
 
-    getStart(entity: Entity & Spatial): {x: number; y: number} {
-        return {x: entity.x, y: entity.y};
-    }
+	getStart(entity: Entity & Spatial): {x: number; y: number} {
+		return {x: entity.x, y: entity.y};
+	}
 
-    onMouseDown(event: MouseEvent): void {
-        if (event.buttons != 1) return;
+	onMouseDown(event: MouseEvent): void {
+		if (event.buttons != 1) return;
 
-        this.element = this.getElement(event.target);
-        if (!this.element) throw new Error();
+		this.element = this.getElement(event.target);
+		if (!this.element) throw new Error();
 
-        this.parent = this.getParent(this.element);
-        if (!this.parent) throw new Error();
+		this.parent = this.getParent(this.element);
+		if (!this.parent) throw new Error();
 
-        this.entity = this.getEntity(this.element);
+		this.entity = this.getEntity(this.element);
 
-        this.offset = this.getOffset(this.element, event);
+		this.offset = this.getOffset(this.element, event);
 
-        this.origin = this.getStart(this.entity);
+		this.origin = this.getStart(this.entity);
 
-        this.setSession({selected: this.entity});
+		event.stopPropagation();
+	}
 
-        event.stopPropagation();
-    }
+	onMouseMove(event: MouseEvent): void {
+		if (!this.entity || !this.parent || !this.offset) return;
 
-    onMouseMove(event: MouseEvent): void {
-        if (!this.entity || !this.parent || !this.offset) return;
+		this.storage.entity.update<Entity & Spatial>(this.entity?.id, {
+			x: Math.round(
+				(event.x - this.parent.x - this.offset.x)
+                                / this.getViewer().scale
+			),
+			y: Math.round(
+				(event.y - this.parent.y - this.offset.y)
+                                / this.getViewer().scale
+			),
+		});
 
-        this.storage.data.entity.update<Entity & Spatial>(this.entity?.id, {
-            x: Math.round(
-                (event.x - this.parent.x - this.offset.x)
-                                / this.viewer.scale
-            ),
-            y: Math.round(
-                (event.y - this.parent.y - this.offset.y)
-                                / this.viewer.scale
-            ),
-        });
+		event.stopPropagation();
+	}
 
-        event.stopPropagation();
-    }
+	onMouseUp(): void {
+		if (this.entity && this.origin) {
+			this.engine.append(
+				new MoveEntityAction(
+					this.storage,
+					this.entity.id,
+					this.entity.x - this.origin.x,
+					this.entity.y - this.origin.y
+				)
+			);
+		}
 
-    onMouseUp(): void {
-        if (this.entity && this.origin) {
-            this.engine.append(
-                new MoveEntityAction(
-                    this.storage,
-                    this.entity.id,
-                    this.entity.x - this.origin.x,
-                    this.entity.y - this.origin.y
-                )
-            );
-        }
-
-        delete this.element;
-        delete this.entity;
-        delete this.parent;
-        delete this.offset;
-    }
+		delete this.element;
+		delete this.entity;
+		delete this.parent;
+		delete this.offset;
+	}
 }

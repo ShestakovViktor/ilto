@@ -1,27 +1,25 @@
-import {SetStoreFunction} from "solid-js/store";
-import {Session} from "@src/editor/type";
-import {
-    Engine,
-    Key,
-    Mouse,
-    Notif,
-    Log,
-    Modal,
-    Uid,
+import type {
+	Engine,
+	Key,
+	Mouse,
+	Notif,
+	Log,
+	Uid,
 } from "@src/editor/controller";
-import {Storage} from "@src/storage/controller";
+
+import type {Storage} from "@src/core/controller";
+import type {Ref} from "vue";
+import type {Session} from "./Session";
 
 export type EditorContext = {
-    session: Session;
-    setSession: SetStoreFunction<Session>;
+	session: Ref<Session>;
 
-    storage: Storage;
+	storage: Storage;
 
-    log: Log;
-    mouse: Mouse;
-    key: Key;
-    engine: Engine;
-    notif: Notif;
-    modal: Modal;
-    uid: Uid;
+	log: Log;
+	mouse: Mouse;
+	key: Key;
+	engine: Engine;
+	notif: Notif;
+	uid: Uid;
 };

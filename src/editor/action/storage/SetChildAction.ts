@@ -1,59 +1,61 @@
-import {Entity, Parent} from "@src/core/type";
-import {Action} from "@src/editor/action";
-import {Storage} from "@src/storage/controller";
+import type {Entity, Parent} from "@src/core/type";
+import {Action} from "@src/editor/controller";
+import type {Storage} from "@src/core/controller";
 
 export class SetChildAction extends Action<void> {
-    constructor(
-        private storage: Storage,
-        private props: {
-            parentId: number;
-            childId: number;
-        }
-    ) {
-        super();
-    }
+	name = "SetChildAction";
 
-    getLogMessage(): string {
-        return "set child";
-    }
+	constructor(
+		private storage: Storage,
+		public payload: {
+			parentId: number;
+			childId: number;
+		}
+	) {
+		super();
+	}
 
-    getLogData(): {[key: string]: unknown} {
-        return {
-            parentId: this.props.parentId,
-            childId: this.props.childId,
-        };
-    }
+	getLogMessage(): string {
+		return "set child";
+	}
 
-    exec(): void {
-        const parent = this.storage.data.entity
-            .select<Entity & Parent>(this.props.parentId);
+	getLogData(): Record<string, unknown> {
+		return {
+			parentId: this.payload.parentId,
+			childId: this.payload.childId,
+		};
+	}
 
-        const child = this.storage.data.entity
-            .select<Entity>(this.props.childId);
+	exec(): void {
+		const parent = this.storage.entity
+			.select<Entity & Parent>(this.payload.parentId);
 
-        if (!parent || !child) throw new Error();
+		const child = this.storage.entity
+			.select<Entity>(this.payload.childId);
 
-        this.storage.data.entity.update<Entity & Parent>(
-            parent.id,
-            {childIds: [...parent.childIds, child.id]}
-        );
-    }
+		if (!parent || !child) throw new Error();
 
-    undo(): void {
-        const parent = this.storage.data.entity
-            .select<Entity & Parent>(this.props.parentId);
+		this.storage.entity.update<Entity & Parent>(
+			parent.id,
+			{childIds: [...parent.childIds, child.id]}
+		);
+	}
 
-        const child = this.storage.data.entity
-            .select<Entity>(this.props.childId);
+	undo(): void {
+		const parent = this.storage.entity
+			.select<Entity & Parent>(this.payload.parentId);
 
-        if (!parent || !child) throw new Error();
+		const child = this.storage.entity
+			.select<Entity>(this.payload.childId);
 
-        this.storage.data.entity.update<Entity & Parent>(
-            this.props.parentId,
-            {
-                childIds: parent.childIds
-                    .filter(childId => childId != this.props.childId),
-            }
-        );
-    }
+		if (!parent || !child) throw new Error();
+
+		this.storage.entity.update<Entity & Parent>(
+			this.payload.parentId,
+			{
+				childIds: parent.childIds
+					.filter(childId => childId != this.payload.childId),
+			}
+		);
+	}
 }
