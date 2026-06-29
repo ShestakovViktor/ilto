@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import {initProject} from "@src/editor/service";
-import {Widget, Field} from "@src/editor/view/UtilityBar";
+import {Widget, Field} from "@src/editor/view/utility-bar";
 import {useEditorContext} from "@src/editor/context";
 import {useViewerContext} from "@src/viewer/context";
 import {Scope} from "@src/editor/view";
-import {ActivityMode} from "@src/editor/enum";
+import {ActivityKind} from "@src/editor/enum";
+import {SystemActivity} from "@src/editor/type/activity";
 
 const {storage, session} = useEditorContext();
 const {viewport, loop: engine} = useViewerContext();
@@ -31,7 +32,7 @@ function projectCreate(event: SubmitEvent): void {
 
 	engine.requestUpdate();
 
-	session.value.activityMode = ActivityMode.System;
+	session.value.activity = {kind: ActivityKind.System};
 }
 
 const strings = {

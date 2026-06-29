@@ -1,13 +1,5 @@
-<script setup lang="ts">
-import LayerIconSvg from "@src/svg/small/layer.svg?raw";
-import MarkerIconSvg from "@src/svg/small/marker.svg?raw";
-import TrashIconSvg from "@src/svg/small/trash.svg?raw";
-import TileIconSvg from "@src/svg/small/tile.svg?raw";
+<!-- <script setup lang="ts">
 import FootnoteIconSvg from "@src/svg/small/footnote.svg?raw";
-
-import TreeLeafItemIconSvg from "@src/svg/small/tree-leaf-item.svg?raw";
-import TreeLeafOpenIconSvg from "@src/svg/small/tree-leaf-open.svg?raw";
-import TreeLeafCloseIconSvg from "@src/svg/small/tree-leaf-close.svg?raw";
 
 import type {Entity, Parent} from "@src/core/type";
 import {Button, Icon} from "@src/core/view";
@@ -20,7 +12,7 @@ const props = defineProps<{
 	onClick?: (selected: unknown) => void;
 }>();
 
-const {storage, session, setSession} = useEditorContext();
+const {storage, session} = useEditorContext();
 
 const isExpanded = ref(false);
 
@@ -31,7 +23,7 @@ const entityMemo = computed(() => {
 });
 
 const isSelected = computed(() => {
-	return session.selected?.id == props.entityId;
+	return session.value.selected?.id == props.entityId;
 });
 
 function expand(): void {
@@ -43,9 +35,7 @@ function isParent(entity: Entity): entity is Entity & Parent {
 }
 
 function onSelect(): void {
-	setSession({
-		selected: entityMemo.value,
-	});
+	session.value.selected = entityMemo.value;
 }
 
 const childrenMemo = computed(() => {
@@ -75,18 +65,15 @@ const icons: Record<string, {label: string; icon: string}> = {
 	},
 };
 
-const boop = icons[entityMemo.value.kind]
-	|| {
-		label: "undefined",
-		icon: TrashIconSvg,
-	};
+const boop = icons[entityMemo.value.kind];
 
 const leafIconMemo = computed(() =>
-	!childrenMemo.value
-		? TreeLeafItemIconSvg
-		: isExpanded.value
-			? TreeLeafOpenIconSvg
-			: TreeLeafCloseIconSvg
+	TeeLeafOpenIconSvg
+	// !childrenMemo.value.childIds
+	// 	? TreeLeafItemIconSvg
+	// 	: isExpanded.value
+	// 		? TreeLeafOpenIconSvg
+	// 		: TreeLeafCloseIconSvg
 );
 </script>
 
@@ -161,4 +148,4 @@ const leafIconMemo = computed(() =>
 	}
 
 }
-</style>
+</style> -->

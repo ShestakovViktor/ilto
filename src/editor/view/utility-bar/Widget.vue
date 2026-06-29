@@ -16,24 +16,24 @@ const scope = useScopeContext<Config>();
 if (!scope.data.height) scope.data.height = 150;
 if (!scope.data.collapsed) scope.data.collapsed = false;
 
-function toggleCollapsed() {
+function toggleCollapsed(): void {
 	scope.data.collapsed = !scope.data.collapsed;
 }
 
 const contentRef = ref<HTMLDivElement>();
 
-function startResize(event: MouseEvent) {
+function startResize(event: MouseEvent): void {
 	const y = event.y;
 	const h = scope.data.height
 		|| contentRef.value!.getBoundingClientRect().height;
 
-	function handleResize(event: MouseEvent) {
-		if (event.button === 0 && y != undefined) {
+	function handleResize(event: MouseEvent): void {
+		if (event.button === 0) {
 			scope.data.height = h + (event.y - y);
 		}
 	}
 
-	function stopResize() {
+	function stopResize(): void {
 		window.removeEventListener("mousemove", handleResize);
 		window.removeEventListener("mouseup", stopResize);
 	}

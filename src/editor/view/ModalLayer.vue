@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import {useEditorContext} from "@src/editor/context";
 import type {Component} from "vue";
-import {ModalKind} from "@src/editor/enum";
-import {ImageForm} from "@src/editor/view/form";
+import type {ModalKind} from "@src/editor/enum";
 
 const {session} = useEditorContext();
 
-const views: Record<ModalKind, Component> = {
-	[ModalKind.ImageForm]: ImageForm,
-};
+const views: Record<ModalKind, Component> = {};
 
 function closeModal(index: number): void {
 	session.value.modal.splice(index, 1);

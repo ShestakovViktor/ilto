@@ -1,33 +1,41 @@
 <script setup lang="ts">
-import {ActivityMode} from "@src/editor/enum";
+import {ActivityKind} from "@src/editor/enum";
 import Button from "@src/core/view/Button.vue";
 
 import {useEditorContext} from "@src/editor/context";
 import {Icon} from "@src/core/view";
 import {IconName} from "@src/core/enum";
-import Scope from "./Scope.vue";
-import {toRaw} from "vue";
+import {Scope} from "@src/editor/view";
+import {
+	type Activity,
+	EntityCreateActivity,
+	SystemActivity,
+	ProjectExploreActivity,
+} from "@src/editor/type/activity";
+
+import type {Activities} from "@src/editor/type/activity";
 
 const {session} = useEditorContext();
 
-const buttons = [
+const buttons: {icon: IconName; activity: Activities}[] = [
 	{
 		icon: IconName.File,
-		activityMode: ActivityMode.System,
+		activity: {kind: ActivityKind.System},
 	},
 	{
 		icon: IconName.Tree,
-		activityMode: ActivityMode.Explore,
+		activity: {kind: ActivityKind.ProjectExplore},
+
 	},
 	{
 		icon: IconName.Edit,
-		activityMode: ActivityMode.Create,
+		activity: {kind: ActivityKind.EntityCreate},
 	},
 ];
 
-function handleClick(activityMode: ActivityMode): void {
-	session.value.activityHistory = [];
-	session.value.activityMode = activityMode;
+function handleClick(activity: Activities): void {
+	session.value.history = [];
+	session.value.activity = activity;
 }
 
 </script>
@@ -37,10 +45,10 @@ function handleClick(activityMode: ActivityMode): void {
 	<div class="ActivityBar">
 		<Button
 			v-for="button in buttons"
-			:key="button.activityMode"
-			:pressed="session.activityMode === button.activityMode"
+			:key="button.activity.kind"
+			:pressed="session.activity.kind === button.activity.kind"
 			:icon="button.icon"
-			@click="handleClick(button.activityMode)"
+			@click="handleClick(button.activity)"
 		>
 			<Icon :name="button.icon" />
 		</Button>

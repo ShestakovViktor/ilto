@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Widget} from "@src/editor/view/UtilityBar";
+import {Widget} from "@src/editor/view/utility-bar";
 import {EntityKind} from "@src/core/enum";
 import {useScopeContext, useEditorContext} from "@src/editor/context";
 import type {Layer} from "@src/core/type";

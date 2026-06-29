@@ -1,4 +1,5 @@
-export {default as ExploreUtility} from "./ExploreUtility.vue";
+export {default as ImageCreateUtility} from "./ImageCreateUtility.vue";
+export {default as ProjectExploreUtility} from "./PorjectExploreUtility.vue";
 export {default as LayerUtility} from "./LayerUtility.vue";
 export {default as SystemUtility} from "./SystemUtility.vue";
 export {default as DisplayUtility} from "./DisplayUtility.vue";

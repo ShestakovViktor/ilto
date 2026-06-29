@@ -1,4 +1,5 @@
 export * from "./InputMode";
-export * from "./ActivityMode";
+export * from "./ActivityKind";
 export * from "./LogKind";
 export * from "./ModalKind";
+export * from "./UtilityKind";

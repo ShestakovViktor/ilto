@@ -39,9 +39,5 @@ function handleClick(event: MouseEvent): void {
     color: inherit;
 
     cursor: pointer;
-
-	&.Pressed {
-		border: 2px solid red;
-	}
 }
 </style>

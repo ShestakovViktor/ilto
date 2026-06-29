@@ -1,48 +1,41 @@
 <script setup lang="ts">
-import {type Component, computed, toRaw} from "vue";
+import {type Component, computed} from "vue";
 import {useEditorContext, useScopeContext} from "@src/editor/context";
-import {ActivityMode} from "@src/editor/enum";
+import {ActivityKind} from "@src/editor/enum";
+import {Button, Icon} from "@src/core/view";
+import {IconName} from "@src/core/enum";
 import {
 	CreateUtility,
 	EntityUtility,
-	ExploreUtility,
+	ProjectExploreUtility,
+	ImageCreateUtility,
 	InitUtility,
 	LayerUtility,
 	SystemUtility,
-} from "@src/editor/view/utility";
-import {Button, Icon} from "@src/core/view";
-import {IconName} from "@src/core/enum";
-
-type Utility = {
-	component: Component;
-};
+} from "@src/editor/view/utility-bar/widget";
 
 const {session} = useEditorContext();
 
-const activityMode: Record<ActivityMode, Utility[]> = {
-	[ActivityMode.System]: [
-		{component: SystemUtility},
+const activities: Record<ActivityKind, Component[]> = {
+	[ActivityKind.System]: [SystemUtility],
+	[ActivityKind.ProjectInit]: [InitUtility],
+	[ActivityKind.ProjectExplore]: [ProjectExploreUtility],
+	[ActivityKind.EntityCreate]: [
+		CreateUtility,
+		LayerUtility,
+		EntityUtility,
 	],
-	[ActivityMode.Init]: [
-		{component: InitUtility}],
-	[ActivityMode.Explore]: [
-		{component: ExploreUtility},
-	],
-	[ActivityMode.Create]: [
-		{component: CreateUtility},
-		{component: LayerUtility},
-		{component: EntityUtility},
-	],
+	[ActivityKind.ImageCreate]: [ImageCreateUtility],
 };
 
-const kit = computed(() => activityMode[session.value.activityMode]);
+const kit = computed(() => activities[session.value.activity.kind]);
 
 useScopeContext("UtilityBar");
 
 function goBack(): void {
-	if (session.value.activityHistory.length < 2) return;
-	const previousMode = session.value.activityHistory.splice(-2)[0];
-	session.value.activityMode = previousMode;
+	if (session.value.history.length < 2) return;
+	const previousActivity = session.value.history.splice(-2)[0];
+	session.value.activity = previousActivity;
 }
 
 </script>
@@ -51,7 +44,7 @@ function goBack(): void {
 <div class="UtilityBar">
 	<template v-if="kit.length">
 		<div class="Head">
-			<label>{{ session.activityMode }} </label>
+			<label>{{ session.activity.kind }} </label>
 			<Button
 				class="Button"
 				@click="goBack()"
@@ -63,7 +56,7 @@ function goBack(): void {
 			</Button>
 		</div>
 		<component
-			:is="utility.component"
+			:is="utility"
 			v-for="(utility, index) in kit"
 			:key="index"
 		/>
@@ -89,9 +82,8 @@ function goBack(): void {
 		.Button {
 			width: 42px;
 			height: 42px;
-			border: 1px solid lightgray;
+			border: 1px solid var(--gray-60);
 			border-radius: .5em;
-
 			.Icon {
 				width: 24px;
 				height: 24px;

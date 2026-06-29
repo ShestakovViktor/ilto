@@ -5,12 +5,11 @@ import type {Entity, Visual} from "@src/core/type";
 // import {Prop, Motion} from "@src/core/type";
 import {useViewerContext} from "@src/viewer/context";
 import {useScopeContext, useEditorContext} from "@src/editor/context";
-import {Section, Widget} from "@src/editor/view/UtilityBar";
+import {Section, Widget} from "@src/editor/view/utility-bar";
 import {computed} from "vue";
 // import {PropBrowser} from "@src/editor/view";
 
 const {storage, session} = useEditorContext();
-const {path} = useViewerContext();
 
 // const entity = computed(
 // 	() => session.selected || {} as Entity

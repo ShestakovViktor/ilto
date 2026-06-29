@@ -5,7 +5,8 @@ import {viewerContextKey} from "@src/viewer/context";
 import type {ViewerContext, ViewerState} from "@src/viewer/type";
 import type {CoreContext} from "@src/core/type";
 import {coreContextKey} from "@src/core/context";
-import {InputMode, ActivityMode} from "@src/editor/enum";
+import {InputMode, ActivityKind} from "@src/editor/enum";
+import {SystemActivity} from "../type/activity";
 
 export const editorContextKey = Symbol("editorContext");
 
@@ -25,16 +26,16 @@ export function setEditorContext(app: App): void {
 	const session = ref<Session>({
 		selected: undefined,
 		layer: undefined,
-		activityMode: ActivityMode.System,
-		activityHistory: [ActivityMode.System],
+		activity: {kind: ActivityKind.System},
+		history: [{kind: ActivityKind.System}],
 		inputMode: InputMode.DefaultView,
 		notification: [],
 		modal: [],
 	});
 
 	watch(
-		() => session.value.activityMode,
-		(activityMode) => session.value.activityHistory.push(activityMode)
+		() => session.value.activity,
+		(activityMode) => session.value.history.push(activityMode)
 	);
 
 	const editorModule = initEditorModule({

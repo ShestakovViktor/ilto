@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Widget} from "@src/editor/view/UtilityBar";
+import {Widget} from "@src/editor/view/utility-bar";
 import {useScopeContext} from "@src/editor/context";
 // import {EntityNode} from "./view";
 

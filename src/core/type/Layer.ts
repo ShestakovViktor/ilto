@@ -1,5 +1,6 @@
-import {Entity, Spatial, Parent} from "@src/core/type";
+import type {Entity, Spatial, Parent} from "@src/core/type";
 
 export type Layer = Entity & Spatial & Parent & {
-    name: string;
+	name: string;
 };
+

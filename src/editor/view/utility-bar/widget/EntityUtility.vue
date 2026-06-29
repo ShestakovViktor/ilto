@@ -2,13 +2,13 @@
 
 import {useScopeContext, useEditorContext} from "@src/editor/context";
 import {type Entity, isSize, isSpatial, type Size, type Spatial} from "@src/core/type";
-import {Widget, Section, Field} from "@src/editor/view/UtilityBar";
+import {Widget, Section, Field} from "../";
 import {computed} from "vue";
-import Scope from "../Scope.vue";
+import {Scope} from "@src/editor/view";
 
 const {storage, session} = useEditorContext();
 
-const entity = computed(() => session.selected || {} as Entity);
+const entity = computed(() => session.value.selected || {} as Entity);
 
 const spatial = computed(() => {
 	return isSpatial(entity.value)

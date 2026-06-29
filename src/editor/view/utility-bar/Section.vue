@@ -9,7 +9,7 @@ const props = defineProps<{
 const scope = useScopeContext<{collapsed: boolean}>();
 if (!scope.data.collapsed) scope.data.collapsed = false;
 
-function toggleCollapsed() {
+function toggleCollapsed(): void {
 	scope.data.collapsed = !scope.data.collapsed;
 }
 </script>

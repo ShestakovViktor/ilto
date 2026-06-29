@@ -6,15 +6,16 @@ import {
 	List,
 	Section,
 	Widget,
-} from "@src/editor/view/UtilityBar";
+} from "@src/editor/view/utility-bar";
 
 import {useEditorContext} from "@src/editor/context";
-import {ActivityMode} from "@src/editor/enum";
 import {loadDemo} from "@src/editor/service/loadDemo";
 import {useCoreContext} from "@src/core/context";
 import {Scope} from "@src/editor/view";
 import {useViewerContext} from "@src/viewer/context";
 import {RestoreDataScript} from "@src/editor/script";
+import {ProjectInitActivity} from "@src/editor/type/activity";
+import {ActivityKind} from "@src/editor/enum";
 
 const {archiver, fetcher, linker} = useCoreContext();
 const {storage, session, engine} = useEditorContext();
@@ -41,7 +42,7 @@ const {viewport, loop} = useViewerContext();
 // }
 
 function handleInit(): void {
-	session.value.activityMode = ActivityMode.Init;
+	session.value.activity = {kind: ActivityKind.ProjectInit};
 }
 
 async function handleSave(): Promise<void> {

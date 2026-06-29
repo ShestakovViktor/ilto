@@ -4,10 +4,10 @@ import {
 	ActivityBar,
 	StatusBar,
 	WorkSpace,
+	Scope,
 } from "@src/editor/view";
-import {UtilityBar} from "@src/editor/view/UtilityBar";
+import {UtilityBar} from "@src/editor/view/utility-bar";
 import {Viewer} from "@src/viewer/view";
-import {Scope} from "@src/editor/view";
 import {useEditorContext} from "@src/editor/context";
 
 const {mouse} = useEditorContext();
