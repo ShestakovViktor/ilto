@@ -5,3 +5,4 @@ export * from "./EntityCreateActivity.ts";
 export * from "./ProjectExploreActivity.ts";
 export * from "./ProjectInitActivity.ts";
 export * from "./ImageCreateActivity.ts";
+export * from "./MarkerCreateActivity.ts";

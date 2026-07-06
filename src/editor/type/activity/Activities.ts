@@ -1,6 +1,7 @@
 import type {
 	EntityCreateActivity,
 	ImageCreateActivity,
+	MarkerCreateActivity,
 	ProjectExploreActivity,
 	ProjectInitActivity,
 	SystemActivity,
@@ -10,4 +11,5 @@ export type Activities = SystemActivity
 	| ProjectExploreActivity
 	| ProjectInitActivity
 	| EntityCreateActivity
-	| ImageCreateActivity;
+	| ImageCreateActivity
+	| MarkerCreateActivity;

@@ -1,8 +1,9 @@
 export enum ActivityKind {
-	System = "system",
-	ProjectExplore = "projectExplore",
-	EntityCreate = "entityCreate",
-	ProjectInit = "projectInit",
-	ImageCreate = "imageCreate",
+	System = "System",
+	ProjectExplore = "ProjectExplore",
+	EntityCreate = "EntityCreate",
+	ProjectInit = "ProjectInit",
+	ImageCreate = "ImageCreate",
+	MarkerCreate = "MarkerCreate",
 }
 

@@ -1,1 +1,0 @@
-export {default as MarkerForm} from "./MarkerForm.vue";

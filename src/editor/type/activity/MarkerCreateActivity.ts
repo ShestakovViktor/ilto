@@ -1,11 +1,13 @@
 import type {Activity} from "@src/editor/type/activity";
 import type {ActivityKind} from "@src/editor/enum";
 
-export type ProjectInitActivity = Activity<
-	ActivityKind.ProjectInit,
+export type MarkerCreateActivity = Activity<
+	ActivityKind.MarkerCreate,
 	{
-		name: string;
+		x: number;
+		y: number;
 		width: number;
 		height: number;
+		file: File | undefined;
 	}
 >;

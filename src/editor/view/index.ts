@@ -17,4 +17,5 @@ export {default as ModalLayer} from "./ModalLayer.vue";
 export {default as StatusBar} from "./StatusBar.vue";
 export {default as ActivityBar} from "./ActivityBar.vue";
 export {default as WorkSpace} from "./WorkSpace.vue";
+export {default as AssetBrowser} from "./AssetBrowser.vue";
 export {default as Editor} from "./Editor.vue";

@@ -1,9 +1,9 @@
+import type {EntityKind} from "@src/core/enum";
 import type {ModalKind} from "@src/editor/enum";
-import type {Props as ImageFormProps} from "@src/editor/view/form/ImageForm.vue";
 
-type ImageCreateForm = {
-	kind: ModalKind.ImageForm;
-	props: ImageFormProps;
+type AssetBrowser = {
+	kind: ModalKind.AssetBrowser;
+	payload: {kind: EntityKind};
 };
 
-export type ModalView = ImageCreateForm;
+export type ModalView = AssetBrowser;

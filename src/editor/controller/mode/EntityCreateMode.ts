@@ -5,9 +5,8 @@ import type {ViewerState} from "@src/viewer/type";
 import type {Storage} from "@src/core/controller";
 import type {GraphicsDriver} from "@src/core/interface";
 import type {Loop} from "@src/viewer/controller";
-import {ImageCreateActivity} from "../../type/activity";
 
-export class EntityCreate extends Mode {
+export class EntityCreateMode extends Mode {
 	constructor(
 		private getViewer: Getter<ViewerState>,
 		private setSession: Setter<Session>,
@@ -29,10 +28,20 @@ export class EntityCreate extends Mode {
             / this.getViewer().scale);
 
 		this.setSession((prev) => {
-			if (prev.inputMode == InputMode.ImageCreate) {
+			if (
+				prev.inputMode == InputMode.ImageCreate
+			) {
 				this.setSession({activity: {
 					kind: ActivityKind.ImageCreate,
-					payload: {x, y},
+					payload: {x, y, width: 0, height: 0, file: undefined},
+				}});
+			}
+			else if (
+				prev.inputMode == InputMode.MarkerCreate
+			){
+				this.setSession({activity: {
+					kind: ActivityKind.MarkerCreate,
+					payload: {x, y, width: 0, height: 0, file: undefined},
 				}});
 			}
 		});

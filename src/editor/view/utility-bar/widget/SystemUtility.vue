@@ -42,7 +42,14 @@ const {viewport, loop} = useViewerContext();
 // }
 
 function handleInit(): void {
-	session.value.activity = {kind: ActivityKind.ProjectInit};
+	session.value.activity = {
+		kind: ActivityKind.ProjectInit,
+		payload: {
+			name: "Test",
+			width: 1920,
+			height: 1080,
+		},
+	};
 }
 
 async function handleSave(): Promise<void> {

@@ -5,27 +5,29 @@ import {ActivityKind} from "@src/editor/enum";
 import {Button, Icon} from "@src/core/view";
 import {IconName} from "@src/core/enum";
 import {
-	CreateUtility,
+	EntityCreateUtility,
 	EntityUtility,
 	ProjectExploreUtility,
 	ImageCreateUtility,
-	InitUtility,
+	ProjectInitUtility,
 	LayerUtility,
 	SystemUtility,
+	MarkerCreateUtility,
 } from "@src/editor/view/utility-bar/widget";
 
 const {session} = useEditorContext();
 
 const activities: Record<ActivityKind, Component[]> = {
 	[ActivityKind.System]: [SystemUtility],
-	[ActivityKind.ProjectInit]: [InitUtility],
+	[ActivityKind.ProjectInit]: [ProjectInitUtility],
 	[ActivityKind.ProjectExplore]: [ProjectExploreUtility],
 	[ActivityKind.EntityCreate]: [
-		CreateUtility,
+		EntityCreateUtility,
 		LayerUtility,
 		EntityUtility,
 	],
 	[ActivityKind.ImageCreate]: [ImageCreateUtility],
+	[ActivityKind.MarkerCreate]: [MarkerCreateUtility],
 };
 
 const kit = computed(() => activities[session.value.activity.kind]);

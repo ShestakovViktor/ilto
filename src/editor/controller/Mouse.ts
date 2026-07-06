@@ -3,7 +3,7 @@ import {InputMode} from "@src/editor/enum";
 import {
 	DefaultView,
 	EntitySelect,
-	EntityCreate,
+	EntityCreateMode,
 } from "@src/editor/controller/mode";
 import type {ViewerState} from "@src/viewer/type";
 import type {Storage} from "@src/core/controller";
@@ -31,7 +31,7 @@ export class Mouse {
 			storage,
 			engine
 		);
-		const entityCreate = new EntityCreate(
+		const entityCreate = new EntityCreateMode(
 			getViewer,
 			setSession,
 			graphics,

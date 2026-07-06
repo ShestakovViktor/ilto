@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import {useEditorContext} from "@src/editor/context";
 import type {Component} from "vue";
-import type {ModalKind} from "@src/editor/enum";
+import {ModalKind} from "@src/editor/enum";
+import {AssetBrowser} from "@src/editor/view";
 
 const {session} = useEditorContext();
 
-const views: Record<ModalKind, Component> = {};
+const views: Record<ModalKind, Component> = {
+	[ModalKind.AssetBrowser]: AssetBrowser,
+};
 
 function closeModal(index: number): void {
 	session.value.modal.splice(index, 1);
@@ -22,7 +25,7 @@ function closeModal(index: number): void {
 	>
 		<component
 			:is="views[view.kind]"
-			v-bind="view.props"
+			v-bind="view.payload"
 			@close="closeModal(index)"
 		/>
 	</div>

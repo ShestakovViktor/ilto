@@ -3,10 +3,10 @@ import {Widget} from "@src/editor/view/utility-bar";
 import {Button, Field} from "@src/core/view";
 import {Scope} from "@src/editor/view";
 import {ref} from "vue";
-import {MimeType} from "@src/core/enum";
+import {EntityKind, MimeType} from "@src/core/enum";
 import {useEditorContext} from "@src/editor/context";
 import {useViewerContext} from "@src/viewer/context";
-import {ActivityKind, InputMode} from "@src/editor/enum";
+import {ActivityKind, InputMode, ModalKind} from "@src/editor/enum";
 import {useCoreContext} from "@src/core/context";
 import {CreateImageScript} from "@src/editor/script";
 
@@ -18,7 +18,9 @@ const extension = ref<string>("");
 
 const {activity} = session.value;
 
-if (activity.kind !== ActivityKind.ImageCreate) throw new Error();
+if (activity.kind !== ActivityKind.MarkerCreate) {
+	throw new Error();
+}
 
 async function handleCreate(
 	x: number,
@@ -39,25 +41,26 @@ async function handleCreate(
 	session.value.inputMode = InputMode.DefaultView;
 }
 
-async function handleSubmit(): Promise<void> {
-	if (
-		activity.kind !== ActivityKind.ImageCreate
-		|| !activity.payload.file
-	) {
-		throw new Error();
-	}
+async function handleSubmit(event: SubmitEvent): Promise<void> {
+	event.preventDefault();
 
-	await handleCreate(
-		activity.payload.x,
-		activity.payload.y,
-		activity.payload.width,
-		activity.payload.height,
-		activity.payload.file
-	);
+	const form = event.target as HTMLFormElement;
+	const formData = new FormData(form);
+	form.reset();
+
+	const x = Number(formData.get("x"));
+	const y = Number(formData.get("y"));
+	const w = Number(formData.get("width"));
+	const h = Number(formData.get("height"));
+	const file = formData.get("image") as File;
+
+	await handleCreate(x, y, w, h, file);
 }
 
 function handleFileChange(event: Event): void {
-	if (activity.kind !== ActivityKind.ImageCreate) throw new Error();
+	if (activity.kind !== ActivityKind.MarkerCreate) {
+		throw new Error();
+	}
 
 	const target = event.target as HTMLInputElement;
 	const file = target.files?.[0];
@@ -66,12 +69,23 @@ function handleFileChange(event: Event): void {
 		activity.payload.file = file;
 	}
 }
+
+function showAssetBrowser(): void {
+	session.value.modal.push({
+		kind: ModalKind.AssetBrowser,
+		payload: {
+			kind: EntityKind.Area,
+		},
+	});
+
+}
+
 </script>
 
 <template>
-<Scope name="ImageCreateUtility">
+<Scope name="MarkerCreateUtility">
 	<Widget
-		title="Image create"
+		title="CreateMarker"
 		class="Widget"
 	>
 		<Field>
@@ -79,7 +93,6 @@ function handleFileChange(event: Event): void {
 			<input
 				id="x"
 				v-model.number="activity.payload.x"
-				name="x"
 				type="number"
 			>
 		</Field>
@@ -88,7 +101,6 @@ function handleFileChange(event: Event): void {
 			<input
 				id="y"
 				v-model.number="activity.payload.y"
-				name="y"
 				type="number"
 			>
 		</Field>
@@ -97,7 +109,6 @@ function handleFileChange(event: Event): void {
 			<input
 				id="width"
 				v-model.number="activity.payload.width"
-				name="width"
 				type="number"
 			>
 		</Field>
@@ -106,26 +117,18 @@ function handleFileChange(event: Event): void {
 			<input
 				id="height"
 				v-model.number="activity.payload.height"
-				name="height"
 				type="number"
 			>
 		</Field>
 		<Field>
-			<label for="image">image</label>
+			<label for="prop">prop</label>
 			<input
-				id="image"
-				name="image"
+				id="height"
 				type="file"
 				accept="image/*"
 				@change="handleFileChange"
 			>
 		</Field>
-		<h1 v-if="extension === MimeType.Png">
-			Сколько тайлов нужно?
-		</h1>
-		<Button @click="handleSubmit">
-			Создать
-		</Button>
 	</Widget>
 </Scope>
 </template>
