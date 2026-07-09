@@ -1,4 +1,4 @@
-import type {Viewport, Loop} from "@src/viewer/controller";
+import type {Frame, Loop, Scene, View} from "@src/viewer/controller";
 
 type Gesture = {
 	x: number;
@@ -22,8 +22,10 @@ export class Input {
 	private inertia = 5;
 
 	constructor(
-		private engine: Loop,
-		private viewport: Viewport
+		private view: View,
+		private frame: Frame,
+		private loop: Loop,
+		private scene: Scene
 	) {}
 
 	setElement(el: HTMLElement): void {
@@ -62,15 +64,15 @@ export class Input {
 	}
 
 	private handleMouseWheel(event: {x: number; y: number; d: number}): void {
-		const oldDelta = this.viewport.s.dest / this.viewport.s.value;
+		const oldDelta = this.view.sTween.dest / this.view.sTween.value;
 
 		const newDelta = Math.pow(Math.exp(0.2), event.d > 0 ? -1 : 1);
 
 		this.handleZoom(
 			oldDelta,
 			newDelta,
-			event.x - this.viewport.frame.x,
-			event.y - this.viewport.frame.y,
+			event.x - this.frame.x,
+			event.y - this.frame.y,
 			performance.now(),
 			200
 		);
@@ -99,20 +101,20 @@ export class Input {
 		};
 
 		if (gesture.perimeter != this.gesture.perimeter) {
-			const oldDelta = this.viewport.s.dest / this.viewport.s.value;
+			const oldDelta = this.view.sTween.dest / this.view.sTween.value;
 			const foo = gesture.perimeter - this.gesture.perimeter;
 			const newDelta = Math.pow(Math.exp(.02), Math.sign(foo));
 			this.handleZoom(
 				oldDelta,
 				newDelta,
-				gesture.x - this.viewport.frame.x,
-				gesture.y - this.viewport.frame.y,
+				gesture.x - this.frame.x,
+				gesture.y - this.frame.y,
 				performance.now() - 200,
 				200
 			);
 		}
 		else if (this.gesture.double) {
-			const oldDelta = this.viewport.s.dest / this.viewport.s.value;
+			const oldDelta = this.view.sTween.dest / this.view.sTween.value;
 			const foo = gesture.y - this.gesture.y;
 			const newDelta = Math.pow(
 				Math.exp(Math.abs(foo) * 0.01),
@@ -122,8 +124,8 @@ export class Input {
 			this.handleZoom(
 				oldDelta,
 				newDelta,
-				gesture.x - this.viewport.frame.x,
-				gesture.y - this.viewport.frame.y,
+				gesture.x - this.frame.x,
+				gesture.y - this.frame.y,
 				performance.now() - .5 * 200,
 				200
 			);
@@ -152,55 +154,55 @@ export class Input {
 		time: number,
 		span: number
 	): void {
-		this.viewport.x.set(
-			this.viewport.x.dest + (x - this.viewport.x.value)
+		this.view.xTween.set(
+			this.view.xTween.dest + (x - this.view.xTween.value)
                 * oldDelta * (1 - newDelta),
 			time,
 			span
 		);
 
-		this.viewport.y.set(
-			this.viewport.y.dest + (y - this.viewport.y.value)
+		this.view.yTween.set(
+			this.view.yTween.dest + (y - this.view.yTween.value)
                 * oldDelta * (1 - newDelta),
 			time,
 			span
 		);
 
-		this.viewport.s.set(
-			this.viewport.s.dest * newDelta,
+		this.view.sTween.set(
+			this.view.sTween.dest * newDelta,
 			time,
 			span
 		);
 
-		this.engine.requestUpdate();
+		this.loop.requestUpdate();
 	}
 
 	private handleDrag(x: number, y: number, time: number, span: number): void {
-		this.viewport.x.set(this.viewport.x.dest + x, time, span);
-		this.viewport.y.set(this.viewport.y.dest + y, time, span);
-		this.engine.requestUpdate();
+		this.view.xTween.set(this.view.xTween.dest + x, time, span);
+		this.view.yTween.set(this.view.yTween.dest + y, time, span);
+		this.loop.requestUpdate();
 	}
 
 	private handleEnd(time: number, span: number): void {
-		this.viewport.x.set(
-			this.viewport.x.init
-				+ (this.viewport.x.dest - this.viewport.x.init)
+		this.view.xTween.set(
+			this.view.xTween.init
+				+ (this.view.xTween.dest - this.view.xTween.init)
 				* this.inertia,
 			time,
 			span
 		);
 
-		this.viewport.constrain();
+		this.view.constrain(this.frame, this.scene);
 
-		this.viewport.y.set(
-			this.viewport.y.init
-				+ (this.viewport.y.dest - this.viewport.y.init)
+		this.view.yTween.set(
+			this.view.yTween.init
+				+ (this.view.yTween.dest - this.view.yTween.init)
 				* this.inertia,
 			time,
 			span
 		);
 
-		this.viewport.constrain();
+		this.view.constrain(this.frame, this.scene);
 	}
 
 	private getCentroid(event: TouchEvent): {x: number; y: number} {

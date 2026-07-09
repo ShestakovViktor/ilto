@@ -1,26 +1,40 @@
-import {Canvas, Scene, Input, Loop, Viewport} from "@src/viewer/controller";
 import type {Storage} from "@src/core/controller";
+import {
+	Canvas,
+	Scene,
+	Input,
+	Loop,
+	View,
+	Frame,
+	Overlay,
+} from "@src/viewer/controller";
 
 export function initViewerModule(deps: {
 	storage: Storage;
 }): {
-	viewport: Viewport;
+	view: View;
+	frame: Frame;
 	loop: Loop;
 	input: Input;
 	scene: Scene;
 	canvas: Canvas;
+	overlay: Overlay;
 } {
-	const viewport = new Viewport();
-	const canvas = new Canvas(deps.storage, viewport);
-	const loop = new Loop(viewport, canvas);
-	const input = new Input(loop, viewport);
 	const scene = new Scene();
+	const view = new View();
+	const frame = new Frame();
+	const canvas = new Canvas(view, frame);
+	const overlay = new Overlay(view);
+	const loop = new Loop(view, canvas, overlay);
+	const input = new Input(view, frame, loop, scene);
 
 	return {
-		viewport,
+		view,
+		frame,
 		loop,
 		input,
 		scene,
 		canvas,
+		overlay,
 	};
 }

@@ -1,109 +1,123 @@
-import {EntityKind} from "@src/core/enum";
-import type {Image, Layer} from "@src/core/type";
-import type {Storage} from "@src/storage/controller";
-import type {Viewport} from "./Viewport";
+import {
+	Compiler,
+	Shear,
+	TextureBuffer,
+	TileBuffer,
+	EntityBuffer,
+	EntityPass,
+	type Frame,
+} from "@src/viewer/controller";
+import type {View} from "./View";
+import type {ImageLayout, ImageTile, TextureConfig, TextureLayout, TileConfig} from "../type";
 
 export class Canvas {
-	private canvas!: HTMLCanvasElement;
+	private textureConfig: TextureConfig = {
+		size: 2048,
+		depth: 16,
+	};
 
-	private ctx!: CanvasRenderingContext2D;
+	private tileConfig: TileConfig = {
+		dst: 128,
+		ext: 124,
+		src: 120,
+		spacing: 2,
+		extrusion: 2,
+	};
 
-	private pending: Map<number, Promise<void>> = new Map();
+	private gl!: WebGL2RenderingContext;
 
-	private bitmap: Map<number, ImageBitmap> = new Map();
+	private shear!: Shear;
 
-	public constructor(
-		private storage: Storage,
-		private viewport: Viewport
-	) {}
+	private compiler!: Compiler;
 
-	public setContext(canvas: HTMLCanvasElement): void {
-		this.canvas = canvas;
-		const ctx = canvas.getContext("2d");
-		if (!ctx) throw new Error();
-		this.ctx = ctx;
+	private textureBuffer!: TextureBuffer;
+
+	private entityBuffer!: EntityBuffer;
+
+	private tileBuffer!: TileBuffer;
+
+	private entityPass!: EntityPass;
+
+	private entities: {
+		x: number;
+		y: number;
+		z: number;
+		w: number;
+		h: number;
+		rotation: number;
+		layout: ImageLayout;
+		tiles: ImageTile[];
+		textureLayout: TextureLayout;
+	}[] = [];
+
+	constructor(
+		private view: View,
+		private frame: Frame
+	) {
+
 	}
 
-	public foo(id: number): void {
-		const entity = this.storage.entity.select(id);
-		if (!entity) return;
+	setCanvas(canvas: HTMLCanvasElement): void {
+		canvas.width = canvas.clientWidth;
+		canvas.height = canvas.clientHeight;
 
-		if (entity.kind === EntityKind.Layer) {
-			const layer = entity as Layer;
+		this.gl = canvas.getContext("webgl2", {premultipliedAlpha: false})!;
+		this.gl.viewport(0, 0, canvas.width, canvas.height);
+		this.frame.setSize(0, 0, canvas.width, canvas.height);
 
-			layer.childIds.map((id: number) => {
-				this.foo(id);
-			});
-		}
-		else if (entity.kind == EntityKind.Image) {
-			const image = entity as Image;
-			const asset = this.storage.asset.select(image.assetId);
-			if (!asset) throw new Error();
+		this.shear = new Shear(this.tileConfig);
 
-			if (this.bitmap.has(asset.id)) {
-				const bitmap = this.bitmap.get(asset.id);
-				if (!bitmap) return;
-				this.ctx.drawImage(
-					bitmap,
-					image.x,
-					image.y,
-					image.w,
-					image.h
-				);
-			}
-			else if (this.pending.has(asset.id)) {
-				this.ctx.beginPath();
+		this.compiler = new Compiler(this.gl);
 
-				this.ctx.rect(image.x, image.y, image.w, image.h);
+		this.textureBuffer = new TextureBuffer(
+			this.gl,
+			this.textureConfig,
+			this.tileConfig
+		);
+		this.entityBuffer = new EntityBuffer(this.gl);
+		this.tileBuffer = new TileBuffer();
 
-				this.ctx.stroke();
-			}
-			else {
-				this.pending.set(asset.id, (async (): Promise<void> => {
-					try {
-						await this.loadBitmap(asset.id, asset.path);
-					}
-					finally {
-						this.pending.delete(asset.id);
-					}
-				})());
-			}
-		}
+		this.entityPass = new EntityPass(
+			this.gl,
+			this.compiler,
+			this.tileConfig.src
+		);
 	}
 
-	public async loadBitmap(id: number, path: string): Promise<void> {
-		const response = await fetch(path);
+	async initTest(): Promise<void> {
+		const response = await fetch("drawing.png");
 		const blob = await response.blob();
-		const bitmap = await createImageBitmap(blob);
 
-		this.pending.delete(id);
-		this.bitmap.set(id, bitmap);
-
-		this.draw();
-	}
-
-	public draw(x = 0, y = 0, s = 1): void {
-		this.ctx.save();
-
-		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-		this.ctx.translate(x, y);
-
-		this.ctx.scale(s, s);
-
-		this.ctx.beginPath();
-
-		this.ctx.rect(
-			0,
-			0,
-			this.viewport.canvas.w,
-			this.viewport.canvas.h
+		const {layout, tiles} = await this.shear.cut(blob);
+		const textureLayout = this.textureBuffer.uploadImage(
+			"my_test_image",
+			layout,
+			tiles
 		);
 
-		this.ctx.stroke();
+		this.entities = [{
+			x: 1920 / 2,
+			y: 1080 / 2,
+			w: 1920,
+			h: 1080,
+			z: 0.0,
+			rotation: 0 * Math.PI / 180,
+			layout,
+			tiles,
+			textureLayout,
+		}];
 
-		this.foo(1);
+		this.entityBuffer.fill(this.entities);
+		this.tileBuffer.fill(this.entities);
+	}
 
-		this.ctx.restore();
+	draw(): void {
+		this.entityPass.render(
+			this.frame.getProjMatrix(),
+			this.view.getViewMatrix(),
+			this.textureBuffer,
+			this.entityBuffer,
+			this.tileBuffer
+		);
 	}
 }

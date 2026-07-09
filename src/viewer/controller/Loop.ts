@@ -1,11 +1,15 @@
-import type {Canvas, Viewport} from "@src/viewer/controller";
+import type {Canvas, Overlay, View} from "@src/viewer/controller";
 
 export class Loop {
 	private isDirty = false;
 
 	private updateId?: number;
 
-	constructor(private viewport: Viewport, private canvas: Canvas) {}
+	constructor(
+		private view: View,
+		private canvas: Canvas,
+		private overlay: Overlay
+	) {}
 
 	requestUpdate(): void {
 		this.isDirty = true;
@@ -14,10 +18,10 @@ export class Loop {
 		}
 	}
 
-	private updateViewport(now: number): boolean {
-		const deltaX = this.viewport.x.update(now);
-		const deltaY = this.viewport.y.update(now);
-		const deltaS = this.viewport.s.update(now);
+	private updateView(now: number): boolean {
+		const deltaX = this.view.xTween.update(now);
+		const deltaY = this.view.yTween.update(now);
+		const deltaS = this.view.sTween.update(now);
 
 		return deltaX == 1 && deltaY == 1 && deltaS == 1;
 	}
@@ -25,7 +29,7 @@ export class Loop {
 	private tick(): void {
 		const now = performance.now();
 
-		const isAllDone = this.updateViewport(now);
+		const isAllDone = this.updateView(now);
 
 		if (!isAllDone) {
 			this.isDirty = true;
@@ -45,10 +49,7 @@ export class Loop {
 	}
 
 	private render(): void {
-		this.canvas.draw(
-			this.viewport.x.value,
-			this.viewport.y.value,
-			this.viewport.s.value
-		);
+		this.canvas.draw();
+		this.overlay.foo();
 	}
 }

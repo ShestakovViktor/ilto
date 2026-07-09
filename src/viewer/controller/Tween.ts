@@ -2,15 +2,15 @@ export type EasingType = "linear" | "out" | "outBack";
 export type EaseFunction = (init: number, dest: number, time: number) => number;
 
 export class Tween {
-	public static linear(init: number, dest: number, time: number): number {
+	static linear(init: number, dest: number, time: number): number {
 		return (1 - time) * init + time * dest;
 	}
 
-	public static out(init: number, dest: number, time: number): number {
+	static out(init: number, dest: number, time: number): number {
 		return init + (dest - init) * (1 - Math.pow(1 - time, 3));
 	}
 
-	public static outBack(start: number, end: number, time: number): number {
+	static outBack(start: number, end: number, time: number): number {
 		const s = 1.70158;
 
 		const progress = 1 + (s + 1) * Math.pow(time - 1, 3)
@@ -25,26 +25,26 @@ export class Tween {
 		outBack: Tween.outBack,
 	};
 
-	public value: number;
+	value: number;
 
-	public init: number;
+	init: number;
 
-	public dest: number;
+	dest: number;
 
-	public time = 0;
+	time = 0;
 
-	public span = 0;
+	span = 0;
 
-	public ease: EaseFunction;
+	ease: EaseFunction;
 
-	public constructor(value: number, ease: EasingType = "linear") {
+	constructor(value: number, ease: EasingType = "linear") {
 		this.value = value;
 		this.init = value;
 		this.dest = value;
 		this.ease = Tween.easeMap[ease];
 	}
 
-	public set(
+	set(
 		dest: number,
 		time: number,
 		span: number,
@@ -62,7 +62,7 @@ export class Tween {
 		return t < 0 ? 0 : t > 1 ? 1 : t;
 	}
 
-	public update(now: number): number {
+	update(now: number): number {
 		const delta = this.getDelta(now, this.time, this.span);
 		this.value = this.ease(this.init, this.dest, delta);
 

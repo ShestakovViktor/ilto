@@ -74,6 +74,16 @@ export default defineConfig({
 				config.filename = "index.html";
 			}
 		},
+		rspack: {
+			module: {
+				rules: [
+					{
+						test: /\.(vert|frag|glsl)$/,
+						type: "asset/source",
+					},
+				],
+			},
+		},
 	},
 	performance: {
 		chunkSplit: {
