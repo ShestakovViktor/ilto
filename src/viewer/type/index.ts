@@ -6,3 +6,5 @@ export * from "./TextureTile";
 export * from "./TextureLayout";
 export * from "./TileConfig";
 export * from "./TextureConfig";
+export * from "./EntityConfig";
+export * from "./SceneNode";

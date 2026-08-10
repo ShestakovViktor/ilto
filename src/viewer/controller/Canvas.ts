@@ -1,22 +1,38 @@
 import {
 	Compiler,
 	Shear,
-	TextureBuffer,
-	TileBuffer,
-	EntityBuffer,
+	TextureAtlas,
+	TilePayload,
+	EntityPayload,
 	EntityPass,
+	TilePacker,
 	type Frame,
+	type Scene,
+	EntityPacker,
 } from "@src/viewer/controller";
 import type {View} from "./View";
-import type {ImageLayout, ImageTile, TextureConfig, TextureLayout, TileConfig} from "../type";
+import type {
+	EntityConfig,
+	TextureConfig,
+	TileConfig,
+} from "@src/viewer/type";
+import type {Storage} from "@src/core/controller";
+import {TextureManager} from "./TextureManager";
 
 export class Canvas {
-	private textureConfig: TextureConfig = {
+	private readonly textureConfig: TextureConfig = {
 		size: 2048,
 		depth: 16,
 	};
 
-	private tileConfig: TileConfig = {
+	private readonly entityConfig: EntityConfig = {
+		size: 2048,
+		stride: 16,
+		slots: 4,
+	};
+
+	private readonly tileConfig: TileConfig = {
+		stride: 9,
 		dst: 128,
 		ext: 124,
 		src: 120,
@@ -30,32 +46,26 @@ export class Canvas {
 
 	private compiler!: Compiler;
 
-	private textureBuffer!: TextureBuffer;
+	private textureAtlas!: TextureAtlas;
 
-	private entityBuffer!: EntityBuffer;
+	private textureManager!: TextureManager;
 
-	private tileBuffer!: TileBuffer;
+	private entityPacker!: EntityPacker;
+
+	private entityPayload!: EntityPayload;
+
+	private tilePacker!: TilePacker;
+
+	private tilePayload!: TilePayload;
 
 	private entityPass!: EntityPass;
 
-	private entities: {
-		x: number;
-		y: number;
-		z: number;
-		w: number;
-		h: number;
-		rotation: number;
-		layout: ImageLayout;
-		tiles: ImageTile[];
-		textureLayout: TextureLayout;
-	}[] = [];
-
 	constructor(
 		private view: View,
-		private frame: Frame
-	) {
-
-	}
+		private frame: Frame,
+		private scene: Scene,
+		private storage: Storage
+	) {}
 
 	setCanvas(canvas: HTMLCanvasElement): void {
 		canvas.width = canvas.clientWidth;
@@ -69,13 +79,23 @@ export class Canvas {
 
 		this.compiler = new Compiler(this.gl);
 
-		this.textureBuffer = new TextureBuffer(
+		this.textureAtlas = new TextureAtlas(
 			this.gl,
 			this.textureConfig,
 			this.tileConfig
 		);
-		this.entityBuffer = new EntityBuffer(this.gl);
-		this.tileBuffer = new TileBuffer();
+
+		this.textureManager = new TextureManager(
+			this.textureAtlas,
+			this.storage,
+			this.shear
+		);
+
+		this.tilePacker = new TilePacker(this.tileConfig);
+		this.tilePayload = new TilePayload();
+
+		this.entityPacker = new EntityPacker(this.entityConfig);
+		this.entityPayload = new EntityPayload(this.entityConfig, this.gl);
 
 		this.entityPass = new EntityPass(
 			this.gl,
@@ -84,40 +104,28 @@ export class Canvas {
 		);
 	}
 
-	async initTest(): Promise<void> {
-		const response = await fetch("drawing.png");
-		const blob = await response.blob();
+	async initScene(): Promise<void> {
+		const nodes = this.scene.graph.filter((node) => node.assetId);
 
-		const {layout, tiles} = await this.shear.cut(blob);
-		const textureLayout = this.textureBuffer.uploadImage(
-			"my_test_image",
-			layout,
-			tiles
-		);
+		const textureLayouts = await this.textureManager.formData(nodes);
 
-		this.entities = [{
-			x: 1920 / 2,
-			y: 1080 / 2,
-			w: 1920,
-			h: 1080,
-			z: 0.0,
-			rotation: 0 * Math.PI / 180,
-			layout,
-			tiles,
-			textureLayout,
-		}];
+		const {data: tilesData, count: tilesCount} = this.tilePacker
+			.formData(textureLayouts);
+		this.tilePayload.fill(tilesData, tilesCount);
 
-		this.entityBuffer.fill(this.entities);
-		this.tileBuffer.fill(this.entities);
+		const {data: entityData} = this.entityPacker.formData(nodes);
+		this.entityPayload.fill(entityData);
+
+		this.draw();
 	}
 
 	draw(): void {
 		this.entityPass.render(
 			this.frame.getProjMatrix(),
 			this.view.getViewMatrix(),
-			this.textureBuffer,
-			this.entityBuffer,
-			this.tileBuffer
+			this.textureAtlas,
+			this.entityPayload,
+			this.tilePayload
 		);
 	}
 }

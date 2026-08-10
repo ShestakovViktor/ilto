@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="24"
+   height="24"
+   version="1.1"
+   viewBox="0 0 24 24"
+   id="svg1"
+   sodipodi:docname="test.svg"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="36.458333"
+     inkscape:cx="11.986286"
+     inkscape:cy="12"
+     inkscape:window-width="1855"
+     inkscape:window-height="1056"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1"
+     showgrid="true">
+    <sodipodi:guide
+       position="0,24"
+       orientation="0,24"
+       id="guide1"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="24,24"
+       orientation="24,0"
+       id="guide2"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="24,0"
+       orientation="0,-24"
+       id="guide3"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="0,0"
+       orientation="-24,0"
+       id="guide4"
+       inkscape:locked="false" />
+    <inkscape:grid
+       id="grid4"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="0.5"
+       spacingy="0.5"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="2"
+       enabled="true"
+       visible="true" />
+  </sodipodi:namedview>
+  <path
+     id="path5"
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+     d="m 11.5,9.5 h 1 v 5 h -1 z m -2,2 h 5 v 1 h -5 z m -3,-9 h 2 m -6,4 v 2 m 0,9 v -2 m 6,6 h -2 m 11,0 h -2 m 6,-5.996658 V 17.5 m 0,-10.9966582 V 8.5 m -6,-6 h 2 m 2,17 h 3 v 3 h -3 z m 0,-9 h 3 v 3 h -3 z M 10.520505,19.5034 13.5,19.5 v 3 h -3 z M 1.5,19.5 4.5267448,19.5034 4.5,22.5 h -3 z m 0,-9 h 3 v 3 h -3 z m 18,-9 h 3 v 3 h -3 z M 10.517168,1.5034 13.5,1.5 v 3 h -3 z M 10.482828,10.501672 13.5,10.5 v 3 h -3 z M 1.5071602,1.476979 4.5,1.5 v 3 h -3 z" />
+</svg>

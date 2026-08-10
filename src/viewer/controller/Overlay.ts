@@ -4,22 +4,28 @@ export class Overlay {
 
 	private el!: HTMLDivElement;
 
-	constructor(private view: View) {}
+	private frame: HTMLDivElement;
+
+	constructor(private view: View) {
+
+		this.frame = document.createElement("div");
+	}
 
 	setElement(element: HTMLDivElement): void {
 		this.el = element;
 
-		const canvasFrame = document.createElement("div");
-		canvasFrame.style.position = "absolute";
-		canvasFrame.style.left = "0";
-		canvasFrame.style.top = "0";
-		canvasFrame.style.width = "1920px";
-		canvasFrame.style.height = "1080px";
-		canvasFrame.style.border = "1px solid red";
-		this.el.appendChild(canvasFrame);
+		this.frame.style.position = "absolute";
+		this.frame.style.left = "0";
+		this.frame.style.top = "0";
+		this.frame.style.width = 1920 * this.view.s + "px";
+		this.frame.style.height = 1080 * this.view.s + "px";
+		this.frame.style.border = "1px solid red";
+		this.el.appendChild(this.frame);
 	}
 
 	foo(): void {
-		this.el.style.transform = `translate3d(${this.view.x}px, ${this.view.y}px, 0px)`;
+		this.frame.style.transform = `translate3d(${this.view.x}px, ${this.view.y}px, 0px)`;
+		this.frame.style.width = 1920 * this.view.s + "px";
+		this.frame.style.height = 1080 * this.view.s + "px";
 	}
 }

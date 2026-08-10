@@ -4,4 +4,5 @@ export type TileConfig = {
 	src: number;
 	spacing: number;
 	extrusion: number;
+	stride: number;
 };

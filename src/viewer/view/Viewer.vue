@@ -12,22 +12,24 @@ const emit = defineEmits<{
 	ready: [element: HTMLElement];
 }>();
 
-onMounted(async(): Promise<void> => {
-	const viewer = viewerRef.value;
+onMounted((): void => {
+	const viewerEl = viewerRef.value;
 	const canvasEl = canvasRef.value;
 	const overlayEl = overlayRef.value;
 
-	if (!viewer || !canvasEl || !overlayEl) return;
+	if (!viewerEl || !canvasEl || !overlayEl) return;
 
-	input.setElement(viewer);
+	input.setElement(viewerEl);
 
 	canvas.setCanvas(canvasEl);
 	overlay.setElement(overlayEl);
 	scene.setSize(0, 0, 1920, 1080);
 
-	await canvas.initTest();
+	// await canvas.initTest();
 
 	canvas.draw();
+
+	emit("ready", viewerEl);
 });
 
 </script>
@@ -82,6 +84,8 @@ onMounted(async(): Promise<void> => {
 		left: 0;
 		top: 0;
 		background-color: rgba(173, 216, 230, 0.199);
+
+		pointer-events: none;
 	}
 }
 </style>

@@ -11,7 +11,7 @@ describe("Delete Entity Action", () => {
 	let child: Entity;
 
 	beforeEach(() => {
-		parent = {id: 1, childIds: [2, 3], kind: EntityKind.Layer, prop: []};
+		parent = {id: 1, childIds: [2, 3], kind: EntityKind.Group, prop: []};
 		item = {id: 2, childIds: [4], kind: EntityKind.Tile, prop: []};
 		gaper = {id: 3, kind: EntityKind.Footnote, prop: []};
 		child = {id: 4, kind: EntityKind.Marker, prop: []};

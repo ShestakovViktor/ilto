@@ -10,4 +10,7 @@ export enum IconName {
 	Tree = "tree",
 
 	Back = "back",
+
+	AnchorTL = "anchorTL",
+	AnchorMC = "anchorMC",
 }

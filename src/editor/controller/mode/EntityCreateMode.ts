@@ -33,7 +33,16 @@ export class EntityCreateMode extends Mode {
 			) {
 				this.setSession({activity: {
 					kind: ActivityKind.ImageCreate,
-					payload: {x, y, width: 0, height: 0, file: undefined},
+					payload: {
+						x,
+						y,
+						width: 0,
+						height: 0,
+						file: undefined,
+						tile: false,
+						pivotX: 0,
+						pivotY: 0,
+					},
 				}});
 			}
 			else if (

@@ -20,10 +20,10 @@ export function initViewerModule(deps: {
 	canvas: Canvas;
 	overlay: Overlay;
 } {
-	const scene = new Scene();
+	const scene = new Scene(deps.storage);
 	const view = new View();
 	const frame = new Frame();
-	const canvas = new Canvas(view, frame);
+	const canvas = new Canvas(view, frame, scene, deps.storage);
 	const overlay = new Overlay(view);
 	const loop = new Loop(view, canvas, overlay);
 	const input = new Input(view, frame, loop, scene);

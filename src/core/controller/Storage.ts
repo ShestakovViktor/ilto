@@ -7,9 +7,9 @@ export class Storage {
 
 	config: Config;
 
-	readonly entity: Collection<Entity>;
+	entity: Collection<Entity>;
 
-	readonly asset: Collection<Asset>;
+	asset: Collection<Asset>;
 
 	constructor(data?: Schema) {
 		const defaultData = data || this.genData();
@@ -39,8 +39,8 @@ export class Storage {
 		//TODO: Need to apply migrations here
 		this.system = {...data.system};
 		this.config = {...data.config};
-		this.entity.items = {...data.entity};
-		this.asset.items = {...data.asset};
+		this.entity = new Collection<Entity>(data.entity);
+		this.asset = new Collection<Asset>(data.asset);
 	}
 
 	getData(): Schema {

@@ -8,7 +8,7 @@ import {setViewerContext} from "@src/viewer/context";
 import {
 	setEditorContext,
 	setScopeContext,
-} from "@src/editor/context";
+} from "@src/editor/view/context";
 
 const app = createApp(Editor);
 app.use(setCoreContext, {path: ""});

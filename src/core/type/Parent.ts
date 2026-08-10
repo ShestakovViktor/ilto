@@ -1,9 +1,9 @@
-import {Entity} from "@src/core/type";
+import type {Entity} from "@src/core/type";
 
 export type Parent = {
-    childIds: number[];
+	childIds: number[];
 };
 
 export function isParent(entity: Entity): entity is Entity & Parent {
-    return "childIds" in entity;
+	return "childIds" in entity;
 }

@@ -1,8 +1,9 @@
+export * from "./Anchor";
 export * from "./Asset";
 export * from "./Graphics";
 export * from "./Keyframe";
 export * from "./Assets";
-export * from "./Layer";
+export * from "./Group";
 export * from "./Area";
 export * from "./Footnote";
 export * from "./Decor";
@@ -20,3 +21,5 @@ export * from "./CoreContext";
 export * from "./Config";
 export * from "./System";
 export * from "./Schema";
+export * from "./Rotation";
+export * from "./Scale";

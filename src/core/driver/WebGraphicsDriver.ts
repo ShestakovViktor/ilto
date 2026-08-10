@@ -39,12 +39,18 @@ export class WebGraphicsDriver implements GraphicsDriver {
 		const tiles = await Promise.all(
 			layout.map((rect, index) => {
 				const canvas = document.createElement("canvas");
-				canvas.width = rect.w;
-				canvas.height = rect.h;
+				canvas.width = rect.width;
+				canvas.height = rect.height;
+
+				// Вычисляем левый верхний угол для исходного Canvas,
+				// так как drawImage принимает координаты верхнего левого угла (source x, source y)
+				const srcX = rect.x - rect.width / 2;
+				const srcY = rect.y - rect.height / 2;
+
 				canvas.getContext("2d")!.drawImage(
 					sourceCanvas,
-					rect.x, rect.y, rect.w, rect.h,
-					0, 0, rect.w, rect.h
+					srcX, srcY, rect.width, rect.height, // Откуда берем (из исходного)
+					0, 0, rect.width, rect.height // Куда рисуем (в новый тайл)
 				);
 
 				return new Promise<{
@@ -68,13 +74,23 @@ export class WebGraphicsDriver implements GraphicsDriver {
 		width: number,
 		height: number,
 		size: number
-	): {x: number; y: number; w: number; h: number}[] {
+	): {x: number; y: number; width: number; height: number}[] {
 		const layout = [];
 		for (let y = 0; y < height; y += size) {
 			for (let x = 0; x < width; x += size) {
 				const w = Math.min(size, width - x);
 				const h = Math.min(size, height - y);
-				layout.push({x, y, w, h});
+
+				// Вычисляем центр текущего тайла относительно исходного изображения
+				const centerX = x + w / 2;
+				const centerY = y + h / 2;
+
+				layout.push({
+					x: centerX, // Теперь это центр по X
+					y: centerY, // Теперь это центр по Y
+					width: w,
+					height: h,
+				});
 			}
 		}
 		return layout;

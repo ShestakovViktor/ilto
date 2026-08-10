@@ -18,7 +18,9 @@ export class Loop {
 		}
 	}
 
-	private updateView(now: number): boolean {
+	private updateView(): boolean {
+		const now = performance.now();
+
 		const deltaX = this.view.xTween.update(now);
 		const deltaY = this.view.yTween.update(now);
 		const deltaS = this.view.sTween.update(now);
@@ -27,9 +29,7 @@ export class Loop {
 	}
 
 	private tick(): void {
-		const now = performance.now();
-
-		const isAllDone = this.updateView(now);
+		const isAllDone = this.updateView();
 
 		if (!isAllDone) {
 			this.isDirty = true;

@@ -1,6 +1,6 @@
 export enum UtilityKind {
 	System = "System",
-	Layer = "Layer",
+	Group = "Group",
 
 	ProjectExplore = "ProjectExplore",
 	EntityCreate = "EntityCreate",

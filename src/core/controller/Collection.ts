@@ -4,104 +4,124 @@ type Base = {
 };
 
 export class Collection<U extends Base> {
-	public items: Record<string, U>;
+	private items: Map<number, U>;
 
-	public constructor(data: Record<string, U>) {
-		this.items = {...data};
+	constructor(data: Record<number | string, U> | Map<number, U> | U[]) {
+		if (data instanceof Map) {
+			this.items = new Map(data);
+		}
+		else if (Array.isArray(data)) {
+			this.items = new Map(data.map(item => [item.id, item]));
+		}
+		else {
+			this.items = new Map(
+				Object.entries(data).map(([key, value]) => [Number(key), value])
+			);
+		}
 	}
 
 	private genId(): number {
 		let id = 1;
-		while (id in this.items) id++;
+		while (this.items.has(id)) id++;
 		return id;
 	}
 
-	public unwrap(): Record<string, U> {
-		return {...this.items};
+	unwrap(): Record<string, U> {
+		return Object.fromEntries(this.items);
 	}
 
-	public select<T extends U = U>(id: number): Readonly<T> | undefined {
-		return this.items[id] as T | undefined;
+	select<T extends U = U>(id: number): Readonly<T> | undefined {
+		return this.items.get(id) as T | undefined;
 	}
 
-	public filter<T extends U = U>(
+	filter<T extends U = U>(
 		criteria: Record<string, unknown>
 	): Readonly<T>[] {
-		return Object.values(this.items).filter(item => {
-			return Object.entries(criteria).every(([key, value]) => {
+		const result: T[] = [];
+		for (const item of this.items.values()) {
+			const matches = Object.entries(criteria).every(([key, value]) => {
 				return item[key] === value;
 			});
-		}) as T[];
+			if (matches) result.push(item as T);
+		}
+		return result;
 	}
 
-	public create<T extends U = U>(data: Omit<T, "id">): T {
+	create<T extends U = U>(data: Omit<T, "id">): T {
 		const id = this.genId();
-		this.items[id] = {...data, id} as T;
-		return this.items[id] as T;
+		const newItem = {...data, id} as T;
+		this.items.set(id, newItem);
+		return newItem;
 	}
 
-	public insert<T extends U = U>(data: T): T {
-		if (data.id in this.items) throw new Error();
-		this.items[data.id] = data;
-		return this.items[data.id] as T;
+	insert<T extends U = U>(data: T): T {
+		if (this.items.has(data.id)) throw new Error(`Item with id ${data.id} already exists`);
+		this.items.set(data.id, data);
+		return data;
 	}
 
-	public update<T extends U = U>(id: number, data: Partial<T>): U {
-		Object.assign(this.items[id], data as T);
-		return this.items[id];
+	update<T extends U = U>(id: number, data: Partial<T>): U {
+		const item = this.items.get(id);
+		if (!item) throw new Error(`Item with id ${id} not found`);
+		Object.assign(item, data as T);
+		return item;
 	}
 
-	public delete<T extends U = U>(id: number): T {
+	delete<T extends U = U>(id: number): T {
 		const item = this.select<T>(id);
-		if (!item) throw new Error();
-		delete this.items[id];
+		if (!item) throw new Error(`Item with id ${id} not found`);
+		this.items.delete(id);
 		return {...item};
 	}
 
-	public selectAll<T extends U = U>(): T[] {
+	selectAll<T extends U = U>(): T[] {
 		const result: T[] = [];
-		for (const itemId in this.items) {
-			const item = this.items[itemId];
+		for (const item of this.items.values()) {
 			result.push(item as T);
 		}
 		return result;
 	}
 
-	public selectContains<T extends U>(
+	selectContains<T extends U>(
 		prop: keyof T,
 		value: unknown
 	): T | undefined {
-		return Object.values(this.items).find(item => {
+		for (const item of this.items.values()) {
 			const propertyValue = (item as T)[prop];
-			return Array.isArray(propertyValue)
-                && propertyValue.includes(value);
-		}) as T | undefined;
+			if (Array.isArray(propertyValue) && propertyValue.includes(value)) {
+				return item as T;
+			}
+		}
+		return undefined;
 	}
 
-	public selectRelated<T extends U = U>(id: number, field: keyof T): number[] {
+	selectRelated<T extends U = U>(id: number, field: keyof T): number[] {
 		const item = this.select<T>(id);
 
 		if (!item || !Array.isArray(item[field])) return [];
 
-		const result = [];
+		const result: number[] = [];
 
-		for (const id of item[field]) {
-			result.push(id, ...this.selectRelated(id, field));
+		for (const childId of item[field]) {
+			result.push(childId, ...this.selectRelated(childId, field));
 		}
 
 		return result;
 	}
 
-	public selectByParams<T>(params: Record<string, unknown>): T[] {
+	// 7. Исправлена логика и типизация поиска по параметрам
+	selectByParams<T>(params: Record<string, unknown>): T[] {
 		const result: T[] = [];
-		for (const itemId in this.items) {
-			const item = this.items[itemId];
-
+		for (const item of this.items.values()) {
+			let isMatch = true;
 			for (const prop in params) {
-				if (!(prop in item)) break;
-				if (params[prop] == (item as typeof params)[prop]) {
-					result.push(item as unknown as T);
+				if (!(prop in item) || params[prop] !== (item as Record<string, unknown>)[prop]) {
+					isMatch = false;
+					break;
 				}
+			}
+			if (isMatch) {
+				result.push(item as unknown as T);
 			}
 		}
 		return result;

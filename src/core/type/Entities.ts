@@ -1,3 +1,3 @@
-import type {Area, Decor, Footnote, Layer, Marker, Tile} from "@src/core/type";
+import type {Area, Decor, Footnote, Group, Marker, Tile} from "@src/core/type";
 
-export type Entities = Layer | Tile | Marker | Decor | Area | Footnote;
+export type Entities = Group | Tile | Marker | Decor | Area | Footnote;

@@ -1,6 +1,6 @@
 import {EntityKind} from "@src/core/enum";
 import {type Engine, Mode} from "@src/editor/controller";
-import type {Layer, Decor} from "@src/core/type";
+import type {Group, Decor} from "@src/core/type";
 import type {Session} from "@src/editor/type";
 import type {ViewerState} from "@src/viewer/type";
 import type {SetStoreFunction} from "solid-js/store";
@@ -47,7 +47,7 @@ export class DecorCreate extends Mode {
 			motionId: null,
 		});
 
-		this.storage.entity.update<Layer>(
+		this.storage.entity.update<Group>(
 			parent.id,
 			{childIds: [...parent.childIds, decor.id]}
 		);

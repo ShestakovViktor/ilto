@@ -1,6 +1,6 @@
 import {EntityKind} from "@src/core/enum";
 import type {Entity, Footnote} from "@src/core/type";
-import type {Layer} from "@src/core/type";
+import type {Group} from "@src/core/type";
 import type {Parent, Marker} from "@src/core/type";
 import {Action} from "@src/editor/controller";
 import type {Session} from "@src/editor/type";
@@ -59,7 +59,7 @@ export class CreateMarkerAction extends Action<Marker> {
 			childIds: [footnote.id],
 		});
 
-		this.storage.entity.update<Layer>(
+		this.storage.entity.update<Group>(
 			parent.id,
 			{childIds: [...parent.childIds, marker.id]}
 		);

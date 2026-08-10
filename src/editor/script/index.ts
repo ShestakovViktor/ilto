@@ -1,2 +1,2 @@
-export * from "./CreateImageScript.ts";
-export * from "./RestoreDataScript.ts";
+export * from "./ImageCreateScript.ts";
+export * from "./DataRestoreScript.ts";

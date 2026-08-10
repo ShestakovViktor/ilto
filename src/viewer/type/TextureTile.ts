@@ -3,5 +3,6 @@ export type TextureTile = {
 	vMin: number;
 	uMax: number;
 	vMax: number;
-	layerIndex: number;
+	layer: number;
+	index: number;
 };

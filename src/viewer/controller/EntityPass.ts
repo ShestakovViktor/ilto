@@ -1,6 +1,6 @@
 import entityVertexShader from "@src/viewer/shader/entity.vert.glsl";
 import entityFragmentShader from "@src/viewer/shader/entity.frag.glsl";
-import type {TextureBuffer, Compiler, EntityBuffer, TileBuffer} from "@src/viewer/controller";
+import type {TextureAtlas, Compiler, EntityPayload, TilePayload} from "@src/viewer/controller";
 
 export class EntityPass {
 	private program: WebGLProgram;
@@ -106,9 +106,9 @@ export class EntityPass {
 	render(
 		projMatrix: Float32Array,
 		viewMatrix: Float32Array,
-		atlas: TextureBuffer,
-		entityBuffer: EntityBuffer,
-		tileBuffer: TileBuffer
+		textureBuffer: TextureAtlas,
+		entityBuffer: EntityPayload,
+		tileBuffer: TilePayload
 	): void {
 		if (tileBuffer.totalTilesCount === 0) return;
 
@@ -121,7 +121,7 @@ export class EntityPass {
 
 		gl.bindVertexArray(this.vao);
 
-		this.setTexture(atlas, entityBuffer);
+		this.setTexture(textureBuffer, entityBuffer);
 		this.setUniforms(projMatrix, viewMatrix);
 
 		gl.clearColor(0.0, 0.0, 0.0, 0.0);
@@ -137,7 +137,7 @@ export class EntityPass {
 		gl.bindVertexArray(null);
 	}
 
-	private setTexture(atlas: TextureBuffer, entityBuffer: EntityBuffer): void {
+	private setTexture(atlas: TextureAtlas, entityBuffer: EntityPayload): void {
 		const gl = this.gl;
 		gl.activeTexture(gl.TEXTURE0);
 		gl.bindTexture(gl.TEXTURE_2D_ARRAY, atlas.getData());
