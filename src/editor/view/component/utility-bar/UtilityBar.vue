@@ -2,7 +2,7 @@
 import {type Component, computed} from "vue";
 import {useEditorContext, useScopeContext} from "@src/editor/view/context";
 import {ActivityKind} from "@src/editor/enum";
-import {IconButton} from "@src/editor/view/component";
+import {Button} from "@src/editor/view/component";
 import {IconName} from "@src/core/enum";
 import {
 	EntityCreateUtility,
@@ -47,7 +47,7 @@ function goBack(): void {
 	<template v-if="kit.length">
 		<div class="Head">
 			<label>{{ session.activity.kind }} </label>
-			<IconButton
+			<Button
 				class="Button"
 				:icon="IconName.Back"
 				@click="goBack()"

@@ -21,6 +21,10 @@ const buttons = [
 	// {input: InputMode.AreaCreate, icon: IconName.Polygon},
 ];
 
+function handleSelect(): void {
+
+}
+
 </script>
 
 <template>
@@ -35,16 +39,9 @@ const buttons = [
 				:key="index"
 				:pressed="session.inputMode == button.input"
 				:icon="button.icon"
+				:label="button.label"
 				@click="() => session.inputMode = button.input"
-			>
-				<Icon
-					class="Icon"
-					:name="button.icon"
-				/>
-				<label>
-					{{ button.label }}
-				</label>
-			</Button>
+			/>
 		</div>
 	</Widget>
 </Scope>
@@ -57,21 +54,5 @@ const buttons = [
 	justify-content: left;
 	gap: 8px;
 	width: fit-content;
-
-	.Button {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		width: fit-content;
-
-		.Icon {
-			height: 42px;
-			width: 42px;
-			padding: 8px;
-
-			border: 1px solid var(--gray-60);
-			border-radius: 8px;
-		}
-	}
 }
 </style>

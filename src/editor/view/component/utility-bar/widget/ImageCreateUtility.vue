@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {Widget} from "@src/editor/view/component/utility-bar";
-import {IconButton, TextButton, Field, Scope} from "@src/editor/view/component";
+import {Button, Field, Scope} from "@src/editor/view/component";
 import {ref, watch} from "vue";
 import {IconName} from "@src/core/enum";
 import {useEditorContext} from "@src/editor/view/context";
@@ -123,7 +123,7 @@ function handleAnchorSelect(
 		</Field>
 
 		<div class="PivotChoose">
-			<IconButton
+			<Button
 				v-for="(button, index) in pivotButtons"
 				:key="index"
 				:icon="button.icon"
@@ -181,9 +181,10 @@ function handleAnchorSelect(
 				@change="handleFileChange"
 			>
 		</Field>
-		<TextButton @click="handleSubmit">
-			Создать
-		</TextButton>
+		<Button
+			label="Создать"
+			@click="handleSubmit"
+		/>
 	</Widget>
 </Scope>
 </template>

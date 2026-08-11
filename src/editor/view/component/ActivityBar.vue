@@ -3,7 +3,7 @@ import {ActivityKind} from "@src/editor/enum";
 
 import {useEditorContext} from "@src/editor/view/context";
 import {IconName} from "@src/core/enum";
-import {Scope, IconButton} from "@src/editor/view/component";
+import {Scope, Button} from "@src/editor/view/component";
 import {
 	type Activity,
 	EntityCreateActivity,
@@ -41,7 +41,7 @@ function handleClick(activity: Activities): void {
 <template>
 <Scope name="ActivityBar">
 	<div class="ActivityBar">
-		<IconButton
+		<Button
 			v-for="button in buttons"
 			:key="button.activity.kind"
 			:pressed="session.activity.kind === button.activity.kind"
