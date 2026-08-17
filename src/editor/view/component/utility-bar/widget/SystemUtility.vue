@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {downloadData, saveData} from "@src/editor/service";
 
 import {
 	ListItem,
@@ -9,17 +8,22 @@ import {
 } from "@src/editor/view/component/utility-bar";
 
 import {useEditorContext} from "@src/editor/view/context";
-import {loadDemo} from "@src/editor/service/loadDemo";
-import {useCoreContext} from "@src/core/context";
+import {useCoreContext} from "@src/core/view/context";
 import {Scope} from "@src/editor/view/component";
-import {useViewerContext} from "@src/viewer/context";
-import {DataRestoreScript} from "@src/editor/script";
-import {ProjectInitActivity} from "@src/editor/type/activity";
+import {useViewerContext} from "@src/viewer/view/context";
 import {ActivityKind} from "@src/editor/enum";
+import {
+	ProjectRestoreScript,
+} from "@src/editor/script";
+import {
+	DemoRestoreAction,
+	ProjectDownloadAction,
+	ProjectSaveAction,
+} from "@src/core/action/project";
 
-const {archiver, fetcher, linker} = useCoreContext();
-const {storage, session, engine} = useEditorContext();
-const {loop, canvas} = useViewerContext();
+const {archiver, fetcher, linker, storage} = useCoreContext();
+const {session, engine} = useEditorContext();
+const {scene, loop, canvas} = useViewerContext();
 
 // const {notification} = useEditorContext();
 
@@ -42,7 +46,7 @@ const {loop, canvas} = useViewerContext();
 // }
 
 function handleInit(): void {
-	session.value.activity = {
+	session.activity = {
 		kind: ActivityKind.ProjectInit,
 		payload: {
 			name: "Test",
@@ -53,12 +57,8 @@ function handleInit(): void {
 }
 
 async function handleSave(): Promise<void> {
-	await saveData(storage, linker, archiver, fetcher);
-}
-
-async function handleRestore(): Promise<void> {
 	await engine.exec(
-		new DataRestoreScript(
+		new ProjectSaveAction(
 			storage,
 			linker,
 			archiver,
@@ -66,23 +66,45 @@ async function handleRestore(): Promise<void> {
 			{name: "save.ilto"}
 		)
 	);
+}
 
-	// viewport.setCanvas({
-	// 	x: 0,
-	// 	y: 0,
-	// 	w: storage.config.width,
-	// 	h: storage.config.height,
-	// });
-
-	loop.requestUpdate();
+async function projectRestore(): Promise<void> {
+	await engine.exec(
+		new ProjectRestoreScript(
+			storage,
+			fetcher,
+			archiver,
+			linker,
+			scene,
+			loop,
+			canvas,
+			{name: "save.ilto"}
+		)
+	);
 }
 
 async function handleLoadDemo(): Promise<void> {
-	await loadDemo(storage, linker, archiver, fetcher);
+	await engine.exec(
+		new DemoRestoreAction(
+			storage,
+			linker,
+			archiver,
+			fetcher,
+			{name: "demo.ilto"}
+		)
+	);
 }
 
 async function handleDownload(): Promise<void> {
-	await downloadData(storage, linker, archiver, fetcher);
+	await engine.exec(
+		new ProjectDownloadAction(
+			storage,
+			linker,
+			archiver,
+			fetcher,
+			{name: "project.ilto"}
+		)
+	);
 }
 
 // const strings = {
@@ -118,7 +140,7 @@ async function handleDownload(): Promise<void> {
 		<Scope name="LoadSection">
 			<Section title="Load">
 				<List>
-					<ListItem @click="handleRestore">
+					<ListItem @click="projectRestore">
 						Load from memory
 					</ListItem>
 					<ListItem @click="handleLoadDemo">

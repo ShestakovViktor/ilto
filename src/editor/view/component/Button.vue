@@ -1,20 +1,29 @@
 <script setup lang="ts">
 import type {IconName} from "@src/core/enum";
-import Icon from "./Icon.vue";
+import {Icon} from "@src/editor/view/component";
+import {computed} from "vue";
 
 type Props = {
 	pressed?: boolean;
 	type?: "submit" | "button" | "reset";
 	icon?: IconName;
 	label?: string;
+
+	size?: "medium" | "small";
 };
 
 const props = withDefaults(defineProps<Props>(), {
 	pressed: false,
 	type: "button",
+	label: "",
+	size: "medium",
 });
 
 const emit = defineEmits<(e: "click", event: MouseEvent) => void>();
+
+const size = computed(() => {
+	return props.size.charAt(0).toUpperCase() + props.size.slice(1);
+});
 
 function handleClick(event: MouseEvent): void {
 	emit("click", event);
@@ -24,7 +33,10 @@ function handleClick(event: MouseEvent): void {
 <template>
 <button
 	class="Button"
-	:class="{'Pressed': props.pressed}"
+	:class="[
+		size,
+		{'Pressed': props.pressed},
+	]"
 	:type="props.type"
 	@click="handleClick"
 >
@@ -59,24 +71,33 @@ function handleClick(event: MouseEvent): void {
 
 	width: fit-content;
 
+	color: var(--gray-30);
+
 	&.Pressed {
 		color: var(--red-30);
-		.Icon {
+	}
+
+	&.Medium{
+		&>.Icon {
+			border: 1px solid var(--gray-60);
+			border-radius: .5em;
+
+			width: 42px;
+			height: 42px;
+
+			padding: 8px;
+
+		}
+
+		&.Pressed>.Icon {
 			border: 1px solid var(--red-30);
 			color: inherit;
 		}
 	}
 
-	.Icon {
-		border: 1px solid var(--gray-60);
-		border-radius: .5em;
-
-		width: 42px;
-		height: 42px;
-
-		padding: 8px;
-
-		color: var(--gray-30);
+	&.Small>.Icon {
+		width: 16px;
+		height: 16px;
 	}
 
 	.Label {

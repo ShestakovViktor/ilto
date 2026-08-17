@@ -1,4 +1,4 @@
-export class Compiler {
+export class ShaderCompiler {
 	constructor(private readonly gl: WebGL2RenderingContext) {}
 
 	compile(

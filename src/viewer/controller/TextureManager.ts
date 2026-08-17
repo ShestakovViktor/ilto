@@ -1,11 +1,11 @@
-import type {Storage} from "@src/core/controller";
+import type {DataStorage} from "@src/core/controller";
 import type {Shear, TextureAtlas} from "@src/viewer/controller";
 import type {SceneNode, TextureLayout} from "@src/viewer/type";
 
 export class TextureManager{
 	constructor(
 		private textureAtlas: TextureAtlas,
-		private storage: Storage,
+		private storage: DataStorage,
 		private shear: Shear
 	) {}
 

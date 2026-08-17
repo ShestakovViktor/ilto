@@ -1,6 +1,6 @@
 import entityVertexShader from "@src/viewer/shader/entity.vert.glsl";
 import entityFragmentShader from "@src/viewer/shader/entity.frag.glsl";
-import type {TextureAtlas, Compiler, EntityPayload, TilePayload} from "@src/viewer/controller";
+import type {TextureAtlas, ShaderCompiler, EntityPayload, TilePayload} from "@src/viewer/controller";
 
 export class EntityPass {
 	private program: WebGLProgram;
@@ -25,7 +25,7 @@ export class EntityPass {
 
 	constructor(
 		private readonly gl: WebGL2RenderingContext,
-		compiler: Compiler,
+		compiler: ShaderCompiler,
 		private tileSize: number
 	) {
 		this.program = compiler.compile(

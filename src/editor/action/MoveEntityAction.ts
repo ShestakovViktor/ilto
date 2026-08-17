@@ -1,12 +1,13 @@
-import {Action} from "@src/editor/controller";
-import {type Entity, isSpatial, type Spatial} from "@src/core/type";
-import type {Storage} from "@src/core/controller";
+import {Action} from "@src/core/library";
+import type {Entity} from "@src/core/type/entity";
+import {isSpatial, type Spatial} from "@src/core/type/property";
+import type {DataStorage} from "@src/core/controller";
 
 export class MoveEntityAction extends Action<void> {
 	name = "MoveEntityAction";
 
 	constructor(
-		private storage: Storage,
+		private storage: DataStorage,
 		public payload: {
 			entityId: number;
 			shiftX: number;

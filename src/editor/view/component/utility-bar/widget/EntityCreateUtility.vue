@@ -1,28 +1,31 @@
 <script setup lang="ts">
 import {Widget} from "@src/editor/view/component/utility-bar";
-import {InputMode} from "@src/editor/enum";
+import {InputKind} from "@src/editor/enum";
 import {useEditorContext} from "@src/editor/view/context";
-import {Scope, Button, Icon} from "@src/editor/view/component";
+import {Scope, Button} from "@src/editor/view/component";
 import {IconName} from "@src/core/enum";
+import {InputSetAction} from "@src/editor/action";
 
-const {session} = useEditorContext();
+const {session, engine} = useEditorContext();
 const buttons = [
 	{
-		input: InputMode.ImageCreate,
+		input: InputKind.ImageCreate,
 		icon: IconName.Image,
 		label: "image",
 	},
 	{
-		input: InputMode.MarkerCreate,
+		input: InputKind.MarkerCreate,
 		icon: IconName.Marker,
 		label: "marker",
 	},
-	// {input: InputMode.DecorCreate, icon: IconName.Decor},
-	// {input: InputMode.AreaCreate, icon: IconName.Polygon},
 ];
 
-function handleSelect(): void {
+function checkInput(input: InputKind): boolean {
+	return session.input == input;
+}
 
+async function setInput(input: InputKind): Promise<void> {
+	await engine.exec(new InputSetAction(session, {input}));
 }
 
 </script>
@@ -37,10 +40,10 @@ function handleSelect(): void {
 			<Button
 				v-for="(button, index) in buttons"
 				:key="index"
-				:pressed="session.inputMode == button.input"
+				:pressed="checkInput(button.input)"
 				:icon="button.icon"
 				:label="button.label"
-				@click="() => session.inputMode = button.input"
+				@click="setInput(button.input)"
 			/>
 		</div>
 	</Widget>

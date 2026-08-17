@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ref, onMounted} from "vue";
-import {useViewerContext} from "@src/viewer/context";
+import {useViewerContext} from "@src/viewer/view/context";
 
 const {canvas, overlay, scene, input} = useViewerContext();
 

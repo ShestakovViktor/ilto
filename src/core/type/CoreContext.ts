@@ -1,6 +1,6 @@
 import type {ArchiverDriver, GraphicsDriver} from "@src/core/interface";
 import type {WebLinkerDriver, WebFetcherDriver} from "@src/core/driver";
-import type {Storage} from "@src/core/controller";
+import type {EventBus, DataStorage} from "@src/core/controller";
 
 export type CoreContext = {
 	archiver: ArchiverDriver;
@@ -8,5 +8,6 @@ export type CoreContext = {
 	linker: WebLinkerDriver;
 	graphics: GraphicsDriver;
 
-	storage: Storage;
+	storage: DataStorage;
+	bus: EventBus;
 };

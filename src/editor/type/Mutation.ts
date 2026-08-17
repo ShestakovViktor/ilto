@@ -1,0 +1,1 @@
+export type Mutation<T> = Partial<T> | ((prev: T) => void);

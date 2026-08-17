@@ -1,60 +1,94 @@
 <script setup lang="ts">
 import {Widget} from "@src/editor/view/component/utility-bar";
 import {Button, Field, Scope} from "@src/editor/view/component";
-import {ref, watch} from "vue";
+import {computed, ref, watch} from "vue";
 import {IconName} from "@src/core/enum";
 import {useEditorContext} from "@src/editor/view/context";
-import {useViewerContext} from "@src/viewer/context";
-import {ActivityKind, InputMode} from "@src/editor/enum";
-import {useCoreContext} from "@src/core/context";
-import {ImageCreateScript} from "@src/editor/script";
+import {useViewerContext} from "@src/viewer/view/context";
+import {ActivityKind, InputKind} from "@src/editor/enum";
+import {useCoreContext} from "@src/core/view/context";
+import {ImageCreateSingleScript, ImageCreateTiledScript} from "@src/editor/script";
+import {SceneUpdateAction} from "@src/viewer/action";
+import {ActivitySetAction, InputSetAction} from "@src/editor/action";
+import {ImageMeasureAction} from "@src/editor/action/utility";
 
-const {storage, graphics} = useCoreContext();
+const {storage, graphics, stats} = useCoreContext();
 const {engine, session} = useEditorContext();
 const {loop, scene, canvas} = useViewerContext();
 
 const extension = ref<string>("");
 const isResizeEnabled = ref<boolean>(false);
+const isTiled = ref<boolean>(false);
 
-if (session.value.activity.kind !== ActivityKind.ImageCreate) throw new Error();
-
-const {payload} = session.value.activity;
+const payload = computed(() => {
+	if (session.activity.kind !== ActivityKind.ImageCreate) throw new Error();
+	return session.activity.payload;
+});
 
 watch(isResizeEnabled, (enabled) => {
 	if (!enabled) {
-		payload.width = 0;
-		payload.height = 0;
+		payload.value.width = 0;
+		payload.value.height = 0;
 	}
 });
 
 async function handleSubmit(): Promise<void> {
-	if (!payload.file) {
+	if (!payload.value.file) {
 		throw new Error();
 	}
+	else if (!payload.value.width || !payload.value.height) {
+		const size = await engine.exec(
+			new ImageMeasureAction({file: payload.value.file})
+		);
+		payload.value.width = size.width;
+		payload.value.height = size.height;
+	}
 
-	await engine.exec(new ImageCreateScript(
-		storage,
-		graphics,
-		{
-			x: payload.x,
-			y: payload.y,
-			width: payload.width,
-			height: payload.height,
-			rotation: 0,
-			scaleX: 1,
-			scaleY: 1,
-			pivotX: payload.pivotX,
-			pivotY: payload.pivotY,
-			file: payload.file,
-		}
+	const data = {
+		name: "",
+		x: payload.value.x,
+		y: payload.value.y,
+		width: payload.value.width,
+		height: payload.value.height,
+		rotation: 0,
+		scaleX: 1,
+		scaleY: 1,
+		pivotX: payload.value.pivotX,
+		pivotY: payload.value.pivotY,
+		file: payload.value.file,
+		parentId: payload.value.parentId,
+	};
+
+	if (!isTiled.value) {
+		await engine.exec(new ImageCreateSingleScript(
+			storage,
+			stats,
+			graphics,
+			data
+		));
+	}
+	else {
+		await engine.exec(new ImageCreateTiledScript(
+			storage,
+			stats,
+			graphics,
+			data
+		));
+	}
+
+	await engine.exec(new SceneUpdateAction(
+		scene,
+		loop,
+		canvas
 	));
 
-	loop.requestUpdate();
-	scene.update();
-	await canvas.initScene();
+	await engine.exec(new ActivitySetAction(
+		session, {activity: {kind: ActivityKind.EntityCreate}}
+	));
 
-	session.value.activity = {kind: ActivityKind.EntityCreate};
-	session.value.inputMode = InputMode.DefaultView;
+	await engine.exec(new InputSetAction(
+		session, {input: InputKind.DefaultView}
+	));
 }
 
 function handleFileChange(event: Event): void {
@@ -62,18 +96,8 @@ function handleFileChange(event: Event): void {
 	const file = target.files?.[0];
 	if (file) {
 		extension.value = file.name.split(".").pop() || "";
-		payload.file = file;
+		payload.value.file = file;
 	}
-}
-
-function handleTileChange(event: Event): void {
-	const target = event.target as HTMLInputElement;
-	console.log(target.checked);
-	// const file = target.files?.[0];
-	// if (file) {
-	// 	extension.value = file.name.split(".").pop() || "";
-	// 	activity.payload.file = file;
-	// }
 }
 
 const pivotButtons = [
@@ -84,15 +108,15 @@ const pivotButtons = [
 function checkAnchorSelect(
 	anchor: {pivotX: number; pivotY: number}
 ): boolean {
-	return payload.pivotX == anchor.pivotX
-		&& payload.pivotY == anchor.pivotY;
+	return payload.value.pivotX == anchor.pivotX
+		&& payload.value.pivotY == anchor.pivotY;
 }
 
 function handleAnchorSelect(
 	anchor: {pivotX: number; pivotY: number}
 ): void {
-	payload.pivotX = anchor.pivotX;
-	payload.pivotY = anchor.pivotY;
+	payload.value.pivotX = anchor.pivotX;
+	payload.value.pivotY = anchor.pivotY;
 }
 
 </script>
@@ -165,10 +189,9 @@ function handleAnchorSelect(
 			<label for="tile">tile</label>
 			<input
 				id="tile"
-				v-model.number="payload.tile"
+				v-model="isTiled"
 				name="tile"
 				type="checkbox"
-				@change="handleTileChange"
 			>
 		</Field>
 		<Field>

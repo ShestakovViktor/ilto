@@ -1,6 +1,7 @@
 export * from "./Overlay";
 export * from "./Shear";
 export * from "./TextureAtlas";
+export * from "./TextureManager";
 export * from "./Compiler";
 export * from "./EntityPass";
 export * from "./TilePayload";
@@ -15,4 +16,4 @@ export * from "./Input";
 export * from "./QuadTree";
 export * from "./Loop";
 export * from "./View";
-export * from "./Ml";
+export * from "./MathLibrary";

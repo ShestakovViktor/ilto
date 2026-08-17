@@ -1,3 +1,2 @@
-export * from "./Collection";
-export * from "./Storage";
+export * from "./DataStorage";
 export * from "./Migrator";

@@ -1,5 +1,6 @@
-import type {InputMode} from "@src/editor/enum";
-import type {Entity, Parent} from "@src/core/type";
+import type {InputKind} from "@src/editor/enum";
+import type {Entity} from "@src/core/type/entity";
+import type {Parent} from "@src/core/type/property";
 import type {ModalView, NotificationRecord} from "@src/editor/type";
 import type {Activities} from "./activity/Activities";
 
@@ -12,7 +13,7 @@ export type Session = {
 
 	history: Activities[];
 
-	inputMode: InputMode;
+	input: InputKind;
 
 	notification: NotificationRecord[];
 

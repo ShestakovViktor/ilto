@@ -1,16 +1,18 @@
-import type {Storage} from "@src/core/controller";
+import type {EventBus, DataStorage} from "@src/core/controller";
 import {QuadTree} from "./QuadTree";
-import {Ml} from "@src/viewer/controller";
+import {MathLibrary} from "@src/viewer/controller";
+import type {Entity} from "@src/core/type/entity";
 import {
 	isParent,
 	isVisual,
-	type Entity,
 	type Rotation,
 	type Scale,
 	type Size,
 	type Spatial,
-} from "@src/core/type";
+} from "@src/core/type/property";
+
 import type {SceneNode} from "@src/viewer/type";
+import {EventKind} from "@src/core/enum";
 
 export class Scene {
 	private tree = new QuadTree(0, 0, 0, 0);
@@ -25,10 +27,13 @@ export class Scene {
 
 	graph: SceneNode[] = [];
 
-	private ml: Ml;
+	private ml: MathLibrary;
 
-	constructor(private storage: Storage) {
-		this.ml = new Ml();
+	constructor(
+		private storage: DataStorage
+
+	) {
+		this.ml = new MathLibrary();
 	}
 
 	setSize(x: number, y: number, w: number, h: number): void {
@@ -39,6 +44,7 @@ export class Scene {
 	}
 
 	update(): void {
+		console.log("update scene graph");
 		this.graph = [];
 		this.foo(1);
 	}

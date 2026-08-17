@@ -47,7 +47,7 @@
         "./**/*.js",
         "./**/*.ts",
         "./**/*.vue",
-        "src/core/context/coreModule.ts",
+        "src/core/Core.ts",
     ],
     "exclude": [
         "node_modules",

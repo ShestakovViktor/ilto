@@ -2,7 +2,7 @@ export enum UtilityKind {
 	System = "System",
 	Group = "Group",
 
-	ProjectExplore = "ProjectExplore",
+	SceneExplore = "SceneExplore",
 	EntityCreate = "EntityCreate",
 	ProjectInit = "ProjectInit",
 	ImageCreate = "ImageCreate",

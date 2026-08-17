@@ -141,10 +141,6 @@ export default defineConfig([
 					"after": true,
 				},
 			],
-			"@stylistic/lines-between-class-members": [
-				"error",
-				"always",
-			],
 			"@stylistic/max-len": [
 				"warn",
 				{

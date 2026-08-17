@@ -10,8 +10,7 @@ export type ImageCreateActivity = Activity<
 		height: number;
 		pivotX: number;
 		pivotY: number;
-
 		file: File | undefined;
-		tile: boolean;
+		parentId: number;
 	}
 >;

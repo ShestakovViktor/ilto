@@ -1,7 +1,8 @@
-import {type Engine, Mode} from "@src/editor/controller";
-import {type Entity, isSpatial, type Spatial} from "@src/core/type";
+import {type ActionEngine, Mode} from "@src/editor/controller";
+import type {Entity} from "@src/core/type/entity";
+import {isSpatial, type Spatial} from "@src/core/type/property";
 import {MoveEntityAction} from "@src/editor/action";
-import type {Storage} from "@src/storage/controller";
+import type {DataStorage} from "@src/core/controller";
 import type {ViewerState} from "@src/viewer/type";
 import type {Getter} from "@src/editor/type";
 
@@ -20,8 +21,8 @@ export class EntitySelect extends Mode {
 
 	constructor(
 		private getViewer: Getter<ViewerState>,
-		private storage: Storage,
-		private engine: Engine
+		private storage: DataStorage,
+		private engine: ActionEngine
 	) {
 		super();
 		// const [markerType] = this.databse.entityType

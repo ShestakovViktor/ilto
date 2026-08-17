@@ -1,5 +1,5 @@
 import {
-	Compiler,
+	ShaderCompiler,
 	Shear,
 	TextureAtlas,
 	TilePayload,
@@ -16,7 +16,7 @@ import type {
 	TextureConfig,
 	TileConfig,
 } from "@src/viewer/type";
-import type {Storage} from "@src/core/controller";
+import type {DataStorage} from "@src/core/controller";
 import {TextureManager} from "./TextureManager";
 
 export class Canvas {
@@ -41,21 +41,16 @@ export class Canvas {
 	};
 
 	private gl!: WebGL2RenderingContext;
-
 	private shear!: Shear;
-
-	private compiler!: Compiler;
+	private compiler!: ShaderCompiler;
 
 	private textureAtlas!: TextureAtlas;
-
 	private textureManager!: TextureManager;
 
 	private entityPacker!: EntityPacker;
-
 	private entityPayload!: EntityPayload;
 
 	private tilePacker!: TilePacker;
-
 	private tilePayload!: TilePayload;
 
 	private entityPass!: EntityPass;
@@ -64,7 +59,7 @@ export class Canvas {
 		private view: View,
 		private frame: Frame,
 		private scene: Scene,
-		private storage: Storage
+		private storage: DataStorage
 	) {}
 
 	setCanvas(canvas: HTMLCanvasElement): void {
@@ -77,7 +72,7 @@ export class Canvas {
 
 		this.shear = new Shear(this.tileConfig);
 
-		this.compiler = new Compiler(this.gl);
+		this.compiler = new ShaderCompiler(this.gl);
 
 		this.textureAtlas = new TextureAtlas(
 			this.gl,
@@ -115,8 +110,6 @@ export class Canvas {
 
 		const {data: entityData} = this.entityPacker.formData(nodes);
 		this.entityPayload.fill(entityData);
-
-		this.draw();
 	}
 
 	draw(): void {

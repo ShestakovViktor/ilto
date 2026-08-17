@@ -13,4 +13,8 @@ export enum IconName {
 
 	AnchorTL = "anchorTL",
 	AnchorMC = "anchorMC",
+
+	TreeOpen = "tree-open",
+	TreeClose = "tree-close",
+	TreeItem = "tree-item",
 }

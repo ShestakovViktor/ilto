@@ -6,38 +6,38 @@ import {Button} from "@src/editor/view/component";
 import {IconName} from "@src/core/enum";
 import {
 	EntityCreateUtility,
-	EntityUtility,
-	ProjectExploreUtility,
+	SceneExploreUtility,
 	ImageCreateUtility,
 	ProjectInitUtility,
-	LayerUtility,
 	SystemUtility,
 	MarkerCreateUtility,
 } from "@src/editor/view/component/utility-bar/widget";
 
-const {session} = useEditorContext();
+const editor = useEditorContext();
 
 const activities: Record<ActivityKind, Component[]> = {
 	[ActivityKind.System]: [SystemUtility],
 	[ActivityKind.ProjectInit]: [ProjectInitUtility],
-	[ActivityKind.ProjectExplore]: [ProjectExploreUtility],
+	[ActivityKind.ProjectExplore]: [SceneExploreUtility],
 	[ActivityKind.EntityCreate]: [
 		EntityCreateUtility,
-		LayerUtility,
-		EntityUtility,
+		SceneExploreUtility,
 	],
-	[ActivityKind.ImageCreate]: [ImageCreateUtility],
+	[ActivityKind.ImageCreate]: [
+		ImageCreateUtility,
+		SceneExploreUtility,
+	],
 	[ActivityKind.MarkerCreate]: [MarkerCreateUtility],
 };
 
-const kit = computed(() => activities[session.value.activity.kind]);
+const kit = computed(() => activities[editor.session.activity.kind]);
 
 useScopeContext("UtilityBar");
 
 function goBack(): void {
-	if (session.value.history.length < 2) return;
-	const previousActivity = session.value.history.splice(-2)[0];
-	session.value.activity = previousActivity;
+	if (editor.session.history.length < 2) return;
+	const previousActivity = editor.session.history.splice(-2)[0];
+	editor.session.activity = previousActivity;
 }
 
 </script>
@@ -46,7 +46,7 @@ function goBack(): void {
 <div class="UtilityBar">
 	<template v-if="kit.length">
 		<div class="Head">
-			<label>{{ session.activity.kind }} </label>
+			<label>{{ editor.session.activity.kind }} </label>
 			<Button
 				class="Button"
 				:icon="IconName.Back"

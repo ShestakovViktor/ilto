@@ -1,11 +1,11 @@
-import {Hotkey} from "@src/editor/controller";
-import {saveData} from "@src/editor/service";
-import type {Storage} from "@src/storage/controller";
+import {type ActionEngine, Hotkey} from "@src/editor/controller";
+import type {DataStorage} from "@src/core/controller";
 import type {
-	WebLinkerDriver,
-	WebFetcherDriver,
-} from "@src/core/driver";
-import type {ArchiverDriver} from "@src/core/interface";
+	ArchiverDriver,
+	FetcherDriver,
+	LinkerDriver,
+} from "@src/core/interface";
+import {ProjectSaveAction} from "@src/core/action/project";
 
 export class SaveHotkey extends Hotkey {
 	protected code = "KeyS";
@@ -13,15 +13,24 @@ export class SaveHotkey extends Hotkey {
 	protected ctrlKey = true;
 
 	constructor(
-		private storage: Storage,
-		private linker: WebLinkerDriver,
+		private storage: DataStorage,
+		private linker: LinkerDriver,
 		private archiver: ArchiverDriver,
-		private browser: WebFetcherDriver
+		private fetcher: FetcherDriver,
+		private engine: ActionEngine
 	) {
 		super();
 	}
 
 	async handle(): Promise<void> {
-		await saveData(this.storage, this.linker, this.archiver, this.browser);
+		await this.engine.exec(
+			new ProjectSaveAction(
+				this.storage,
+				this.linker,
+				this.archiver,
+				this.fetcher,
+				{name: "save.ilto"}
+			)
+		);
 	}
 }

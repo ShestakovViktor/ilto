@@ -1,80 +1,24 @@
-import {type App, inject, ref, watch, watchEffect} from "vue";
-import type {EditorContext, Session, Updater} from "@src/editor/type";
-import {initEditorModule} from "@src/editor/module";
-import {viewerContextKey} from "@src/viewer/context";
-import type {ViewerContext, ViewerState} from "@src/viewer/type";
-import type {CoreContext} from "@src/core/type";
-import {coreContextKey} from "@src/core/context";
-import {InputMode, ActivityKind} from "@src/editor/enum";
+import {type App, inject, reactive} from "vue";
+import type {Editor} from "@src/editor/Editor";
+import type {EditorContext} from "@src/editor/type";
 
 export const editorContextKey = Symbol("editorContext");
 
-export function setEditorContext(app: App): void {
-	const coreContext = app.runWithContext(
-		() => inject<CoreContext>(coreContextKey)
-	);
+export function setEditorContext(app: App, editor: Editor): void {
+	const context = {
+		session: reactive(editor.session),
 
-	if (!coreContext) throw new Error();
+		uid: editor.uid,
+		notif: editor.notif,
+		log: editor.log,
+		engine: editor.engine,
+		mouse: editor.mouse,
+		hotkey: editor.hotkey,
+	};
 
-	const viewerContext = app.runWithContext(
-		() => inject<ViewerContext>(viewerContextKey)
-	);
+	editor.session = context.session;
 
-	if (!viewerContext) throw new Error();
-
-	const session = ref<Session>({
-		selected: undefined,
-		layer: undefined,
-		activity: {kind: ActivityKind.System},
-		history: [{kind: ActivityKind.System}],
-		inputMode: InputMode.DefaultView,
-		notification: [],
-		modal: [],
-	});
-
-	watch(
-		() => session.value.activity,
-		(activityMode) => session.value.history.push(activityMode)
-	);
-
-	const editorModule = initEditorModule({
-		storage: coreContext.storage,
-		linker: coreContext.linker,
-		fetcher: coreContext.fetcher,
-		archiver: coreContext.archiver,
-		graphics: coreContext.graphics,
-
-		loop: viewerContext.loop,
-
-		getViewer(): ViewerState {return viewerContext.viewer.value;},
-		setViewer(updater: Updater<ViewerState>) {
-			if (typeof updater === "function") {
-				updater(viewerContext.viewer.value);
-			}
-			else {
-				Object.assign(viewerContext.viewer.value, updater);
-			}
-		},
-
-		getSession(): Session {return session.value;},
-		setSession(updater: Updater<Session>) {
-			if (typeof updater === "function") {
-				updater(session.value);
-			}
-			else {
-				Object.assign(session.value, updater);
-			}
-		},
-	});
-
-	watchEffect(() => {
-		editorModule.mouse.setMode(session.value.inputMode);
-	});
-
-	app.provide<EditorContext>(editorContextKey, {
-		...editorModule,
-		session,
-	});
+	app.provide<EditorContext>(editorContextKey, context);
 }
 
 export function useEditorContext(): EditorContext {

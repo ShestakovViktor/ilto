@@ -25,7 +25,13 @@ export class WebGraphicsDriver implements GraphicsDriver {
 		width: number,
 		height: number,
 		size: number
-	): Promise<{x: number; y: number; w: number; h: number; f: File}[]> {
+	): Promise<{
+		x: number;
+		y: number;
+		width: number;
+		height: number;
+		file: File;
+	}[]> {
 		const bitmap = await createImageBitmap(file);
 
 		const sourceCanvas = document.createElement("canvas");
@@ -54,12 +60,20 @@ export class WebGraphicsDriver implements GraphicsDriver {
 				);
 
 				return new Promise<{
-					x: number; y: number; w: number; h: number; f: File;
+					x: number;
+					y: number;
+					width: number;
+					height: number;
+					file: File;
 				}>(resolve => {
 					canvas.toBlob(blob => {
 						if (!blob) throw new Error();
-						const tile = new File([blob], file.name + index, {type: file.type});
-						resolve({...rect, f: tile});
+						const tile = new File(
+							[blob],
+							file.name + index,
+							{type: file.type}
+						);
+						resolve({...rect, file: tile});
 					}, file.type);
 				});
 			})

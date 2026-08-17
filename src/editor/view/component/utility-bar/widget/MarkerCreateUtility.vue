@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import {Widget} from "@src/editor/view/component/utility-bar";
-import {Button, Field, Scope} from "@src/editor/view/component";
+import {Field, Scope} from "@src/editor/view/component";
 import {ref} from "vue";
-import {EntityKind, MimeType} from "@src/core/enum";
+import {EntityKind} from "@src/core/enum";
 import {useEditorContext} from "@src/editor/view/context";
-import {useViewerContext} from "@src/viewer/context";
-import {ActivityKind, InputMode, ModalKind} from "@src/editor/enum";
-import {useCoreContext} from "@src/core/context";
+import {useViewerContext} from "@src/viewer/view/context";
+import {ActivityKind, InputKind, ModalKind} from "@src/editor/enum";
+import {useCoreContext} from "@src/core/view/context";
 import {ImageCreateScript} from "@src/editor/script";
 
-const {storage, graphics} = useCoreContext();
+const {storage, graphics, bus: coreEventBus} = useCoreContext();
 const {engine, session} = useEditorContext();
 const {loop} = useViewerContext();
 
@@ -28,16 +28,17 @@ async function handleCreate(
 	h: number,
 	file: File
 ): Promise<void> {
-	await engine.exec(new ImageCreateScript(
-		storage,
-		graphics,
-		{x, y, width: w, height: h, file}
-	));
+	// await engine.exec(new ImageCreateScript(
+	// 	storage,
+	// 	graphics,
+	// 	coreEventBus,
+	// 	{x, y, width: w, height: h, file}
+	// ));
 
-	loop.requestUpdate();
+	// loop.requestUpdate();
 
-	session.value.activity = {kind: ActivityKind.EntityCreate};
-	session.value.inputMode = InputMode.DefaultView;
+	// session.value.activity = {kind: ActivityKind.EntityCreate};
+	// session.value.inputMode = InputMode.DefaultView;
 }
 
 async function handleSubmit(event: SubmitEvent): Promise<void> {

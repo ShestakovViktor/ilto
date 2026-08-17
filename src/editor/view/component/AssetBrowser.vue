@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type {Asset} from "@src/core/type";
+import type {Asset} from "@src/core/type/asset";
 import type {AssetKind} from "@src/core/enum";
-import {useEditorContext} from "@src/editor/view/context";
 import {computed} from "vue";
+import {useCoreContext} from "@src/core/view/context";
 
 const props = defineProps<{
 	type?: AssetKind;
@@ -13,7 +13,7 @@ const props = defineProps<{
 	onDelete?: (ids: number[]) => void;
 }>();
 
-const {storage} = useEditorContext();
+const {storage} = useCoreContext();
 
 const assets = computed(() => {
 	return props.type

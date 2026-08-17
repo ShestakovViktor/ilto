@@ -3,8 +3,8 @@ import "@src/style/global.scss";
 
 import {createApp} from "vue";
 import {Editor} from "@src/editor/view";
-import {setCoreContext} from "@src/core/context";
-import {setViewerContext} from "@src/viewer/context";
+import {setCoreContext} from "@src/core/view/context";
+import {setViewerContext} from "@src/viewer/view/context";
 
 (async(): Promise<void> => {
 	const container = document.querySelector("#viewer[data-src]");

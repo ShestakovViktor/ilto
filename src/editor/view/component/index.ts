@@ -1,7 +1,8 @@
-export {default as Button} from "./Button.vue";
 export {default as Icon} from "./Icon.vue";
+export {default as Button} from "./Button.vue";
 export {default as Field} from "./Field.vue";
 export {default as Scope} from "./Scope.vue";
+export {default as SceneTree} from "./SceneTree.vue";
 export {default as ModalLayer} from "./ModalLayer.vue";
 export {default as StatusBar} from "./StatusBar.vue";
 export {default as ActivityBar} from "./ActivityBar.vue";

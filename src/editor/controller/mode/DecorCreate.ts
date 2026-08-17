@@ -1,5 +1,5 @@
 import {EntityKind} from "@src/core/enum";
-import {type Engine, Mode} from "@src/editor/controller";
+import {type ActionEngine, Mode} from "@src/editor/controller";
 import type {Group, Decor} from "@src/core/type";
 import type {Session} from "@src/editor/type";
 import type {ViewerState} from "@src/viewer/type";
@@ -12,7 +12,7 @@ export class DecorCreate extends Mode {
 		private viewer: ViewerState,
 		private editor: Session,
 		private setEditor: SetStoreFunction<Session>,
-		private engine: Engine,
+		private engine: ActionEngine,
 		private storage: Storage
 	) {
 		super();

@@ -23,7 +23,7 @@
 	<symbol id="file" viewBox="0 0 24 24">
 		<path stroke="currentColor" fill="none" d="m7 11.5h6.5m-6.5 3h10.5m-10.5 3h10.5m-3-17v6h6m0 0v15c0 1-1 2-2 2h-13c-1 0-2-1-2-2v-19c0-1 1-2 2-2h9z"/>
 	</symbol>
-	<symbol id="edit">
+	<symbol id="edit" viewBox="0 0 24 24">
 		<path stroke="currentColor" fill="none" d="m17.5 5.5v6m-4-6v6m-4 2h12m-7 8v-5h-4c-.5 0-1-.5-1-1v-10h12v10c0 .5-.5 1-1 1h-4v5zm-12-2h4m-4-15h4m-4 18v-19l2-2 2 2v19z" />
 	</symbol>
 	<symbol id="tree" viewBox="0 0 24 24">
@@ -42,5 +42,15 @@
 	<symbol id="anchorMC" viewBox="0 0 24 24">
 		<path stroke="currentColor" fill="none" d="m4.5 2.5h5m-7 2v5m0 9v-5m7 7h-5m14 0h-5m7-7v5m0-14v5m-7-7h5m0 16h4v4h-4zm0-9h4v4h-4zm-9 9h4v4h-4zm-9 0h4v4h-4zm0-9h4v4h-4zm18-9h4v4h-4zm-9 0h4v4h-4zm0 9h4v4h-4zm-8.99-9.02 3.99.023v4h-4z"/>
 		<path stroke="none" fill="currentColor" d="m9.5 9.5h4v4h-4z"/>
+	</symbol>
+
+	<symbol id="tree-open" viewBox="0 0 16 16">
+		<path stroke="currentColor" fill="none" d="m7.5 4.5v6m-3-3h6m-8-4c0-.5.5-1 1-1h8c.5 0 1 .5 1 1v8c0 .5-.5 1-1 1h-8c-.5 0-1-.5-1-1z"/>
+	</symbol>
+	<symbol id="tree-close" viewBox="0 0 16 16">
+		<path stroke="currentColor" fill="none" d="m4.5 7.5h6m-8-4c0-.5.5-1 1-1h8c.5 0 1 .5 1 1v8c0 .5-.5 1-1 1h-8c-.5 0-1-.5-1-1z" />
+	</symbol>
+	<symbol id="tree-item" viewBox="0 0 16 16">
+		<path stroke="currentColor" fill="none" d="m9.5 5.5-4 4m0-4 4 4m-5-2h6m-3-3v6"/>
 	</symbol>
 </svg>

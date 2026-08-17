@@ -1,17 +1,17 @@
-import {Engine, Hotkey} from "@src/editor/controller";
+import {type ActionEngine, Hotkey} from "@src/editor/controller";
 
 export class RedoHotkey extends Hotkey {
-    protected code = "KeyZ";
+	protected code = "KeyZ";
 
-    protected ctrlKey = true;
+	protected ctrlKey = true;
 
-    protected shiftKey = true;
+	protected shiftKey = true;
 
-    constructor(private engine: Engine) {
-        super();
-    }
+	constructor(private engine: ActionEngine) {
+		super();
+	}
 
-    handle(): void {
-        this.engine.redo();
-    }
+	async handle(): Promise<void> {
+		await this.engine.redo();
+	}
 }

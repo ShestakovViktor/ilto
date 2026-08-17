@@ -1,3 +1,3 @@
-import type {Updater} from "@src/editor/type";
+import type {Mutation} from "@src/editor/type";
 
-export type Setter<T> = (updater: Updater<T>) => void;
+export type Setter<T> = (mutation: Mutation<T>) => void;

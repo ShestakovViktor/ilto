@@ -1,38 +1,45 @@
 <script setup lang="ts">
-import {initProject} from "@src/editor/service";
 import {Widget} from "@src/editor/view/component/utility-bar";
 import {useEditorContext} from "@src/editor/view/context";
-import {useViewerContext} from "@src/viewer/context";
+import {useViewerContext} from "@src/viewer/view/context";
 import {Scope, Button, Field} from "@src/editor/view/component";
 import {ActivityKind} from "@src/editor/enum";
+import {useCoreContext} from "@src/core/view/context";
+import {computed} from "vue";
+import {ProjectInitAction} from "@src/core/action/project";
+import {SceneUpdateAction} from "@src/viewer/action";
+import {ActivitySetAction} from "@src/editor/action";
 
-const {storage, session} = useEditorContext();
-const {loop} = useViewerContext();
+const {storage} = useCoreContext();
+const {session, engine} = useEditorContext();
+const {loop, scene, canvas} = useViewerContext();
 
-const {activity} = session.value;
+const activity = computed(() => {
+	if (session.activity.kind !== ActivityKind.ProjectInit) throw new Error();
+	return session.activity;
+});
 
-if (activity.kind !== ActivityKind.ProjectInit) throw new Error();
-
-function projectCreate(event: MouseEvent): void {
+async function projectCreate(event: MouseEvent): Promise<void> {
 	event.preventDefault();
-	if (activity.kind !== ActivityKind.ProjectInit) throw new Error();
 
-	initProject(storage, {
-		name: activity.payload.name,
-		width: activity.payload.width,
-		height: activity.payload.height,
-	});
+	await engine.exec(
+		new ProjectInitAction(
+			storage,
+			{
+				name: activity.value.payload.name,
+				width: activity.value.payload.width,
+				height: activity.value.payload.height,
+			}
+		)
+	);
 
-	// viewport.setCanvas({
-	// 	x: 0,
-	// 	y: 0,
-	// 	w: storage.config.width,
-	// 	h: storage.config.height,
-	// });
+	await engine.exec(
+		new SceneUpdateAction(scene, loop, canvas)
+	);
 
-	loop.requestUpdate();
-
-	session.value.activity = {kind: ActivityKind.System};
+	await engine.exec(
+		new ActivitySetAction(session, {activity: {kind: ActivityKind.System}})
+	);
 }
 
 const strings = {
@@ -48,7 +55,9 @@ const strings = {
 
 <template>
 <Scope name="ProjectInitUtility">
-	<Widget title="Init">
+	<Widget
+		title="Init"
+	>
 		<Field>
 			<label for="name">name</label>
 			<input
@@ -73,9 +82,10 @@ const strings = {
 				type="number"
 			>
 		</Field>
-		<Button @click="projectCreate">
-			Create
-		</Button>
+		<Button
+			label="Create"
+			@click="projectCreate"
+		/>
 	</Widget>
 </Scope>
 </template>

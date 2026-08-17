@@ -1,6 +1,6 @@
-import type {Entity} from "@src/core/type";
-import type {Asset} from "@src/core/type";
-import type {System, Config} from "@src/storage/type";
+import type {Entity} from "@src/core/type/entity";
+import type {Asset} from "@src/core/type/asset";
+import type {System, Config} from "@src/core/type";
 
 export type Schema = {
 	system: System;

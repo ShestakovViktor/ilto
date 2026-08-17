@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {useEditorContext} from "@src/editor/view/context";
-import {useViewerContext} from "@src/viewer/context";
+import {useViewerContext} from "@src/viewer/view/context";
 
 const {session} = useEditorContext();
 const {viewer} = useViewerContext();
@@ -9,8 +9,8 @@ const {viewer} = useViewerContext();
 
 <template>
 <div class="StatusBar">
-	<div>mode: {{ session.inputMode }}</div>
-	<div>scale: {{ viewer.scale }}</div>
+	<div>mode: {{ session.input }}</div>
+	<!-- <div>scale: {{ viewer.scale }}</div> -->
 	<span />
 	<div>selected: {{ session.selected?.id || "" }}</div>
 	<div>layer: {{ session.layer?.id || "" }}</div>

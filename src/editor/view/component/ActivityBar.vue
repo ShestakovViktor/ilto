@@ -4,13 +4,6 @@ import {ActivityKind} from "@src/editor/enum";
 import {useEditorContext} from "@src/editor/view/context";
 import {IconName} from "@src/core/enum";
 import {Scope, Button} from "@src/editor/view/component";
-import {
-	type Activity,
-	EntityCreateActivity,
-	SystemActivity,
-	ProjectExploreActivity,
-} from "@src/editor/type/activity";
-
 import type {Activities} from "@src/editor/type/activity";
 
 const {session} = useEditorContext();
@@ -32,8 +25,8 @@ const buttons: {icon: IconName; activity: Activities}[] = [
 ];
 
 function handleClick(activity: Activities): void {
-	session.value.history = [];
-	session.value.activity = activity;
+	session.history = [];
+	session.activity = activity;
 }
 
 </script>

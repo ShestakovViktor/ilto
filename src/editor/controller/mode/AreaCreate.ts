@@ -1,18 +1,18 @@
-import {Mode, type Engine} from "@src/editor/controller";
-import type {Area} from "@src/core/type/Area";
+import {Mode, type ActionEngine} from "@src/editor/controller";
+import type {Area} from "@src/core/type/entity/Area";
 import type {Entity, Parent} from "@src/core/type";
-import type {Footnote} from "@src/core/type/Footnote";
+import type {Footnote} from "@src/core/type/entity/Footnote";
 import {EntityKind} from "@src/core/enum";
 import type {Session} from "@src/editor/type";
 import type {ViewerState} from "@src/viewer/type";
-import type {Storage} from "@src/core/controller";
+import type {DataStorage} from "@src/core/controller";
 
 export class AreaCreate extends Mode {
 	constructor(
 		private viewer: ViewerState,
 		private editor: Session,
-		private engine: Engine,
-		private storage: Storage
+		private engine: ActionEngine,
+		private storage: DataStorage
 	) {
 		super();
 	}
