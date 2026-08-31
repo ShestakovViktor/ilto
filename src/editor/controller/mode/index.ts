@@ -1,4 +1,4 @@
-export * from "./EntitySelect";
+export * from "./EntitySelectMode";
 export * from "./DecorCreate";
 export * from "./AreaCreate";
 export * from "./DefaultView";

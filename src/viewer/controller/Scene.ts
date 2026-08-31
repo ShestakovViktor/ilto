@@ -1,6 +1,5 @@
-import type {EventBus, DataStorage} from "@src/core/controller";
-import {QuadTree} from "./QuadTree";
-import {MathLibrary} from "@src/viewer/controller";
+import type {DataStorage} from "@src/core/controller";
+import {MathLibrary, QuadTree} from "@src/core/library";
 import type {Entity} from "@src/core/type/entity";
 import {
 	isParent,
@@ -12,7 +11,6 @@ import {
 } from "@src/core/type/property";
 
 import type {SceneNode} from "@src/viewer/type";
-import {EventKind} from "@src/core/enum";
 
 export class Scene {
 	private tree = new QuadTree(0, 0, 0, 0);
@@ -92,7 +90,13 @@ export class Scene {
 		this.tree = new QuadTree(0, 0, width, height);
 	}
 
-	add(leaf: {id: number; x: number; y: number; w: number; h: number}): void {
+	add(leaf: {
+		id: number;
+		x: number;
+		y: number;
+		width: number;
+		height: number;
+	}): void {
 		this.tree.insert(leaf);
 	}
 }

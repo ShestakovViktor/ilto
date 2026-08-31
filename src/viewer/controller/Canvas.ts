@@ -9,15 +9,16 @@ import {
 	type Frame,
 	type Scene,
 	EntityPacker,
+	TextureManager,
+	type View,
 } from "@src/viewer/controller";
-import type {View} from "./View";
+
 import type {
 	EntityConfig,
 	TextureConfig,
 	TileConfig,
 } from "@src/viewer/type";
 import type {DataStorage} from "@src/core/controller";
-import {TextureManager} from "./TextureManager";
 
 export class Canvas {
 	private readonly textureConfig: TextureConfig = {

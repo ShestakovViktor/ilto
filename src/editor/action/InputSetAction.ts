@@ -15,7 +15,7 @@ export class InputSetAction extends Action<void> {
 	}
 
 	exec(): void {
-		this.session.input = this.payload.input;
+		this.session.inputKind = this.payload.input;
 	}
 
 	undo(): void {

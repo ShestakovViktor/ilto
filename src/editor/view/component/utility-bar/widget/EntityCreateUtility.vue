@@ -21,7 +21,7 @@ const buttons = [
 ];
 
 function checkInput(input: InputKind): boolean {
-	return session.input == input;
+	return session.inputKind == input;
 }
 
 async function setInput(input: InputKind): Promise<void> {

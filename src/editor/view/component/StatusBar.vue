@@ -9,7 +9,7 @@ const {viewer} = useViewerContext();
 
 <template>
 <div class="StatusBar">
-	<div>mode: {{ session.input }}</div>
+	<div>mode: {{ session.inputKind }}</div>
 	<!-- <div>scale: {{ viewer.scale }}</div> -->
 	<span />
 	<div>selected: {{ session.selected?.id || "" }}</div>

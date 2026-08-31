@@ -13,7 +13,7 @@ export type Session = {
 
 	history: Activities[];
 
-	input: InputKind;
+	inputKind: InputKind;
 
 	notification: NotificationRecord[];
 

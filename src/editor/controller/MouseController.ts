@@ -9,32 +9,32 @@ import type {View} from "@src/viewer/controller";
 
 export class MouseController {
 	private modes: Record<string, Mode>;
-	private active: Mode;
-	private currentInputKind: InputKind; // Запоминаем текущий enum
+	private activeMode: Mode;
+	private inputKind: InputKind;
 
 	constructor(
 		private view: View,
 		private session: Session
 	) {
-		const defaultView = new DefaultView();
-		const entityCreate = new EntityCreateMode(
+		const defaultViewMode = new DefaultView();
+		const entityCreateMode = new EntityCreateMode(
 			this.view,
 			this.session
 		);
 		this.modes = {
-			[InputKind.DefaultView]: defaultView,
-			[InputKind.ImageCreate]: entityCreate,
+			[InputKind.DefaultView]: defaultViewMode,
+			[InputKind.ImageCreate]: entityCreateMode,
 		};
-		this.currentInputKind = InputKind.DefaultView;
-		this.active = this.modes[this.currentInputKind];
+		this.inputKind = InputKind.DefaultView;
+		this.activeMode = this.modes[this.inputKind];
 	}
 
 	private getActive(): Mode {
-		if (this.currentInputKind !== this.session.input) {
-			this.currentInputKind = this.session.input;
-			this.active = this.modes[this.session.input];
+		if (this.inputKind !== this.session.inputKind) {
+			this.inputKind = this.session.inputKind;
+			this.activeMode = this.modes[this.session.inputKind];
 		}
-		return this.active;
+		return this.activeMode;
 	}
 
 	setElement(element: HTMLElement): void {

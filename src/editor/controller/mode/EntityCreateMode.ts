@@ -21,7 +21,7 @@ export class EntityCreateMode extends Mode {
             / this.view.s);
 
 		if (
-			this.session.input == InputKind.ImageCreate
+			this.session.inputKind == InputKind.ImageCreate
 		) {
 			this.session.activity = {
 				kind: ActivityKind.ImageCreate,
@@ -30,14 +30,14 @@ export class EntityCreateMode extends Mode {
 					y,
 					width: 0,
 					height: 0,
-					file: undefined,
-					tile: false,
 					pivotX: 0,
 					pivotY: 0,
+					file: undefined,
+					parentId: 1,
 				},
 			};
 		}
-		else if (this.session.input == InputKind.MarkerCreate) {
+		else if (this.session.inputKind == InputKind.MarkerCreate) {
 			this.session.activity = {
 				kind: ActivityKind.MarkerCreate,
 				payload: {x, y, width: 0, height: 0, file: undefined},
