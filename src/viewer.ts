@@ -1,10 +1,13 @@
-import "@src/style/colors.scss";
-import "@src/style/global.scss";
+import "@src/shared/style/colors.scss";
+import "@src/shared/style/global.scss";
 
-import {createApp} from "vue";
+import {createApp, reactive} from "vue";
 import {Editor} from "@src/editor/view";
-import {setCoreContext} from "@src/core/view/context";
-import {setViewerContext} from "@src/viewer/view/context";
+import {setStorageContext} from "@src/storage/view/context";
+import {setViewerContext} from "@src/viewer/shared/view/context";
+import {Storage} from "@src/storage/Storage";
+import type {Telemetry} from "./viewer/shared/type";
+import {Viewer} from "./viewer/Viewer";
 
 (async(): Promise<void> => {
 	const container = document.querySelector("#viewer[data-src]");
@@ -19,8 +22,18 @@ import {setViewerContext} from "@src/viewer/view/context";
 
 	const data = await response.json();
 
+	const storage = new Storage(data);
+	const telemetry: Telemetry = reactive({
+		fps: 0,
+		x: 0,
+		y: 0,
+		s: 0,
+	});
+
+	const viewer = new Viewer(storage, telemetry);
+
 	const app = createApp(Editor);
-	app.use(setCoreContext, {data, path});
-	app.use(setViewerContext);
+	app.use(setStorageContext, storage);
+	app.use(setViewerContext, viewer);
 })();
 

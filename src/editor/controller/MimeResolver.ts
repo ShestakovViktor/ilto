@@ -1,4 +1,4 @@
-import {MimeType} from "@src/core/enum";
+import {MimeType} from "@src/shared/enum";
 
 export class Mime {
 	private map = [

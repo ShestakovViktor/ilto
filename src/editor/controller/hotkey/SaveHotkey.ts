@@ -1,11 +1,6 @@
 import {type ActionEngine, Hotkey} from "@src/editor/controller";
-import type {DataStorage} from "@src/core/controller";
-import type {
-	ArchiverDriver,
-	FetcherDriver,
-	LinkerDriver,
-} from "@src/core/interface";
-import {ProjectSaveAction} from "@src/core/action/project";
+import {ProjectSaveAction} from "@src/storage/action/project";
+import type {Storage} from "@src/storage/Storage";
 
 export class SaveHotkey extends Hotkey {
 	protected code = "KeyS";
@@ -13,10 +8,7 @@ export class SaveHotkey extends Hotkey {
 	protected ctrlKey = true;
 
 	constructor(
-		private storage: DataStorage,
-		private linker: LinkerDriver,
-		private archiver: ArchiverDriver,
-		private fetcher: FetcherDriver,
+		private storage: Storage,
 		private engine: ActionEngine
 	) {
 		super();
@@ -24,13 +16,7 @@ export class SaveHotkey extends Hotkey {
 
 	async handle(): Promise<void> {
 		await this.engine.exec(
-			new ProjectSaveAction(
-				this.storage,
-				this.linker,
-				this.archiver,
-				this.fetcher,
-				{name: "save.ilto"}
-			)
+			new ProjectSaveAction(this.storage, {name: "save.ilto"})
 		);
 	}
 }

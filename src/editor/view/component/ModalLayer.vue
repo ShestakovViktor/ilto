@@ -11,7 +11,7 @@ const views: Record<ModalKind, Component> = {
 };
 
 function closeModal(index: number): void {
-	session.value.modal.splice(index, 1);
+	session.modal.splice(index, 1);
 }
 
 </script>
@@ -37,6 +37,8 @@ function closeModal(index: number): void {
     position: absolute;
     width: 100%;
     height: 100%;
+	top: 0;
+	left: 0;
 
     pointer-events: none;
 

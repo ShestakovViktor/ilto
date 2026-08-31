@@ -1,10 +1,13 @@
-import type {ActivityKind} from "@src/editor/enum";
+import type {ActivityAction, ActivityTarget} from "@src/editor/enum";
 
-export type Activity<K extends ActivityKind, P = undefined> = {
-	kind: K;
-} & (P extends undefined
+export type Activity<
+	T extends ActivityTarget,
+	A extends ActivityAction,
+	P extends Record<string, unknown> = never,
+> = {
+	target: T;
+	action: A;
+} & ([P] extends [never]
 	? {payload?: never}
-	: unknown extends P
-		? {payload?: unknown}
-		: {payload: P}
+	: {payload: P}
 );

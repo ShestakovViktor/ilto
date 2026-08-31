@@ -1,11 +1,20 @@
 import type {Activity} from "@src/editor/type/activity";
-import type {ActivityKind} from "@src/editor/enum";
+import {ActivityAction, ActivityTarget} from "@src/editor/enum";
 
 export type ProjectInitActivity = Activity<
-	ActivityKind.ProjectInit,
+	ActivityTarget.Project,
+	ActivityAction.Init,
 	{
 		name: string;
 		width: number;
 		height: number;
 	}
 >;
+
+export function isProjectInitActivity(
+	activity: Record<string, unknown> | undefined
+): activity is ProjectInitActivity {
+	return typeof activity === "object"
+		&& activity.target === ActivityTarget.Project
+		&& activity.action === ActivityAction.Init;
+}

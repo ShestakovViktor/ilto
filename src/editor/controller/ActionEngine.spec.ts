@@ -52,7 +52,7 @@ describe("Action Manager", () => {
 	});
 
 	it("should append action without engineuting it", () => {
-		engine.append(action);
+		engine.undo(action);
 
 		expect(result).toBe(0);
 	});

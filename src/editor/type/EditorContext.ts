@@ -1,7 +1,7 @@
 import type {
 	ActionEngine,
 	HotkeyManager,
-	MouseController,
+	PointerManager,
 	ToastQueue,
 	ActionLog,
 	UidGenerator,
@@ -13,7 +13,7 @@ export type EditorContext = {
 	session: Session;
 
 	log: ActionLog;
-	mouse: MouseController;
+	pointer: PointerManager;
 	hotkey: HotkeyManager;
 	engine: ActionEngine;
 	notif: ToastQueue;

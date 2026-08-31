@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed} from "vue";
-import type {IconName} from "@src/core/enum";
+import type {IconName} from "@src/shared/enum";
 
 const props = defineProps<{
 	name: IconName;

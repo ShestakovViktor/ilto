@@ -12,7 +12,7 @@ export function setEditorContext(app: App, editor: Editor): void {
 		notif: editor.notif,
 		log: editor.log,
 		engine: editor.engine,
-		mouse: editor.mouse,
+		pointer: editor.pointer,
 		hotkey: editor.hotkey,
 	};
 

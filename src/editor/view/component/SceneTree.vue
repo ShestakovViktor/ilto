@@ -1,11 +1,12 @@
 <script setup lang="ts">
 
-import {isParent} from "@src/core/type/property";
+import {isParent} from "@src/storage/type/property";
 import {Button} from "@src/editor/view/component";
-import {EntityKind, IconName} from "@src/core/enum";
+import {EntityKind} from "@src/storage/enum";
+import {IconName} from "@src/shared/enum";
 import {useTreeContext} from "@src/editor/view/context";
 import {computed, ref} from "vue";
-import {useCoreContext} from "@src/core/view/context";
+import {useStorageContext} from "@src/storage/view/context";
 
 type Props = {
 	entityId?: number;
@@ -19,8 +20,8 @@ const props = withDefaults(defineProps<Props>(), {
 	onSelect: (selected: number) => {console.log(selected);},
 });
 
-const {selectedId} = useTreeContext(2, props.isRoot);
-const {storage} = useCoreContext();
+const {selectedId} = useTreeContext(1, props.isRoot);
+const {repo: storage} = useStorageContext();
 
 const isExpanded = ref(false);
 
@@ -130,7 +131,7 @@ const icon = computed(() =>
 	}
 
 	&.Selected>.Head {
-		color: var(--red-30);
+		color: var(--dark-red);
 	}
 
 	&.Expanded>.Body {

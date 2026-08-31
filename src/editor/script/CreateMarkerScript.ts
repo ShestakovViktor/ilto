@@ -1,7 +1,7 @@
-import {EntityKind} from "@src/core/enum";
-import type {Entity, Footnote} from "@src/core/type";
-import type {Group} from "@src/core/type";
-import type {Parent, Marker} from "@src/core/type";
+import {EntityKind} from "@src/storage/enum";
+import type {Entity, Footnote} from "@src/storage/type";
+import type {Group} from "@src/storage/type";
+import type {Parent, Marker} from "@src/storage/type";
 import {Action} from "@src/editor/controller";
 import type {Session} from "@src/editor/type";
 import type {Storage} from "@src/storage/controller";

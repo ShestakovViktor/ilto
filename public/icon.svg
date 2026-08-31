@@ -44,6 +44,10 @@
 		<path stroke="none" fill="currentColor" d="m9.5 9.5h4v4h-4z"/>
 	</symbol>
 
+	<symbol id="pivot" viewBox="0 0 24 24">
+		<path stroke="currentColor" fill="none" d="m.5 7.5h7v-7m16 0h-23v23"/>
+	</symbol>
+
 	<symbol id="tree-open" viewBox="0 0 16 16">
 		<path stroke="currentColor" fill="none" d="m7.5 4.5v6m-3-3h6m-8-4c0-.5.5-1 1-1h8c.5 0 1 .5 1 1v8c0 .5-.5 1-1 1h-8c-.5 0-1-.5-1-1z"/>
 	</symbol>

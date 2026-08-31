@@ -1,6 +1,6 @@
 import {
 	ActionLog,
-	MouseController,
+	PointerManager,
 	HotkeyManager,
 	ActionEngine,
 	ToastQueue,
@@ -11,7 +11,7 @@ import {
 	UndoHotkey,
 	SaveHotkey,
 } from "@src/editor/controller/hotkey";
-import type {Core} from "@src/core/Core";
+import type {Storage} from "@src/storage/Storage";
 import type {Viewer} from "@src/viewer/Viewer";
 import type {Session} from "@src/editor/type";
 
@@ -21,9 +21,13 @@ export class Editor {
 	readonly log: ActionLog;
 	readonly engine: ActionEngine;
 	readonly hotkey: HotkeyManager;
-	readonly mouse: MouseController;
+	readonly pointer: PointerManager;
 
-	constructor(core: Core, viewer: Viewer, public session: Session) {
+	constructor(
+		storage: Storage,
+		viewer: Viewer,
+		public session: Session
+	) {
 		this.uid = new UidGenerator();
 		this.notif = new ToastQueue(this.uid, session);
 		this.log = new ActionLog();
@@ -31,14 +35,8 @@ export class Editor {
 		this.hotkey = new HotkeyManager([
 			new RedoHotkey(this.engine),
 			new UndoHotkey(this.engine),
-			new SaveHotkey(
-				core.storage,
-				core.linker,
-				core.archiver,
-				core.fetcher,
-				this.engine
-			),
+			new SaveHotkey(storage, this.engine),
 		]);
-		this.mouse = new MouseController(viewer.view, session);
+		this.pointer = new PointerManager();
 	}
 }

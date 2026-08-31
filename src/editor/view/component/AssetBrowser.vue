@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type {Asset} from "@src/core/type/asset";
-import type {AssetKind} from "@src/core/enum";
+import type {Asset} from "@src/storage/type/asset";
+import type {AssetKind} from "@src/storage/enum";
 import {computed} from "vue";
-import {useCoreContext} from "@src/core/view/context";
+import {useStorageContext} from "@src/storage/view/context";
 
 const props = defineProps<{
 	type?: AssetKind;
@@ -13,13 +13,13 @@ const props = defineProps<{
 	onDelete?: (ids: number[]) => void;
 }>();
 
-const {storage} = useCoreContext();
+const {repo: data} = useStorageContext();
 
 const assets = computed(() => {
 	return props.type
-		? storage.asset
+		? data.asset
 			.selectByParams<Asset>({assetTypeId: props.type})
-		: storage.asset
+		: data.asset
 			.selectAll<Asset>();
 });
 

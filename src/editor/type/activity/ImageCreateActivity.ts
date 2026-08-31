@@ -1,16 +1,21 @@
+import type {ImageDraft} from "@src/editor/type/draft";
 import type {Activity} from "@src/editor/type/activity";
-import type {ActivityKind} from "@src/editor/enum";
+import {ActivityAction, ActivityTarget} from "@src/editor/enum";
 
 export type ImageCreateActivity = Activity<
-	ActivityKind.ImageCreate,
+	ActivityTarget.Image,
+	ActivityAction.Create,
 	{
-		x: number;
-		y: number;
-		width: number;
-		height: number;
-		pivotX: number;
-		pivotY: number;
 		file: File | undefined;
 		parentId: number;
-	}
+		isTiled: boolean;
+	} & ImageDraft
 >;
+
+export function isImageCreateActivity(
+	activity: Record<string, unknown> | undefined
+): activity is ImageCreateActivity {
+	return typeof activity == "object"
+	&& activity.target == ActivityTarget.Image
+	&& activity.action == ActivityAction.Create;
+}

@@ -1,4 +1,4 @@
-import type {Action, Script} from "@src/core/library";
+import type {Action, Script} from "@src/shared/controller";
 import type {ActionLog} from "@src/editor/controller";
 import {LogKind} from "@src/editor/enum";
 
@@ -20,7 +20,7 @@ export class ActionEngine {
 			const result = await executable.exec();
 
 			const now = new Date();
-			const log = "log" in executable ? executable.log : undefined;
+			const log = "log" in executable ? executable.archive : undefined;
 			this.log.log({
 				stamp: now.getTime(),
 				time: now.toTimeString(),
@@ -28,7 +28,7 @@ export class ActionEngine {
 				source: executable.name,
 				status: "success",
 				message: `Success execute ${executable.name}`,
-				payload: executable.payload,
+				payload: executable.params,
 				... log && {log},
 			});
 
@@ -38,14 +38,14 @@ export class ActionEngine {
 		const promise = this.chain.then(task);
 
 		this.chain = promise.catch(err => {
-			const log = "log" in executable ? executable.log : undefined;
+			const log = "log" in executable ? executable.archive : undefined;
 			const now = new Date();
 			this.log.log({
 				stamp: now.getTime(),
 				time: now.toTimeString(),
 				kind: LogKind.Error,
 				source: executable.name,
-				payload: executable.payload,
+				payload: executable.params,
 				status: "failed",
 				message: `Failed execute ${executable.name}`,
 				error: err,
