@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import {type Component, computed} from "vue";
 import {useEditorContext, useScopeContext} from "@src/editor/view/context";
-import {ActivityKind} from "@src/editor/enum";
+import {ActivityAction, ActivityTarget} from "@src/editor/enum";
 import {Button} from "@src/editor/view/component";
-import {IconName} from "@src/core/enum";
+import {IconName} from "@src/shared/enum";
 import {
 	EntityCreateUtility,
 	SceneExploreUtility,
@@ -12,32 +12,47 @@ import {
 	SystemUtility,
 	MarkerCreateUtility,
 } from "@src/editor/view/component/utility-bar/widget";
+import type {ActivityMap} from "@src/editor/type";
 
-const editor = useEditorContext();
+const {session} = useEditorContext();
 
-const activities: Record<ActivityKind, Component[]> = {
-	[ActivityKind.System]: [SystemUtility],
-	[ActivityKind.ProjectInit]: [ProjectInitUtility],
-	[ActivityKind.ProjectExplore]: [SceneExploreUtility],
-	[ActivityKind.EntityCreate]: [
-		EntityCreateUtility,
-		SceneExploreUtility,
-	],
-	[ActivityKind.ImageCreate]: [
-		ImageCreateUtility,
-		SceneExploreUtility,
-	],
-	[ActivityKind.MarkerCreate]: [MarkerCreateUtility],
+const utilities: ActivityMap<Component[]> = {
+	[ActivityTarget.System]: {
+		[ActivityAction.Setup]: [SystemUtility],
+	},
+	[ActivityTarget.Project]: {
+		[ActivityAction.Init]: [ProjectInitUtility],
+		[ActivityAction.Explore]: [SceneExploreUtility],
+	},
+	[ActivityTarget.Entity]: {
+		[ActivityAction.Create]: [
+			EntityCreateUtility,
+			SceneExploreUtility,
+		],
+	},
+	[ActivityTarget.Image]: {
+		[ActivityAction.Create]: [
+			EntityCreateUtility,
+			SceneExploreUtility,
+			ImageCreateUtility,
+		],
+	},
+	[ActivityTarget.Marker]: {
+		[ActivityAction.Create]: [MarkerCreateUtility],
+	},
 };
 
-const kit = computed(() => activities[editor.session.activity.kind]);
+const kit = computed(() => {
+	return utilities[session.activity.target]
+		?.[session.activity.action] || [];
+});
 
 useScopeContext("UtilityBar");
 
 function goBack(): void {
-	if (editor.session.history.length < 2) return;
-	const previousActivity = editor.session.history.splice(-2)[0];
-	editor.session.activity = previousActivity;
+	if (session.history.length < 2) return;
+	const previousActivity = session.history.splice(-2)[0];
+	session.activity = previousActivity;
 }
 
 </script>
@@ -46,7 +61,9 @@ function goBack(): void {
 <div class="UtilityBar">
 	<template v-if="kit.length">
 		<div class="Head">
-			<label>{{ editor.session.activity.kind }} </label>
+			<label>
+				{{ session.activity.target }}
+				{{ session.activity.action }} </label>
 			<Button
 				class="Button"
 				:icon="IconName.Back"

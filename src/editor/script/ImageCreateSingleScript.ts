@@ -1,18 +1,18 @@
-import type {GraphicsDriver} from "@src/core/interface";
-import {type Action, Script} from "@src/core/library";
+import type {GraphicsDriver} from "@src/shared/interface";
+import {type Action, Script} from "@src/shared/controller";
 import {
 	AssetCreateAction,
 	ImageCreateAction,
 	ChildSetAction,
-} from "@src/core/action/storage";
-import type {DataStorage} from "@src/core/controller";
-import type {Stats} from "@src/core/type";
+} from "@src/storage/action/storage";
+import type {DataRepository} from "@src/storage/controller";
+import type {Stats} from "@src/storage/type";
 
 export class ImageCreateSingleScript extends Script<void> {
 	name = "ImageCreateSingleScript";
 
 	constructor (
-		private storage: DataStorage,
+		private storage: DataRepository,
 		private stats: Stats,
 		private graphics: GraphicsDriver,
 		public payload: {
@@ -32,7 +32,7 @@ export class ImageCreateSingleScript extends Script<void> {
 		super();
 	}
 
-	protected async run(
+	protected async applying(
 		exec: <R>(item: Action<R>) => Promise<R>
 	): Promise<void> {
 		const asset = await exec(new AssetCreateAction(this.storage, {
@@ -62,7 +62,7 @@ export class ImageCreateSingleScript extends Script<void> {
 		}));
 	}
 
-	async undo(): Promise<void> {
+	async reverting(): Promise<void> {
 
 	}
 }

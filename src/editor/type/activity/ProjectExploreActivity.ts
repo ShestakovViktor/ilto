@@ -1,4 +1,7 @@
 import type {Activity} from "@src/editor/type/activity";
-import type {ActivityKind} from "@src/editor/enum";
+import type {ActivityAction, ActivityTarget} from "@src/editor/enum";
 
-export type ProjectExploreActivity = Activity<ActivityKind.ProjectExplore>;
+export type ProjectExploreActivity = Activity<
+	ActivityTarget.Project,
+	ActivityAction.Explore
+>;

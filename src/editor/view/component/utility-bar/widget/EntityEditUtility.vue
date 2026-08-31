@@ -1,13 +1,13 @@
 <script setup lang="ts">
 
 import {useScopeContext, useEditorContext} from "@src/editor/view/context";
-import type {Entity} from "@src/core/type/entity";
+import type {Entity} from "@src/storage/type/entity";
 import {
 	isSize,
 	isSpatial,
 	type Size,
 	type Spatial,
-} from "@src/core/type/property";
+} from "@src/storage/type/property";
 import {Widget, Section} from "..";
 import {computed} from "vue";
 import {Scope, Field} from "@src/editor/view/component";

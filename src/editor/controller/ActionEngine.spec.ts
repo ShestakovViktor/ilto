@@ -23,7 +23,7 @@ describe("Action Manager", () => {
 	});
 
 	it("should call undo when action queue is empty", () => {
-		expect(() => engine.undo()).not.toThrow();
+		expect(() => engine.revert()).not.toThrow();
 	});
 
 	it("should call redo when action queue is empty", () => {
@@ -31,21 +31,21 @@ describe("Action Manager", () => {
 	});
 
 	it("should engineute action", async() => {
-		await engine.exec(action);
+		await engine.apply(action);
 
 		expect(result).toBe(1);
 	});
 
 	it("should undo action", async() => {
-		await engine.exec(action);
-		await engine.undo();
+		await engine.apply(action);
+		await engine.revert();
 
 		expect(result).toBe(0);
 	});
 
 	it("should redo action", async() => {
-		await engine.exec(action);
-		await engine.undo();
+		await engine.apply(action);
+		await engine.revert();
 		await engine.redo();
 
 		expect(result).toBe(1);

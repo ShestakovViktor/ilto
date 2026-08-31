@@ -1,28 +1,28 @@
 <script setup lang="ts">
 import {Widget} from "@src/editor/view/component/utility-bar";
 import {useEditorContext} from "@src/editor/view/context";
-import {useViewerContext} from "@src/viewer/view/context";
+import {useViewerContext} from "@src/viewer/shared/view/context";
 import {Scope, Button, Field} from "@src/editor/view/component";
-import {ActivityKind} from "@src/editor/enum";
-import {useCoreContext} from "@src/core/view/context";
+import {ActivityAction} from "@src/editor/enum";
+import {useStorageContext} from "@src/storage/view/context";
 import {computed} from "vue";
-import {ProjectInitAction} from "@src/core/action/project";
-import {SceneUpdateAction} from "@src/viewer/action";
+import {ProjectInitAction} from "@src/storage/action/project";
+import {SceneUpdateAction} from "@src/viewer/shared/action";
 import {ActivitySetAction} from "@src/editor/action";
 
-const {storage} = useCoreContext();
+const {repo: storage} = useStorageContext();
 const {session, engine} = useEditorContext();
 const {loop, scene, canvas} = useViewerContext();
 
 const activity = computed(() => {
-	if (session.activity.kind !== ActivityKind.ProjectInit) throw new Error();
+	if (session.activity.kind !== ActivityAction.ProjectInit) throw new Error();
 	return session.activity;
 });
 
 async function projectCreate(event: MouseEvent): Promise<void> {
 	event.preventDefault();
 
-	await engine.exec(
+	await engine.apply(
 		new ProjectInitAction(
 			storage,
 			{
@@ -33,12 +33,12 @@ async function projectCreate(event: MouseEvent): Promise<void> {
 		)
 	);
 
-	await engine.exec(
+	await engine.apply(
 		new SceneUpdateAction(scene, loop, canvas)
 	);
 
-	await engine.exec(
-		new ActivitySetAction(session, {activity: {kind: ActivityKind.System}})
+	await engine.apply(
+		new ActivitySetAction(session, {activity: {kind: ActivityAction.System}})
 	);
 }
 

@@ -1,16 +1,16 @@
-import {ProjectRestoreAction} from "@src/core/action/project";
-import type {DataStorage} from "@src/core/controller";
-import type {WebLinkerDriver, WebFetcherDriver} from "@src/core/driver";
-import type {ArchiverDriver, FetcherDriver, LinkerDriver} from "@src/core/interface";
-import {type Action, Script} from "@src/core/library";
-import {SceneUpdateAction} from "@src/viewer/action";
-import type {Canvas, Loop, Scene} from "@src/viewer/controller";
+import {ProjectRestoreAction} from "@src/storage/action/project";
+import type {DataRepository} from "@src/storage/controller";
+import type {WebLinkerDriver, WebFetcherDriver} from "@src/storage/controller/driver";
+import type {ArchiverDriver, FetcherDriver, LinkerDriver} from "@src/shared/interface";
+import {type Action, Script} from "@src/shared/controller";
+import {SceneUpdateAction} from "@src/viewer/shared/action";
+import type {Canvas, Loop, Scene} from "@src/viewer/shared/controller";
 
 export class ProjectRestoreScript extends Script<void> {
 	name = "ProjectRestoreScript";
 
 	constructor (
-		private storage: DataStorage,
+		private storage: DataRepository,
 		private fetcher: FetcherDriver,
 		private archiver: ArchiverDriver,
 		private linker: LinkerDriver,
@@ -25,7 +25,7 @@ export class ProjectRestoreScript extends Script<void> {
 		super();
 	}
 
-	protected async run(
+	protected async applying(
 		exec: <R>(item: Action<R>) => Promise<R>
 	): Promise<void> {
 		await exec(
@@ -46,6 +46,6 @@ export class ProjectRestoreScript extends Script<void> {
 		);
 	}
 
-	override async undo(): Promise<void> {
+	override async reverting(): Promise<void> {
 	}
 }

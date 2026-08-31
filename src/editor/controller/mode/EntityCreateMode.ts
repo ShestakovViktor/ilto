@@ -1,48 +1,44 @@
-import {Mode} from "@src/editor/controller";
-import {ActivityKind, InputKind} from "@src/editor/enum";
-import type {View} from "@src/viewer/controller";
+import {type ActionEngine, InputMode} from "@src/editor/controller";
 import type {Session} from "@src/editor/type";
+import type {Viewer} from "@src/viewer/Viewer";
+import {DraftPositionSetScript} from "@src/editor/script";
 
-export class EntityCreateMode extends Mode {
+export class EntityCreateMode extends InputMode {
 	constructor(
-		private view: View,
+		private viewer: Viewer,
+		private engine: ActionEngine,
 		private session: Session
 	) {
 		super();
+	}
+
+	async foo(x: number, y: number): Promise<void> {
+		if (
+			"parentId" in this.session.draft
+			&& "x" in this.session.draft
+			&& "y" in this.session.draft
+		) {
+			await this.engine.apply(
+				new DraftPositionSetScript(
+					this.viewer,
+					this.session,
+					{x, y}
+				)
+			);
+
+		}
 	}
 
 	onMouseDown(event: MouseEvent): void {
 		const rect = (event.currentTarget as HTMLDivElement)
 			.getBoundingClientRect();
 
-		const x = Math.floor((event.x - rect.x)
-            / this.view.s);
-		const y = Math.floor((event.y - rect.y)
-            / this.view.s);
+		const x = Math.floor((event.x - rect.x - this.viewer.view.x)
+            / this.viewer.view.s);
+		const y = Math.floor((event.y - rect.y - this.viewer.view.y)
+            / this.viewer.view.s);
 
-		if (
-			this.session.input == InputKind.ImageCreate
-		) {
-			this.session.activity = {
-				kind: ActivityKind.ImageCreate,
-				payload: {
-					x,
-					y,
-					width: 0,
-					height: 0,
-					file: undefined,
-					tile: false,
-					pivotX: 0,
-					pivotY: 0,
-				},
-			};
-		}
-		else if (this.session.input == InputKind.MarkerCreate) {
-			this.session.activity = {
-				kind: ActivityKind.MarkerCreate,
-				payload: {x, y, width: 0, height: 0, file: undefined},
-			};
-		}
+		void this.foo(x, y);
 
 		event.preventDefault();
 	}

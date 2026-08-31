@@ -2,16 +2,17 @@
 import {Widget} from "@src/editor/view/component/utility-bar";
 import {useEditorContext, useScopeContext} from "@src/editor/view/context";
 import {SceneTree} from "@src/editor/view/component";
-import {useCoreContext} from "@src/core/view/context";
-import {ActivityKind} from "@src/editor/enum";
+import {useStorageContext} from "@src/storage/view/context";
+import {DraftParentSetAction} from "@src/editor/action/draft";
+import {useViewerContext} from "@src/viewer/shared/view/context";
+import {AdornerUpdateAction} from "@src/viewer/adorner";
 
-const {stats} = useCoreContext();
-const {session} = useEditorContext();
+const {stats} = useStorageContext();
+const {scene, adorner} = useViewerContext();
+const {session, engine} = useEditorContext();
 
-function onSelect(id: number): void {
-	if (session.activity.kind == ActivityKind.ImageCreate) {
-		session.activity.payload.parentId = id;
-	}
+async function onSelect(id: number): Promise<void> {
+	await engine.apply(new DraftParentSetAction(scene, session, {id}));
 }
 
 useScopeContext("ExploreUtility");

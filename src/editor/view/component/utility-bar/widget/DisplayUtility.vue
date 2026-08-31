@@ -1,9 +1,9 @@
 <script setup lang="ts">
 
 // import {MotionBrowser} from "@src/editor/view/component";
-import type {Entity, Visual} from "@src/core/type";
-// import {Prop, Motion} from "@src/core/type";
-import {useViewerContext} from "@src/viewer/view/context";
+import type {Entity, Visual} from "@src/storage/type";
+// import {Prop, Motion} from "@src/storage/type";
+import {useViewerContext} from "@src/viewer/shared/view/context";
 import {useScopeContext, useEditorContext} from "@src/editor/view/context";
 import {Section, Widget} from "@src/editor/view/component/utility-bar";
 import {computed} from "vue";

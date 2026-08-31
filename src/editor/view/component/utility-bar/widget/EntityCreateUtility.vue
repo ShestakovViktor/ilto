@@ -1,31 +1,76 @@
 <script setup lang="ts">
 import {Widget} from "@src/editor/view/component/utility-bar";
-import {InputKind} from "@src/editor/enum";
+import {ActivityAction, ActivityTarget} from "@src/editor/enum";
 import {useEditorContext} from "@src/editor/view/context";
 import {Scope, Button} from "@src/editor/view/component";
-import {IconName} from "@src/core/enum";
-import {InputSetAction} from "@src/editor/action";
+import {IconName} from "@src/shared/enum";
+import {ActivitySetAction} from "@src/editor/action";
+import type {Activities} from "@src/editor/type/activity";
+import {DraftSetAction} from "@src/editor/action/draft";
+import type {Drafts} from "@src/editor/type/draft";
+
+type Data = {
+	label: string;
+	icon: IconName;
+	activity: Activities;
+	draft: Drafts;
+};
 
 const {session, engine} = useEditorContext();
-const buttons = [
+const buttons: Data[] = [
 	{
-		input: InputKind.ImageCreate,
-		icon: IconName.Image,
 		label: "image",
+		icon: IconName.Image,
+		activity: {
+			target: ActivityTarget.Image,
+			action: ActivityAction.Create,
+		},
+		draft: {
+			target: ActivityTarget.Image,
+			x: 0,
+			y: 0,
+			width: 0,
+			height: 0,
+			rotation: 0,
+			pivotX: 0,
+			pivotY: 0,
+			file: undefined,
+			parentId: 1,
+		},
 	},
 	{
-		input: InputKind.MarkerCreate,
-		icon: IconName.Marker,
 		label: "marker",
+		icon: IconName.Marker,
+		activity: {
+			target: ActivityTarget.Marker,
+			action: ActivityAction.Create,
+		},
+		draft: {
+			target: ActivityTarget.Marker,
+			x: 0,
+			y: 0,
+			width: 0,
+			height: 0,
+			rotation: 0,
+			pivotX: 0,
+			pivotY: 0,
+			parentId: 1,
+		},
 	},
 ];
 
-function checkInput(input: InputKind): boolean {
-	return session.input == input;
+function checkInput(data: Data): boolean {
+	return session.activity.target == data.activity.target
+		&& session.activity.action == data.activity.action;
 }
 
-async function setInput(input: InputKind): Promise<void> {
-	await engine.exec(new InputSetAction(session, {input}));
+async function setActivity(data: Data): Promise<void> {
+	await engine.apply(
+		new DraftSetAction(session, data.draft)
+	);
+	await engine.apply(
+		new ActivitySetAction(session, {activity: data.activity})
+	);
 }
 
 </script>
@@ -38,12 +83,12 @@ async function setInput(input: InputKind): Promise<void> {
 	>
 		<div class="Panel">
 			<Button
-				v-for="(button, index) in buttons"
+				v-for="(data, index) in buttons"
 				:key="index"
-				:pressed="checkInput(button.input)"
-				:icon="button.icon"
-				:label="button.label"
-				@click="setInput(button.input)"
+				:pressed="checkInput(data)"
+				:icon="data.icon"
+				:label="data.label"
+				@click="setActivity(data)"
 			/>
 		</div>
 	</Widget>

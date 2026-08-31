@@ -8,10 +8,10 @@ import {
 } from "@src/editor/view/component/utility-bar";
 
 import {useEditorContext} from "@src/editor/view/context";
-import {useCoreContext} from "@src/core/view/context";
+import {useStorageContext} from "@src/storage/view/context";
 import {Scope} from "@src/editor/view/component";
-import {useViewerContext} from "@src/viewer/view/context";
-import {ActivityKind} from "@src/editor/enum";
+import {useViewerContext} from "@src/viewer/shared/view/context";
+import {ActivityAction} from "@src/editor/enum";
 import {
 	ProjectRestoreScript,
 } from "@src/editor/script";
@@ -19,9 +19,9 @@ import {
 	DemoRestoreAction,
 	ProjectDownloadAction,
 	ProjectSaveAction,
-} from "@src/core/action/project";
+} from "@src/storage/action/project";
 
-const {archiver, fetcher, linker, storage} = useCoreContext();
+const {archiver, fetcher, linker, repo: storage} = useStorageContext();
 const {session, engine} = useEditorContext();
 const {scene, loop, canvas} = useViewerContext();
 
@@ -47,7 +47,7 @@ const {scene, loop, canvas} = useViewerContext();
 
 function handleInit(): void {
 	session.activity = {
-		kind: ActivityKind.ProjectInit,
+		kind: ActivityAction.ProjectInit,
 		payload: {
 			name: "Test",
 			width: 1920,
@@ -57,7 +57,7 @@ function handleInit(): void {
 }
 
 async function handleSave(): Promise<void> {
-	await engine.exec(
+	await engine.apply(
 		new ProjectSaveAction(
 			storage,
 			linker,
@@ -69,7 +69,7 @@ async function handleSave(): Promise<void> {
 }
 
 async function projectRestore(): Promise<void> {
-	await engine.exec(
+	await engine.apply(
 		new ProjectRestoreScript(
 			storage,
 			fetcher,
@@ -84,7 +84,7 @@ async function projectRestore(): Promise<void> {
 }
 
 async function handleLoadDemo(): Promise<void> {
-	await engine.exec(
+	await engine.apply(
 		new DemoRestoreAction(
 			storage,
 			linker,
@@ -96,7 +96,7 @@ async function handleLoadDemo(): Promise<void> {
 }
 
 async function handleDownload(): Promise<void> {
-	await engine.exec(
+	await engine.apply(
 		new ProjectDownloadAction(
 			storage,
 			linker,

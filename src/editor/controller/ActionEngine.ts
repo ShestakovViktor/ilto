@@ -1,4 +1,4 @@
-import type {Action, Script} from "@src/core/library";
+import type {Action, Script} from "@src/shared/controller";
 import type {ActionLog} from "@src/editor/controller";
 import {LogKind} from "@src/editor/enum";
 
@@ -11,13 +11,13 @@ export class ActionEngine {
 
 	constructor(private log: ActionLog) {}
 
-	async exec<T>(executable: Action<T> | Script<T>): Promise<T> {
+	async apply<T>(executable: Action<T> | Script<T>): Promise<T> {
 		this.queue.splice(this.cursor);
 		this.queue.push(executable);
 		this.cursor++;
 
 		const task = async (): Promise<T> => {
-			const result = await executable.exec();
+			const result = await executable.apply();
 
 			const now = new Date();
 			const log = "log" in executable ? executable.log : undefined;
@@ -67,7 +67,7 @@ export class ActionEngine {
 		// );
 	}
 
-	async undo(): Promise<void> {
+	async revert(): Promise<void> {
 		if (this.cursor == 0) return;
 
 		this.cursor--;
@@ -75,7 +75,7 @@ export class ActionEngine {
 		const action = this.queue[this.cursor];
 
 		return this.chain
-			.then(() => action.undo())
+			.then(() => action.revert())
 			.catch(err => {
 				console.error("Undo failed:", err);
 			});
@@ -83,7 +83,7 @@ export class ActionEngine {
 
 	async redo(): Promise<void> {
 		if (this.cursor == this.queue.length) return;
-		await this.queue[this.cursor].exec();
+		await this.queue[this.cursor].apply();
 		this.cursor++;
 	}
 }

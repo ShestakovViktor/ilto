@@ -1,21 +1,22 @@
-import type {InputKind} from "@src/editor/enum";
-import type {Entity} from "@src/core/type/entity";
-import type {Parent} from "@src/core/type/property";
+import type {Entity} from "@src/storage/type/entity";
 import type {ModalView, NotificationRecord} from "@src/editor/type";
 import type {Activities} from "./activity/Activities";
+import type {Drafts} from "@src/editor/type/draft";
+import type {Adorner} from "@src/viewer/adorner";
+import type {AdornerRole} from "@src/editor/enum";
 
 export type Session = {
 	selected: Entity | undefined;
-
-	layer: Entity & Parent | undefined;
 
 	activity: Activities;
 
 	history: Activities[];
 
-	input: InputKind;
+	draft: Drafts;
 
 	notification: NotificationRecord[];
 
 	modal: ModalView[];
+
+	adorner: Partial<Record<AdornerRole, Adorner>>;
 };

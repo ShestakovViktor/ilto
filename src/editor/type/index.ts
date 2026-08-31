@@ -7,3 +7,4 @@ export * from "./Setter.ts";
 export * from "./Mutation.ts";
 export * from "./ModalView.ts";
 export * from "./LogRec.ts";
+export * from "./ActivityMap.ts";

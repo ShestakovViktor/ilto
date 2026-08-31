@@ -1,13 +1,13 @@
-import {Action} from "@src/core/library";
-import type {Entity} from "@src/core/type/entity";
-import {isSpatial, type Spatial} from "@src/core/type/property";
-import type {DataStorage} from "@src/core/controller";
+import {Action} from "@src/shared/controller";
+import type {Entity} from "@src/storage/type/entity";
+import {isSpatial, type Spatial} from "@src/storage/type/property";
+import type {DataRepository} from "@src/storage/controller";
 
 export class MoveEntityAction extends Action<void> {
 	name = "MoveEntityAction";
 
 	constructor(
-		private storage: DataStorage,
+		private storage: DataRepository,
 		public payload: {
 			entityId: number;
 			shiftX: number;
@@ -17,7 +17,7 @@ export class MoveEntityAction extends Action<void> {
 		super();
 	}
 
-	exec(): void {
+	apply(): void {
 		const entity = this.storage.entity.select(this.payload.entityId);
 
 		if (!entity || !isSpatial(entity)) throw new Error();
@@ -31,7 +31,7 @@ export class MoveEntityAction extends Action<void> {
 		);
 	}
 
-	undo(): void {
+	revert(): void {
 		const entity = this.storage.entity.select(this.payload.entityId);
 
 		if (!entity || !isSpatial(entity)) throw new Error();

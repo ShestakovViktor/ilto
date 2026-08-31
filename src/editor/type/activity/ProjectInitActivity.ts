@@ -1,11 +1,7 @@
 import type {Activity} from "@src/editor/type/activity";
-import type {ActivityKind} from "@src/editor/enum";
+import type {ActivityAction, ActivityTarget} from "@src/editor/enum";
 
 export type ProjectInitActivity = Activity<
-	ActivityKind.ProjectInit,
-	{
-		name: string;
-		width: number;
-		height: number;
-	}
+	ActivityTarget.Project,
+	ActivityAction.Init
 >;

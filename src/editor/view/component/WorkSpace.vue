@@ -10,6 +10,7 @@
 
 <style lang="scss" scoped>
 .WorkSpace {
+	position: relative;
 	overflow: hidden;
 }
 </style>

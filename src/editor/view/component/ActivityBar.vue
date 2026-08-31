@@ -1,32 +1,71 @@
 <script setup lang="ts">
-import {ActivityKind} from "@src/editor/enum";
+import {ActivityAction, ActivityTarget} from "@src/editor/enum";
 
 import {useEditorContext} from "@src/editor/view/context";
-import {IconName} from "@src/core/enum";
+import {IconName} from "@src/shared/enum";
 import {Scope, Button} from "@src/editor/view/component";
 import type {Activities} from "@src/editor/type/activity";
+import {ActivitySetAction} from "@src/editor/action";
 
-const {session} = useEditorContext();
+type Data = {
+	icon: IconName;
+	activity: Activities;
+	nested: {target: ActivityTarget; action: ActivityAction}[];
+};
 
-const buttons: {icon: IconName; activity: Activities}[] = [
+const {session, engine} = useEditorContext();
+
+const datas: Data[] = [
 	{
 		icon: IconName.File,
-		activity: {kind: ActivityKind.System},
+		activity: {
+			target: ActivityTarget.System,
+			action: ActivityAction.Setup,
+		},
+		nested: [],
 	},
 	{
 		icon: IconName.Tree,
-		activity: {kind: ActivityKind.ProjectExplore},
-
+		activity: {
+			target: ActivityTarget.Project,
+			action: ActivityAction.Explore,
+		},
+		nested: [],
 	},
 	{
 		icon: IconName.Edit,
-		activity: {kind: ActivityKind.EntityCreate},
+		activity: {
+			target: ActivityTarget.Entity,
+			action: ActivityAction.Create,
+		},
+		nested: [
+			{
+				target: ActivityTarget.Image,
+				action: ActivityAction.Create,
+			},
+			{
+				target: ActivityTarget.Marker,
+				action: ActivityAction.Create,
+			},
+		],
 	},
 ];
 
-function handleClick(activity: Activities): void {
+async function handleClick(data: Data): Promise<void> {
 	session.history = [];
-	session.activity = activity;
+
+	await engine.apply(
+		new ActivitySetAction(session, {activity: data.activity})
+	);
+}
+
+function isPressed(data: Data): boolean {
+	return session.activity.target == data.activity.target
+		&& session.activity.action == data.activity.action
+		|| data.nested.some(activity => {
+			return activity.target == session.activity.target
+				&& activity.action == session.activity.action;
+		});
 }
 
 </script>
@@ -35,11 +74,11 @@ function handleClick(activity: Activities): void {
 <Scope name="ActivityBar">
 	<div class="ActivityBar">
 		<Button
-			v-for="button in buttons"
-			:key="button.activity.kind"
-			:pressed="session.activity.kind === button.activity.kind"
-			:icon="button.icon"
-			@click="handleClick(button.activity)"
+			v-for="data in datas"
+			:key="data.activity.action + data.activity.action"
+			:pressed="isPressed(data)"
+			:icon="data.icon"
+			@click="handleClick(data)"
 		/>
 	</div>
 </Scope>

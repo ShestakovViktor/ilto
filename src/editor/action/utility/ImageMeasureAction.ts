@@ -1,4 +1,4 @@
-import {Action} from "@src/core/library";
+import {Action} from "@src/shared/controller";
 
 export class ImageMeasureAction extends Action<{
 	width: number;
@@ -14,7 +14,7 @@ export class ImageMeasureAction extends Action<{
 		super();
 	}
 
-	async exec(): Promise<{width: number; height: number}> {
+	async apply(): Promise<{width: number; height: number}> {
 		const bitmap = await createImageBitmap(this.payload.file);
 		const result = {
 			width: bitmap.width,
@@ -26,6 +26,6 @@ export class ImageMeasureAction extends Action<{
 		return result;
 	}
 
-	undo(): void {
+	revert(): void {
 	}
 }

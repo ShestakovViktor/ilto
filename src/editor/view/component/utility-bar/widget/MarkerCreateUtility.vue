@@ -1,88 +1,90 @@
 <script setup lang="ts">
-import {Widget} from "@src/editor/view/component/utility-bar";
-import {Field, Scope} from "@src/editor/view/component";
-import {ref} from "vue";
-import {EntityKind} from "@src/core/enum";
-import {useEditorContext} from "@src/editor/view/context";
-import {useViewerContext} from "@src/viewer/view/context";
-import {ActivityKind, InputKind, ModalKind} from "@src/editor/enum";
-import {useCoreContext} from "@src/core/view/context";
-import {ImageCreateScript} from "@src/editor/script";
+// import {Widget} from "@src/editor/view/component/utility-bar";
+// import {Field, Scope} from "@src/editor/view/component";
+// import {ref} from "vue";
+// import {EntityKind} from "@src/storage/enum";
+// import {useEditorContext} from "@src/editor/view/context";
+// import {useViewerContext} from "@src/viewer/view/context";
+// import {ActivityAction, InputKind, ModalKind} from "@src/editor/enum";
+// import {useCoreContext} from "@src/storage/view/context";
+// import {ImageCreateScript} from "@src/editor/script";
 
-const {storage, graphics, bus: coreEventBus} = useCoreContext();
-const {engine, session} = useEditorContext();
-const {loop} = useViewerContext();
+// const {storage, graphics, bus: coreEventBus} = useCoreContext();
+// const {engine, session} = useEditorContext();
+// const {loop} = useViewerContext();
 
-const extension = ref<string>("");
+// const extension = ref<string>("");
 
-const {activity} = session.value;
+// const {activity} = session.value;
 
-if (activity.kind !== ActivityKind.MarkerCreate) {
-	throw new Error();
-}
+// if (activity.kind !== ActivityAction.MarkerCreate) {
+// 	throw new Error();
+// }
 
-async function handleCreate(
-	x: number,
-	y: number,
-	w: number,
-	h: number,
-	file: File
-): Promise<void> {
-	// await engine.exec(new ImageCreateScript(
-	// 	storage,
-	// 	graphics,
-	// 	coreEventBus,
-	// 	{x, y, width: w, height: h, file}
-	// ));
+// async function handleCreate(
+// 	x: number,
+// 	y: number,
+// 	w: number,
+// 	h: number,
+// 	file: File
+// ): Promise<void> {
+// 	await engine.exec(new ImageCreateScript(
+// 		storage,
+// 		graphics,
+// 		coreEventBus,
+// 		{x, y, width: w, height: h, file}
+// 	));
 
-	// loop.requestUpdate();
+// 	loop.requestUpdate();
 
-	// session.value.activity = {kind: ActivityKind.EntityCreate};
-	// session.value.inputMode = InputMode.DefaultView;
-}
+// 	session.value.activity = {kind: ActivityKind.EntityCreate};
+// 	session.value.inputMode = InputMode.DefaultView;
+// }
 
-async function handleSubmit(event: SubmitEvent): Promise<void> {
-	event.preventDefault();
+// async function handleSubmit(event: SubmitEvent): Promise<void> {
+// 	event.preventDefault();
 
-	const form = event.target as HTMLFormElement;
-	const formData = new FormData(form);
-	form.reset();
+// 	const form = event.target as HTMLFormElement;
+// 	const formData = new FormData(form);
+// 	form.reset();
 
-	const x = Number(formData.get("x"));
-	const y = Number(formData.get("y"));
-	const w = Number(formData.get("width"));
-	const h = Number(formData.get("height"));
-	const file = formData.get("image") as File;
+// 	const x = Number(formData.get("x"));
+// 	const y = Number(formData.get("y"));
+// 	const w = Number(formData.get("width"));
+// 	const h = Number(formData.get("height"));
+// 	const file = formData.get("image") as File;
 
-	await handleCreate(x, y, w, h, file);
-}
+// 	await handleCreate(x, y, w, h, file);
+// }
 
-function handleFileChange(event: Event): void {
-	if (activity.kind !== ActivityKind.MarkerCreate) {
-		throw new Error();
-	}
+// function handleFileChange(event: Event): void {
+// 	if (activity.kind !== ActivityAction.MarkerCreate) {
+// 		throw new Error();
+// 	}
 
-	const target = event.target as HTMLInputElement;
-	const file = target.files?.[0];
-	if (file) {
-		extension.value = file.name.split(".").pop() || "";
-		activity.payload.file = file;
-	}
-}
+// 	const target = event.target as HTMLInputElement;
+// 	const file = target.files?.[0];
+// 	if (file) {
+// 		extension.value = file.name.split(".").pop() || "";
+// 		activity.payload.file = file;
+// 	}
+// }
 
-function showAssetBrowser(): void {
-	session.value.modal.push({
-		kind: ModalKind.AssetBrowser,
-		payload: {
-			kind: EntityKind.Area,
-		},
-	});
+// function showAssetBrowser(): void {
+// 	session.value.modal.push({
+// 		kind: ModalKind.AssetBrowser,
+// 		payload: {
+// 			kind: EntityKind.Area,
+// 		},
+// 	});
 
-}
+// }
 
 </script>
 
 <template>
+<div />
+	<!--
 <Scope name="MarkerCreateUtility">
 	<Widget
 		title="CreateMarker"
@@ -130,7 +132,10 @@ function showAssetBrowser(): void {
 			>
 		</Field>
 	</Widget>
+
 </Scope>
+
+	-->
 </template>
 
 <style lang="scss" scoped>

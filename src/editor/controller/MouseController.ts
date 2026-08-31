@@ -1,40 +1,60 @@
-import type {Mode} from "@src/editor/controller";
-import {InputKind} from "@src/editor/enum";
+import type {ActionEngine, InputMode} from "@src/editor/controller";
 import {
 	DefaultView,
 	EntityCreateMode,
 } from "@src/editor/controller/mode";
-import type {Session} from "@src/editor/type";
-import type {View} from "@src/viewer/controller";
+import type {ActivityMap, Session} from "@src/editor/type";
+import type {Canvas, Loop, Scene, View} from "@src/viewer/shared/controller";
+import {ActivityAction, ActivityTarget} from "@src/editor/enum";
+import type {AdornerManager} from "@src/viewer/adorner";
+import type {Viewer} from "@src/viewer/Viewer";
 
 export class MouseController {
-	private modes: Record<string, Mode>;
-	private active: Mode;
-	private currentInputKind: InputKind; // Запоминаем текущий enum
+	private modes: ActivityMap<InputMode>;
+
+	private target!: ActivityTarget;
+	private action!: ActivityAction;
+
+	private activeInputMode: InputMode;
+	private defaultInputMode: DefaultView;
 
 	constructor(
-		private view: View,
+		private viewer: Viewer,
+		private engine: ActionEngine,
 		private session: Session
 	) {
-		const defaultView = new DefaultView();
-		const entityCreate = new EntityCreateMode(
-			this.view,
+		this.defaultInputMode = new DefaultView();
+		const entityCreateMode = new EntityCreateMode(
+			viewer,
+			this.engine,
 			this.session
 		);
 		this.modes = {
-			[InputKind.DefaultView]: defaultView,
-			[InputKind.ImageCreate]: entityCreate,
+			[ActivityTarget.System]: {},
+			[ActivityTarget.Project]: {
+				[ActivityAction.Explore]: this.defaultInputMode,
+			},
+			[ActivityTarget.Image]: {
+				[ActivityAction.Create]: entityCreateMode,
+			},
+			[ActivityTarget.Marker]: {},
 		};
-		this.currentInputKind = InputKind.DefaultView;
-		this.active = this.modes[this.currentInputKind];
+
+		this.activeInputMode = this.getActive();
 	}
 
-	private getActive(): Mode {
-		if (this.currentInputKind !== this.session.input) {
-			this.currentInputKind = this.session.input;
-			this.active = this.modes[this.session.input];
+	private getActive(): InputMode {
+		if (
+			this.target !== this.session.activity.target
+			|| this.action !== this.session.activity.action
+		) {
+			this.target = this.session.activity.target;
+			this.action = this.session.activity.action;
+
+			this.activeInputMode = this.modes[this.target]?.[this.action]
+				|| this.defaultInputMode;
 		}
-		return this.active;
+		return this.activeInputMode;
 	}
 
 	setElement(element: HTMLElement): void {

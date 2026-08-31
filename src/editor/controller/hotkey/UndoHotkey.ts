@@ -10,6 +10,6 @@ export class UndoHotkey extends Hotkey {
 	}
 
 	async handle(): Promise<void> {
-		await this.engine.undo();
+		await this.engine.revert();
 	}
 }
