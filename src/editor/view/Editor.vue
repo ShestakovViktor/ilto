@@ -1,36 +1,48 @@
 <script setup lang="ts">
 import {
-	ModalLayer,
 	ActivityBar,
 	StatusBar,
 	WorkSpace,
+	ModalLayer,
 	Scope,
 } from "@src/editor/view/component";
 import {UtilityBar} from "@src/editor/view/component/utility-bar";
-import {Viewer} from "@src/viewer/view";
+import {Viewer} from "@src/viewer/shared/view";
 import {useEditorContext} from "@src/editor/view/context";
+import {onMounted, ref} from "vue";
 
-const {mouse} = useEditorContext();
+const {mouse, hotkey} = useEditorContext();
+
+function onEditorReady(element: HTMLDivElement): void {
+	hotkey.setElement(element);
+}
 
 function onViewerReady(element: HTMLElement): void {
 	mouse.setElement(element);
 }
+
+const editorRef = ref<HTMLDivElement | null>(null);
+
+onMounted(() => {
+	onEditorReady(editorRef.value!);
+});
 
 </script>
 
 <template>
 <Scope name="Editor">
 	<div
+		ref="editorRef"
 		class="Editor"
 		:tabindex="0"
 	>
 		<ActivityBar />
 		<UtilityBar />
+		<StatusBar />
 		<WorkSpace>
 			<Viewer @ready="onViewerReady" />
+			<ModalLayer />
 		</WorkSpace>
-		<StatusBar />
-		<ModalLayer />
 	<!-- <Notification /> -->
 	</div>
 </Scope>
@@ -59,17 +71,12 @@ function onViewerReady(element: HTMLElement): void {
 	}
 
 	> :nth-child(3) {
-		grid-area: workspace;
+		grid-area: status;
 		min-width: 0;
 	}
 
 	> :nth-child(4) {
-		grid-area: status;
-	}
-
-	> :nth-child(5) {
 		grid-area: workspace;
-		position: absolute;
 	}
 }
 </style>

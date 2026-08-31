@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {IconName} from "@src/core/enum";
+import type {IconName} from "@src/shared/enum";
 import {Icon} from "@src/editor/view/component";
 import {computed} from "vue";
 
@@ -74,7 +74,7 @@ function handleClick(event: MouseEvent): void {
 	color: var(--gray-30);
 
 	&.Pressed {
-		color: var(--red-30);
+		color: var(--dark-red);
 	}
 
 	&.Medium{
@@ -90,7 +90,7 @@ function handleClick(event: MouseEvent): void {
 		}
 
 		&.Pressed>.Icon {
-			border: 1px solid var(--red-30);
+			border: 1px solid var(--dark-red);
 			color: inherit;
 		}
 	}

@@ -1,4 +1,4 @@
-import {Action} from "@src/core/library";
+import {Action} from "@src/shared/controller";
 
 export class ImageMeasureAction extends Action<{
 	width: number;

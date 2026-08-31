@@ -1,18 +1,18 @@
-import {Mode, type ActionEngine} from "@src/editor/controller";
-import type {Area} from "@src/core/type/entity/Area";
-import type {Entity, Parent} from "@src/core/type";
-import type {Footnote} from "@src/core/type/entity/Footnote";
-import {EntityKind} from "@src/core/enum";
+import {InputMode, type ActionEngine} from "@src/editor/controller";
+import type {Area} from "@src/storage/type/entity/Area";
+import type {Entity, Parent} from "@src/storage/type";
+import type {Footnote} from "@src/storage/type/entity/Footnote";
+import {EntityKind} from "@src/storage/enum";
 import type {Session} from "@src/editor/type";
-import type {ViewerState} from "@src/viewer/type";
-import type {DataStorage} from "@src/core/controller";
+import type {ViewerState} from "@src/viewer/shared/type";
+import type {DataRepository} from "@src/storage/controller";
 
-export class AreaCreate extends Mode {
+export class AreaCreate extends InputMode {
 	constructor(
 		private viewer: ViewerState,
 		private editor: Session,
 		private engine: ActionEngine,
-		private storage: DataStorage
+		private storage: DataRepository
 	) {
 		super();
 	}
@@ -66,7 +66,7 @@ export class AreaCreate extends Mode {
 				// this.setEditor({selected: this.initArea(x, y)});
 			}
 			else {
-				const area = selected as Area;
+				const area = selected;
 
 				// const res = pushAreaPoint(area, click);
 

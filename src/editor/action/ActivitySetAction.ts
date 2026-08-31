@@ -1,4 +1,4 @@
-import {Action} from "@src/core/library";
+import {Action} from "@src/shared/controller";
 import type {Session} from "@src/editor/type";
 import type {Activities} from "@src/editor/type/activity";
 

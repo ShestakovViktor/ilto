@@ -61,8 +61,8 @@ export default defineConfig({
 		},
 		template: ({entryName}) => {
 			const templates = {
-				editor: "./src/editor.html",
-				viewer: "./src/viewer.html",
+				editor: "./src/shared/html/editor.html",
+				viewer: "./src/shared/html/viewer.html",
 			};
 			return templates[entryName as keyof typeof templates];
 		},

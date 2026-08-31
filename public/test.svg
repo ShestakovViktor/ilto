@@ -5,6 +5,8 @@
    id="svg2"
    sodipodi:docname="test.svg"
    inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   width="24"
+   height="24"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -22,8 +24,8 @@
      inkscape:deskcolor="#d1d1d1"
      showgrid="true"
      inkscape:zoom="25.779935"
-     inkscape:cx="4.6547829"
-     inkscape:cy="13.169157"
+     inkscape:cx="10.201732"
+     inkscape:cy="11.889091"
      inkscape:window-width="1855"
      inkscape:window-height="1056"
      inkscape:window-x="0"
@@ -45,24 +47,9 @@
        enabled="true"
        visible="true" />
   </sodipodi:namedview>
-  <g
-     transform="translate(0,1)"
-     fill="none"
-     stroke="#000000"
-     stroke-linecap="round"
-     stroke-linejoin="round"
-     id="g3">
-    <path
-       d="m 3.5,3.5 c 0,-0.5 0.5,-1 1,-1 h 8 c 0.5,0 1,0.5 1,1 v 8 c 0,0.5 -0.5,1 -1,1 h -8 c -0.5,0 -1,-0.5 -1,-1 z"
-       id="path1-3"
-       style="shape-rendering:crispEdges" />
-    <path
-       d="m 5.5,7.5 h 6"
-       id="path2-6"
-       style="shape-rendering:crispEdges" />
-    <path
-       d="m 8.5,4.5 v 6"
-       id="path3"
-       style="shape-rendering:crispEdges" />
-  </g>
+  <path
+     id="path5"
+     style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round"
+     d="m 0.5,15.5 h 15 v -15 m 8,0 h -23 v 23"
+     sodipodi:nodetypes="cccccc" />
 </svg>

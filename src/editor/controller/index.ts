@@ -1,4 +1,4 @@
-export * from "./Mode.ts";
+export * from "./InputMode.ts";
 export * from "./HotkeyManager.ts";
 export * from "./ActionEngine.ts";
 export * from "./MouseController.ts";

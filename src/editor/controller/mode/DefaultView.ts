@@ -1,9 +1,9 @@
-import {Mode} from "@src/editor/controller";
+import {InputMode} from "@src/editor/controller";
 
-export class DefaultView extends Mode {
-    onMouseDown(): void {}
+export class DefaultView extends InputMode {
+	onMouseDown(): void {}
 
-    onMouseMove(): void {}
+	onMouseMove(): void {}
 
-    onMouseUp(): void {}
+	onMouseUp(): void {}
 }
